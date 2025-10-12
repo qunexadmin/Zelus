@@ -19,9 +19,9 @@ dependencies:
   retrofit: ^4.0.3
   json_annotation: ^4.8.1
 
-  # Firebase Authentication
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.15.3
+  # Firebase Authentication (Disabled for web testing - enable for production)
+  # firebase_core: ^2.24.2
+  # firebase_auth: ^4.15.3
 
   # UI Components
   cupertino_icons: ^1.0.6
