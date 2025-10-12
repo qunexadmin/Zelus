@@ -21,8 +21,7 @@ passlib[bcrypt]==1.7.4
 # Firebase (optional - for production)
 # firebase-admin==6.2.0
 
-# CORS
-python-cors==1.0.0
+# CORS is built into FastAPI - no additional package needed
 
 # Testing
 pytest==7.4.3

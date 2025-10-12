@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // API Base URL - change this to your backend URL
-const String kApiBaseUrl = 'http://localhost:8000/api/v1';
+const String kApiBaseUrl = 'http://3.24.31.8:8006/api/v1';
 
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio(
