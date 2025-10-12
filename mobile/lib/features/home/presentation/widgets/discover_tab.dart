@@ -67,7 +67,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                   _buildCategoryChip('Color', Icons.palette),
                   _buildCategoryChip('Styling', Icons.style),
                   _buildCategoryChip('Spa', Icons.spa),
-                  _buildCategoryChip('Nails', Icons.hand_outlined),
+                  _buildCategoryChip('Nails', Icons.back_hand),
                 ],
               ),
             ),
