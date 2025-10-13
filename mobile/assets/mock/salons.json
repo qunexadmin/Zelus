@@ -1,0 +1,104 @@
+[
+  {
+    "id": "salon1",
+    "name": "Elite Hair Studio",
+    "address": "123 Main St",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "10001",
+    "latitude": 40.7506,
+    "longitude": -73.9938,
+    "services": ["Haircut", "Color", "Balayage", "Highlights", "Styling", "Extensions"],
+    "phone": "(212) 555-0100",
+    "email": "info@elitehairstudio.com",
+    "website": "https://elitehairstudio.com",
+    "staffIds": ["1", "3"],
+    "photos": [
+      "https://via.placeholder.com/400",
+      "https://via.placeholder.com/400"
+    ],
+    "rating": 4.7,
+    "reviewCount": 256,
+    "description": "Upscale salon in the heart of Manhattan. Our expert stylists are dedicated to bringing your hair vision to life.",
+    "hours": {
+      "monday": "10:00 AM - 8:00 PM",
+      "tuesday": "10:00 AM - 8:00 PM",
+      "wednesday": "10:00 AM - 8:00 PM",
+      "thursday": "10:00 AM - 8:00 PM",
+      "friday": "10:00 AM - 8:00 PM",
+      "saturday": "9:00 AM - 6:00 PM",
+      "sunday": "10:00 AM - 5:00 PM"
+    },
+    "amenities": ["WiFi", "Coffee", "Magazines", "Parking"],
+    "isVerified": true,
+    "createdAt": "2022-06-01T00:00:00Z"
+  },
+  {
+    "id": "salon2",
+    "name": "Modern Cuts",
+    "address": "456 Market St",
+    "city": "San Francisco",
+    "state": "CA",
+    "zipCode": "94102",
+    "latitude": 37.7749,
+    "longitude": -122.4194,
+    "services": ["Haircut", "Beard Trim", "Styling", "Texture"],
+    "phone": "(415) 555-0200",
+    "email": "hello@moderncuts.com",
+    "website": "https://moderncuts.com",
+    "staffIds": ["2"],
+    "photos": [
+      "https://via.placeholder.com/400"
+    ],
+    "rating": 4.8,
+    "reviewCount": 189,
+    "description": "Contemporary styling for modern individuals. Walk-ins welcome!",
+    "hours": {
+      "monday": "9:00 AM - 7:00 PM",
+      "tuesday": "9:00 AM - 7:00 PM",
+      "wednesday": "9:00 AM - 7:00 PM",
+      "thursday": "9:00 AM - 7:00 PM",
+      "friday": "9:00 AM - 7:00 PM",
+      "saturday": "9:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "amenities": ["WiFi", "Walk-ins Welcome", "Credit Cards"],
+    "isVerified": true,
+    "createdAt": "2023-01-15T00:00:00Z"
+  },
+  {
+    "id": "salon3",
+    "name": "Color Bar NYC",
+    "address": "789 Broadway",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "10003",
+    "latitude": 40.7306,
+    "longitude": -73.9906,
+    "services": ["Color", "Balayage", "Highlights", "Color Correction", "Keratin"],
+    "phone": "(212) 555-0300",
+    "email": "book@colorbarnyc.com",
+    "staffIds": [],
+    "photos": [
+      "https://via.placeholder.com/400",
+      "https://via.placeholder.com/400",
+      "https://via.placeholder.com/400"
+    ],
+    "rating": 4.9,
+    "reviewCount": 312,
+    "description": "NYC's premier color specialists. Award-winning team of colorists.",
+    "hours": {
+      "monday": "11:00 AM - 9:00 PM",
+      "tuesday": "11:00 AM - 9:00 PM",
+      "wednesday": "11:00 AM - 9:00 PM",
+      "thursday": "11:00 AM - 9:00 PM",
+      "friday": "11:00 AM - 9:00 PM",
+      "saturday": "10:00 AM - 8:00 PM",
+      "sunday": "10:00 AM - 6:00 PM"
+    },
+    "amenities": ["WiFi", "Refreshments", "Premium Products", "Valet"],
+    "isVerified": true,
+    "createdAt": "2022-08-20T00:00:00Z"
+  }
+]
+

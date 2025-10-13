@@ -10,6 +10,10 @@ import '../../features/bookings/presentation/screens/booking_flow_screen.dart';
 import '../../features/ai_preview/presentation/screens/ai_preview_screen.dart';
 import '../../features/feed/presentation/screens/reels_screen.dart';
 import '../../features/stylists/presentation/screens/stylist_onboard_screen.dart';
+import '../../features/explore/presentation/screens/explore_screen.dart';
+import '../../features/pros/presentation/screens/pro_profile_screen.dart';
+import '../../features/upload/presentation/screens/upload_screen.dart';
+import '../../features/collections/presentation/screens/collections_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -66,6 +70,29 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/stylist-onboard',
         name: 'stylist-onboard',
         builder: (context, state) => const StylistOnboardScreen(),
+      ),
+      GoRoute(
+        path: '/explore',
+        name: 'explore',
+        builder: (context, state) => const ExploreScreen(),
+      ),
+      GoRoute(
+        path: '/pros/:id',
+        name: 'pro-profile',
+        builder: (context, state) {
+          final proId = state.pathParameters['id']!;
+          return ProProfileScreen(proId: proId);
+        },
+      ),
+      GoRoute(
+        path: '/upload',
+        name: 'upload',
+        builder: (context, state) => const UploadScreen(),
+      ),
+      GoRoute(
+        path: '/collections',
+        name: 'collections',
+        builder: (context, state) => const CollectionsScreen(),
       ),
     ],
   );

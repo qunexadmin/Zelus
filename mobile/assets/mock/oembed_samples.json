@@ -1,0 +1,36 @@
+[
+  {
+    "url": "https://www.instagram.com/p/mock_balayage_post/",
+    "platform": "instagram",
+    "html": "<blockquote class='instagram-media'><p>Beautiful balayage transformation!</p></blockquote>",
+    "title": "Balayage Transformation",
+    "authorName": "@hairbyemily",
+    "authorUrl": "https://www.instagram.com/hairbyemily/",
+    "thumbnailUrl": "https://via.placeholder.com/300",
+    "width": 400,
+    "height": 500
+  },
+  {
+    "url": "https://www.tiktok.com/@stylistjane/video/mock_tutorial/",
+    "platform": "tiktok",
+    "html": "<blockquote class='tiktok-embed'><p>Quick hair tutorial!</p></blockquote>",
+    "title": "Hair Tutorial",
+    "authorName": "@stylistjane",
+    "authorUrl": "https://www.tiktok.com/@stylistjane",
+    "thumbnailUrl": "https://via.placeholder.com/300",
+    "width": 325,
+    "height": 580
+  },
+  {
+    "url": "https://www.instagram.com/p/mock_summer_hair/",
+    "platform": "instagram",
+    "html": "<blockquote class='instagram-media'><p>Summer hair vibes ☀️</p></blockquote>",
+    "title": "Summer Hair Vibes",
+    "authorName": "@colorbar_nyc",
+    "authorUrl": "https://www.instagram.com/colorbar_nyc/",
+    "thumbnailUrl": "https://via.placeholder.com/300",
+    "width": 400,
+    "height": 500
+  }
+]
+

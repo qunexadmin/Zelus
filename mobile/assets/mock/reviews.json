@@ -1,0 +1,83 @@
+[
+  {
+    "id": "1",
+    "userId": "user1",
+    "userName": "Emily Rodriguez",
+    "userPhotoUrl": "https://via.placeholder.com/100",
+    "targetId": "1",
+    "targetType": "stylist",
+    "rating": 5.0,
+    "text": "Amazing color work! Jane really knows what she's doing. I came in with dark hair and left with beautiful blonde balayage. She took her time and made sure I was happy with every step.",
+    "photos": [],
+    "aiSummary": "Excellent color expertise. Highly recommended for balayage.",
+    "createdAt": "2025-10-06T14:30:00Z",
+    "helpfulCount": 12
+  },
+  {
+    "id": "2",
+    "userId": "user2",
+    "userName": "Mike Brown",
+    "targetId": "1",
+    "targetType": "stylist",
+    "rating": 4.5,
+    "text": "Great experience, very professional. My hair looks fantastic!",
+    "photos": [],
+    "aiSummary": "Professional service with great results.",
+    "createdAt": "2025-09-28T11:15:00Z",
+    "helpfulCount": 8
+  },
+  {
+    "id": "3",
+    "userId": "user3",
+    "userName": "Jessica Chen",
+    "userPhotoUrl": "https://via.placeholder.com/100",
+    "targetId": "2",
+    "targetType": "stylist",
+    "rating": 5.0,
+    "text": "Michael gave me the best haircut I've ever had! He really listened to what I wanted and delivered perfectly. The fade is so clean!",
+    "photos": [],
+    "aiSummary": "Exceptional cutting skills. Highly attentive to client needs.",
+    "createdAt": "2025-10-10T16:45:00Z",
+    "helpfulCount": 15
+  },
+  {
+    "id": "4",
+    "userId": "user4",
+    "userName": "Amanda White",
+    "targetId": "3",
+    "targetType": "stylist",
+    "rating": 5.0,
+    "text": "Sarah did my wedding hair and it was PERFECT! She's so talented and made me feel like a princess. All my bridesmaids looked amazing too!",
+    "photos": ["https://via.placeholder.com/300"],
+    "aiSummary": "Outstanding bridal hair specialist. Makes clients feel special.",
+    "createdAt": "2025-09-15T10:00:00Z",
+    "helpfulCount": 24
+  },
+  {
+    "id": "5",
+    "userId": "user5",
+    "userName": "David Kim",
+    "targetId": "salon1",
+    "targetType": "salon",
+    "rating": 4.8,
+    "text": "Elite Hair Studio is amazing! Clean, professional, and the staff is so friendly. Highly recommend!",
+    "photos": [],
+    "aiSummary": "Clean and professional environment with friendly staff.",
+    "createdAt": "2025-10-05T13:20:00Z",
+    "helpfulCount": 6
+  },
+  {
+    "id": "6",
+    "userId": "user6",
+    "userName": "Lisa Martinez",
+    "targetId": "salon2",
+    "targetType": "salon",
+    "rating": 5.0,
+    "text": "Love Modern Cuts! No pretentious vibe, just great haircuts at reasonable prices. Michael is the best!",
+    "photos": [],
+    "aiSummary": "Great value and welcoming atmosphere.",
+    "createdAt": "2025-10-08T15:30:00Z",
+    "helpfulCount": 9
+  }
+]
+

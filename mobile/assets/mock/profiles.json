@@ -1,0 +1,75 @@
+[
+  {
+    "id": "1",
+    "name": "Jane Smith",
+    "photoUrl": "https://via.placeholder.com/150",
+    "bio": "Expert colorist with 10+ years of experience. Specializing in balayage, highlights, and color correction.",
+    "services": ["Color", "Balayage", "Highlights", "Color Correction"],
+    "priceRange": "$$-$$$",
+    "languages": ["English", "Spanish"],
+    "rating": 4.8,
+    "reviewCount": 124,
+    "portfolio": [
+      "https://via.placeholder.com/300",
+      "https://via.placeholder.com/300",
+      "https://via.placeholder.com/300"
+    ],
+    "salonId": "salon1",
+    "salonName": "Elite Hair Studio",
+    "location": "New York, NY",
+    "specialties": ["Balayage", "Blonde Specialist", "Color Correction"],
+    "yearsExperience": 10,
+    "followerCount": 3420,
+    "isVerified": true,
+    "createdAt": "2023-01-15T00:00:00Z"
+  },
+  {
+    "id": "2",
+    "name": "Michael Chen",
+    "photoUrl": "https://via.placeholder.com/150",
+    "bio": "Master stylist specializing in modern cuts and texture work. Creating confidence through great hair.",
+    "services": ["Haircut", "Styling", "Texture", "Beard Trim"],
+    "priceRange": "$$",
+    "languages": ["English", "Mandarin"],
+    "rating": 4.9,
+    "reviewCount": 89,
+    "portfolio": [
+      "https://via.placeholder.com/300",
+      "https://via.placeholder.com/300"
+    ],
+    "salonId": "salon2",
+    "salonName": "Modern Cuts",
+    "location": "San Francisco, CA",
+    "specialties": ["Modern Cuts", "Fades", "Texture"],
+    "yearsExperience": 8,
+    "followerCount": 2150,
+    "isVerified": true,
+    "createdAt": "2023-03-20T00:00:00Z"
+  },
+  {
+    "id": "3",
+    "name": "Sarah Johnson",
+    "photoUrl": "https://via.placeholder.com/150",
+    "bio": "Bridal hair specialist and updo expert. Making your special day even more beautiful.",
+    "services": ["Styling", "Updo", "Bridal", "Extensions"],
+    "priceRange": "$$$",
+    "languages": ["English", "French"],
+    "rating": 4.95,
+    "reviewCount": 156,
+    "portfolio": [
+      "https://via.placeholder.com/300",
+      "https://via.placeholder.com/300",
+      "https://via.placeholder.com/300",
+      "https://via.placeholder.com/300"
+    ],
+    "salonId": "salon1",
+    "salonName": "Elite Hair Studio",
+    "location": "New York, NY",
+    "specialties": ["Bridal Hair", "Updos", "Extensions"],
+    "yearsExperience": 12,
+    "followerCount": 5680,
+    "isVerified": true,
+    "createdAt": "2022-11-10T00:00:00Z"
+  }
+]
+

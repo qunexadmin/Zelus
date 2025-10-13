@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Brand Colors - Modern Social Media Palette
-  static const Color primaryColor = Color(0xFF8B7EFF); // Soft Purple
-  static const Color primaryDark = Color(0xFF6B5CE6);
-  static const Color secondaryColor = Color(0xFFFF6B9D); // Pink
-  static const Color accentColor = Color(0xFFFFA07A); // Coral/Peach
-  static const Color gradientStart = Color(0xFF8B7EFF);
-  static const Color gradientEnd = Color(0xFFFF6B9D);
+  // Brand Colors - Minimalist (White/Black) with subtle red accent
+  static const Color primaryColor = Colors.black; // Primary actions, headings
+  static const Color primaryDark = Colors.black;
+  static const Color secondaryColor = Colors.redAccent; // Accent for likes/CTAs
+  static const Color accentColor = Colors.redAccent;
+  static const Color gradientStart = Color(0xFFF7F7F7);
+  static const Color gradientEnd = Color(0xFFFFFFFF);
   
-  static const Color backgroundColor = Color(0xFFFAFAFA);
+  static const Color backgroundColor = Color(0xFFFFFFFF);
   static const Color surfaceColor = Colors.white;
   static const Color cardBackground = Color(0xFFFFFFFF);
   static const Color errorColor = Color(0xFFFF3B30);
@@ -81,13 +81,16 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
+      colorScheme: ColorScheme.light(
         primary: primaryColor,
         secondary: secondaryColor,
         error: errorColor,
         background: backgroundColor,
         surface: surfaceColor,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onBackground: textPrimary,
+        onSurface: textPrimary,
       ),
       scaffoldBackgroundColor: backgroundColor,
       textTheme: GoogleFonts.interTextTheme().copyWith(
@@ -195,7 +198,7 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: backgroundColor,
-        selectedColor: primaryColor.withOpacity(0.1),
+        selectedColor: secondaryColor.withOpacity(0.12),
         labelStyle: GoogleFonts.inter(
           fontSize: 14,
           fontWeight: FontWeight.w500,
@@ -209,8 +212,110 @@ class AppTheme {
   }
 
   static ThemeData get darkTheme {
-    // TODO: Implement dark theme
-    return lightTheme;
+    // TikTok-like minimalist dark theme: black surfaces, white text, bold accents
+    const Color bg = Colors.black;
+    const Color surface = Color(0xFF111111);
+    const Color onBg = Colors.white;
+    const Color onSurface = Color(0xFFEAEAEA);
+    const Color accent = Colors.redAccent; // like button accent
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: bg,
+      colorScheme: const ColorScheme.dark(
+        primary: accent,
+        secondary: Colors.white,
+        background: bg,
+        surface: surface,
+        error: errorColor,
+        onPrimary: Colors.white,
+        onSecondary: Colors.black,
+        onBackground: onBg,
+        onSurface: onSurface,
+      ),
+      textTheme: GoogleFonts.interTextTheme().apply(
+        bodyColor: onBg,
+        displayColor: onBg,
+      ).copyWith(
+        headlineLarge: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: onBg),
+        headlineMedium: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: onBg),
+        headlineSmall: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: onBg),
+        bodyLarge: const TextStyle(fontSize: 16, color: onSurface),
+        bodyMedium: const TextStyle(fontSize: 14, color: onSurface),
+        bodySmall: const TextStyle(fontSize: 12, color: onSurface),
+      ),
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        backgroundColor: bg,
+        foregroundColor: onBg,
+        centerTitle: true,
+        titleTextStyle: GoogleFonts.inter(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: onBg,
+        ),
+      ),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusLarge),
+        ),
+        shadowColor: Colors.black.withOpacity(0.4),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: accent,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusMedium),
+          ),
+          textStyle: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: onBg,
+          side: BorderSide(color: onSurface.withOpacity(0.3), width: 1.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusMedium),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: surface,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusMedium),
+          borderSide: BorderSide(color: onSurface.withOpacity(0.2)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusMedium),
+          borderSide: BorderSide(color: onSurface.withOpacity(0.2)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusMedium),
+          borderSide: const BorderSide(color: accent, width: 2),
+        ),
+        hintStyle: TextStyle(color: onSurface.withOpacity(0.7), fontSize: 15),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: surface,
+        selectedColor: accent.withOpacity(0.15),
+        labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500, color: onSurface),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radiusXLarge)),
+      ),
+    );
   }
 }
 
