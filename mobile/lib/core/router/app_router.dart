@@ -8,10 +8,12 @@ import '../../features/salons/presentation/screens/salon_detail_screen.dart';
 import '../../features/stylists/presentation/screens/stylist_profile_screen.dart';
 import '../../features/bookings/presentation/screens/booking_flow_screen.dart';
 import '../../features/ai_preview/presentation/screens/ai_preview_screen.dart';
+import '../../features/feed/presentation/screens/reels_screen.dart';
+import '../../features/stylists/presentation/screens/stylist_onboard_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/',
     routes: [
       GoRoute(
         path: '/login',
@@ -54,6 +56,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/ai-preview',
         name: 'ai-preview',
         builder: (context, state) => const AIPreviewScreen(),
+      ),
+      GoRoute(
+        path: '/reels',
+        name: 'reels',
+        builder: (context, state) => const ReelsScreen(),
+      ),
+      GoRoute(
+        path: '/stylist-onboard',
+        name: 'stylist-onboard',
+        builder: (context, state) => const StylistOnboardScreen(),
       ),
     ],
   );

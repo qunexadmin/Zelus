@@ -23,32 +23,87 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Discover'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.auto_awesome_outlined),
-            onPressed: () => context.push('/ai-preview'),
-            tooltip: 'AI Preview',
-          ),
-        ],
-      ),
+      backgroundColor: AppTheme.backgroundColor,
       body: CustomScrollView(
         slivers: [
-          // Search bar
+          // App Bar with gradient
+          SliverAppBar(
+            expandedHeight: 160,
+            floating: false,
+            pinned: true,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: AppTheme.primaryGradient,
+                ),
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingLarge),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Discover',
+                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                            color: AppTheme.textLight,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Find your perfect stylist',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppTheme.textLight.withOpacity(0.9),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          // Search bar with glassmorphic effect
           SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search salons, stylists, services...',
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.tune),
-                    onPressed: () {
-                      // TODO: Show filters
-                    },
+            child: Transform.translate(
+              offset: const Offset(0, -30),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingLarge),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+                    boxShadow: AppTheme.cardShadow,
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search salons, stylists, services...',
+                      prefixIcon: const Icon(Icons.search, color: AppTheme.primaryColor),
+                      suffixIcon: Container(
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.primaryGradient,
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.tune, color: Colors.white, size: 20),
+                          onPressed: () {
+                            // TODO: Show filters
+                          },
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 16,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -123,15 +178,23 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 
   Widget _buildCategoryChip(String label, IconData icon) {
     return Padding(
-      padding: const EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.only(right: AppTheme.spacingMedium),
       child: Column(
         children: [
           Container(
-            width: 70,
-            height: 70,
+            width: 75,
+            height: 75,
             decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(16),
+              gradient: LinearGradient(
+                colors: [
+                  AppTheme.primaryColor.withOpacity(0.15),
+                  AppTheme.secondaryColor.withOpacity(0.15),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+              boxShadow: AppTheme.softShadow,
             ),
             child: Icon(
               icon,
@@ -139,10 +202,12 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
               size: 32,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppTheme.spacingSmall),
           Text(
             label,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
@@ -152,56 +217,132 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
   Widget _buildSalonCard(String name, String location, double rating, String id) {
     return GestureDetector(
       onTap: () => context.push('/salon/$id'),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+          boxShadow: AppTheme.cardShadow,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image placeholder
+            // Image placeholder with gradient overlay
             Expanded(
               child: Container(
-                color: Colors.grey[200],
-                child: const Center(
-                  child: Icon(Icons.store, size: 48, color: Colors.grey),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.grey[200]!,
+                      Colors.grey[100]!,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(AppTheme.radiusLarge),
+                    topRight: Radius.circular(AppTheme.radiusLarge),
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    const Center(
+                      child: Icon(Icons.store, size: 48, color: Colors.grey),
+                    ),
+                    // Favorite button overlay
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: AppTheme.softShadow,
+                        ),
+                        child: const Icon(
+                          Icons.favorite_border,
+                          size: 18,
+                          color: AppTheme.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(AppTheme.spacingMedium),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: AppTheme.spacingSmall),
                   Row(
                     children: [
-                      const Icon(Icons.location_on, size: 14, color: AppTheme.textTertiary),
+                      Icon(
+                        Icons.location_on,
+                        size: 14,
+                        color: AppTheme.textSecondary,
+                      ),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           location,
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppTheme.textSecondary,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: AppTheme.spacingSmall),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.star, size: 14, color: AppTheme.accentColor),
-                      const SizedBox(width: 4),
-                      Text(
-                        rating.toStringAsFixed(1),
-                        style: Theme.of(context).textTheme.bodySmall,
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              gradient: AppTheme.primaryGradient,
+                              borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  size: 12,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  rating.toStringAsFixed(1),
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 14,
+                        color: AppTheme.primaryColor,
                       ),
                     ],
                   ),

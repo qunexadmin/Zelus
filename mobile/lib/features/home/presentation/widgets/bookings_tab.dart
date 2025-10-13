@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
+// Temporarily disabled in social-only MVP
+// Keeping file to avoid breaking imports if referenced elsewhere.
 import '../../../../core/theme/app_theme.dart';
 
 class BookingsTab extends ConsumerWidget {

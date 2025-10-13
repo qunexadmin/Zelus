@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/discover_tab.dart';
-import '../widgets/bookings_tab.dart';
 import '../widgets/profile_tab.dart';
+import '../../../feed/presentation/widgets/feed_tab.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -17,7 +17,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final List<Widget> _tabs = const [
     DiscoverTab(),
-    BookingsTab(),
+    FeedTab(),
     ProfileTab(),
   ];
 
@@ -37,9 +37,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             label: 'Discover',
           ),
           NavigationDestination(
-            icon: Icon(Icons.calendar_today_outlined),
-            selectedIcon: Icon(Icons.calendar_today),
-            label: 'Bookings',
+            icon: Icon(Icons.play_circle_outline),
+            selectedIcon: Icon(Icons.play_circle_filled),
+            label: 'Feed',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline),
