@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../data/services/profile_service.dart';
 import '../../../../data/services/salon_service.dart';
@@ -181,7 +182,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
           );
         }
 
-        return ListView.builder(
+                        return ListView.builder(
           padding: const EdgeInsets.all(16),
           itemCount: filteredProfiles.length,
           itemBuilder: (context, index) {
@@ -191,11 +192,23 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
               child: ProProfileCard(
                 profile: profile,
                 onTap: () => context.push('/pros/${profile.id}'),
-                onBookNow: () => BookingRequestSheet.show(
-                  context,
-                  proId: profile.id,
-                  salonId: profile.salonId,
-                ),
+                                onBookNow: () async {
+                                  final urlStr = profile.bookingUrl;
+                                  if (urlStr == null || urlStr.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Booking link not available')),
+                                    );
+                                    return;
+                                  }
+                                  final url = Uri.parse(urlStr);
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url, mode: LaunchMode.externalApplication);
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Unable to open booking link')),
+                                    );
+                                  }
+                                },
               ),
             );
           },
