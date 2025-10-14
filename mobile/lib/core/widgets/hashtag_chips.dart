@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart'; 
 
 /// Hashtag Chips
 /// Displays hashtags as interactive chips with # prefix
@@ -145,7 +146,3 @@ class HashtagText extends StatelessWidget {
     );
   }
 }
-
-// Import for TapGestureRecognizer
-import 'package:flutter/gestures.dart';
-
