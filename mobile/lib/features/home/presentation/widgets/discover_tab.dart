@@ -116,7 +116,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 children: [
                   // Floating Search Bar
                   Transform.translate(
-                    offset: const Offset(0, -35),
+                    offset: const Offset(0, 0),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Container(
