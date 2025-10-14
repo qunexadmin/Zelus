@@ -5,8 +5,7 @@ Run with: python seed_data.py
 import sys
 from datetime import datetime, timedelta
 from app.db import SessionLocal, init_db
-from app.models import User, Salon, Stylist, Service, Booking
-from app.models.booking import BookingStatus, PaymentStatus
+from app.models import User, Salon, Stylist, Service
 
 
 def seed_database():
@@ -234,59 +233,12 @@ def seed_database():
         db.commit()
         print(f"✅ Created {len(services)} services")
         
-        print("📅 Creating sample bookings...")
-        # Create sample bookings
-        now = datetime.utcnow()
-        bookings = [
-            # Upcoming booking
-            Booking(
-                id="booking-1",
-                user_id="user-1",
-                stylist_id="stylist-1",
-                service_id="service-1",
-                scheduled_at=now + timedelta(days=2, hours=10),
-                duration_minutes=60,
-                total_price=75.0,
-                status=BookingStatus.CONFIRMED,
-                payment_status=PaymentStatus.PAID,
-                customer_notes="Please focus on layers",
-            ),
-            # Another upcoming
-            Booking(
-                id="booking-2",
-                user_id="user-1",
-                stylist_id="stylist-3",
-                service_id="service-5",
-                scheduled_at=now + timedelta(days=7, hours=14),
-                duration_minutes=150,
-                total_price=180.0,
-                status=BookingStatus.PENDING,
-                payment_status=PaymentStatus.PENDING,
-            ),
-            # Past booking
-            Booking(
-                id="booking-3",
-                user_id="user-2",
-                stylist_id="stylist-4",
-                service_id="service-6",
-                scheduled_at=now - timedelta(days=15, hours=11),
-                duration_minutes=45,
-                total_price=45.0,
-                status=BookingStatus.COMPLETED,
-                payment_status=PaymentStatus.PAID,
-            ),
-        ]
-        db.add_all(bookings)
-        db.commit()
-        print(f"✅ Created {len(bookings)} bookings")
-        
         print("\n✨ Database seeding completed successfully!")
         print("\n📊 Summary:")
         print(f"   - Users: {len(users)}")
         print(f"   - Salons: {len(salons)}")
         print(f"   - Stylists: {len(stylists)}")
         print(f"   - Services: {len(services)}")
-        print(f"   - Bookings: {len(bookings)}")
         print("\n🚀 You can now start the API server and test the endpoints!")
         
     except Exception as e:

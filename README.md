@@ -40,7 +40,7 @@ flutter run -d chrome  # or android/ios
 
 📋 **[PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)** - Project status, architecture, features  
 🔧 **[BACKEND.md](BACKEND.md)** - Backend setup, API docs, database  
-📱 **[FRONTEND.md](FRONTEND.md)** - Mobile app setup, screens, development
+📱 **[mobile/README.md](mobile/README.md)** - Mobile app: setup, features, testing & integration
 
 ---
 

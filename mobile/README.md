@@ -1,18 +1,18 @@
 # Zelux Mobile App - Beauty Pro Network
 
-Zelux mobile application built with Flutter - A beauty professional discovery and booking platform with AI-powered features and social content integration.
+Zelux mobile application built with Flutter - A beauty professional discovery platform with AI-powered features, social content, and external booking links to salons.
 
 ## ✨ Phase 1 MVP Features (October 2025)
 
 ### Professional Profiles 👥
 - **ProProfile Model** - Comprehensive professional profiles with services, portfolio, ratings, and experience
-- **Book Now** - Direct booking requests to selected salon/professional (no payment yet)
+- **Book Now** - Opens external booking page (salon `bookingUrl`), no in-app flow
 - **AI Review Highlights** - Smart 2-line summaries when ≥10 reviews available
 - **Follow System** - Save and follow your favorite professionals
 
 ### Salon Pages 🏪
 - **Staff Directory** - Browse all professionals at a salon
-- **Booking Integration** - Request appointments with context-aware booking sheet
+- **Booking Button** - Opens external `bookingUrl` in browser
 - **Enhanced Details** - Services, amenities, hours, and contact information
 
 ### Discovery & Search 🔍
@@ -71,7 +71,9 @@ Zelux mobile application built with Flutter - A beauty professional discovery an
 - 🔐 **Authentication** - Firebase authentication with email/password (mock mode enabled)
 - 🏪 **Salon Discovery** - Browse and search salons and stylists
 - 👤 **Stylist Profiles** - View portfolios, reviews, and specialties
-- 📅 **Booking System** - Complete booking flow with date/time selection
+  
+  
+> Note: Booking is handled via external links only in Phase 1. No in-app booking flow or payments.
 - 🤖 **AI Preview** - AI-powered style previews (placeholder for future integration)
 - 💳 **Payment Integration** - Stripe payment processing (placeholder)
 
@@ -379,11 +381,29 @@ flutter pub get
 - Verify device can reach backend (use ping or browser)
 - Check firewall settings
 
-## 📚 Documentation
+## 🔌 Integration & API Hookup
 
-- **[MIGRATION_NOTES.md](./MIGRATION_NOTES.md)** - Phase 1 changes, integration points, and upgrade guide
-- **[PROJECT_OVERVIEW.md](../PROJECT_OVERVIEW.md)** - Overall project architecture
-- **[FRONTEND.md](../FRONTEND.md)** - Mobile app details
+### Where to Plug Real APIs
+
+All services currently use mock data. Replace these stubs:
+
+| Service | File | What to Do |
+|---------|------|------------|
+| **Professional Profiles** | `lib/data/services/profile_service.dart` | Replace `_getMockProfiles()` with real API |
+| **Reviews** | `lib/data/services/review_service.dart` | Replace `_getMockReviews()` with real API |
+| **AI Summaries** | `lib/ai/summary/ai_review_summarizer.dart` | Integrate GPT-4/Claude API |
+| **oEmbed** | `lib/data/services/oembed_service.dart` | Add Instagram/TikTok API tokens |
+| **Cloudflare Stream** | `lib/data/services/cloudflare_stream_service.dart` | Add `accountId` + `apiToken` |
+| **Auto-Tagging** | `lib/ai/vision/auto_tagger.dart` | Integrate Google Vision / AWS Rekognition |
+
+### Code Generation Required
+
+After pulling changes, run:
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+This generates `.freezed.dart` and `.g.dart` files for all models.
 
 ## ⚡ Quick Commands
 

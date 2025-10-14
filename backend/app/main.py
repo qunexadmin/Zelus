@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 from app.core.config import settings
-from app.routers import auth, salons, stylists, bookings, ai, feed
+from app.routers import auth, salons, stylists, ai, feed
 from app.db import init_db
 
 
@@ -40,7 +40,6 @@ app.mount(settings.MEDIA_URL, StaticFiles(directory=settings.MEDIA_ROOT), name="
 app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(salons.router, prefix=settings.API_V1_STR)
 app.include_router(stylists.router, prefix=settings.API_V1_STR)
-app.include_router(bookings.router, prefix=settings.API_V1_STR)
 app.include_router(ai.router, prefix=settings.API_V1_STR)
 app.include_router(feed.router, prefix=settings.API_V1_STR)
 

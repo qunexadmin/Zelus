@@ -21,6 +21,7 @@ class ProProfile with _$ProProfile {
     String? salonId,
     String? salonName,
     String? location,
+    String? bookingUrl,
     @Default([]) List<String> specialties,
     @Default(0) int yearsExperience,
     @Default(0) int followerCount,

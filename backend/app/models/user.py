@@ -27,7 +27,4 @@ class User(Base):
     # Timestamps
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
-    # Relationships
-    bookings = relationship("Booking", back_populates="user", foreign_keys="Booking.user_id")
 

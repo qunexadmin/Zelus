@@ -6,7 +6,6 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/salons/presentation/screens/salon_detail_screen.dart';
 import '../../features/stylists/presentation/screens/stylist_profile_screen.dart';
-import '../../features/bookings/presentation/screens/booking_flow_screen.dart';
 import '../../features/ai_preview/presentation/screens/ai_preview_screen.dart';
 import '../../features/feed/presentation/screens/reels_screen.dart';
 import '../../features/stylists/presentation/screens/stylist_onboard_screen.dart';
@@ -44,17 +43,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final stylistId = state.pathParameters['id']!;
           return StylistProfileScreen(stylistId: stylistId);
-        },
-      ),
-      GoRoute(
-        path: '/booking',
-        name: 'booking-flow',
-        builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          return BookingFlowScreen(
-            stylistId: extra?['stylistId'],
-            serviceId: extra?['serviceId'],
-          );
         },
       ),
       GoRoute(

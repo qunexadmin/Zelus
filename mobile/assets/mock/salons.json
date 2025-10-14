@@ -12,6 +12,7 @@
     "phone": "(212) 555-0100",
     "email": "info@elitehairstudio.com",
     "website": "https://elitehairstudio.com",
+    "bookingUrl": "https://booksy.com/elite-hair-studio",
     "staffIds": ["1", "3"],
     "photos": [
       "https://via.placeholder.com/400",
@@ -46,6 +47,7 @@
     "phone": "(415) 555-0200",
     "email": "hello@moderncuts.com",
     "website": "https://moderncuts.com",
+    "bookingUrl": "https://square.site/book/modern-cuts",
     "staffIds": ["2"],
     "photos": [
       "https://via.placeholder.com/400"
@@ -78,6 +80,7 @@
     "services": ["Color", "Balayage", "Highlights", "Color Correction", "Keratin"],
     "phone": "(212) 555-0300",
     "email": "book@colorbarnyc.com",
+    "bookingUrl": "https://booksy.com/color-bar-nyc",
     "staffIds": [],
     "photos": [
       "https://via.placeholder.com/400",

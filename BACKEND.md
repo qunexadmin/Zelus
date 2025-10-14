@@ -36,7 +36,7 @@ backend/
 │   │   ├── auth.py          # Authentication
 │   │   ├── salons.py        # Salon endpoints
 │   │   ├── stylists.py      # Stylist endpoints
-│   │   ├── bookings.py      # Booking endpoints
+│   │   ├── feed.py          # Feed endpoints
 │   │   └── ai.py            # AI features (placeholder)
 │   ├── models/               # SQLAlchemy models
 │   │   ├── user.py
@@ -238,11 +238,8 @@ docker exec -it zelux-db psql -U zelux_user -d zelux_db
 - `GET /api/v1/stylists/{id}/services` - Get stylist's services
 - `GET /api/v1/stylists/{id}/availability` - Check availability
 
-### Bookings
-- `POST /api/v1/bookings` - Create new booking
-- `GET /api/v1/bookings/{user_id}` - List user's bookings
-- `GET /api/v1/bookings/details/{id}` - Get booking details
-- `PATCH /api/v1/bookings/{id}/cancel` - Cancel booking
+### Booking
+Booking is handled externally in Phase 1. No booking API is exposed. Salons may include a `booking_url` that the mobile app opens in the browser.
 
 ### AI Features (Placeholder)
 - `POST /api/v1/ai/preview` - Generate style preview
@@ -353,7 +350,7 @@ Open in browser: http://3.24.31.8:8006/docs
 - updated_at: TIMESTAMP
 ```
 
-### Bookings Table
+### Salon Booking URL
 ```sql
 - id: VARCHAR (Primary Key)
 - user_id: VARCHAR (Foreign Key → users)

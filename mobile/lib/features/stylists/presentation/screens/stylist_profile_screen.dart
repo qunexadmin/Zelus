@@ -181,9 +181,10 @@ class StylistProfileScreen extends ConsumerWidget {
         ),
         child: ElevatedButton(
           onPressed: () {
-            context.push(
-              '/booking',
-              extra: {'stylistId': stylistId},
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Visit salon page for booking'),
+              ),
             );
           },
           child: const Text('Book Appointment'),

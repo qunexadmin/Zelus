@@ -26,6 +26,7 @@ class Salon(Base):
     phone = Column(String, nullable=True)
     email = Column(String, nullable=True)
     website = Column(String, nullable=True)
+    booking_url = Column(String, nullable=True)
     
     # Location
     latitude = Column(Float, nullable=True)

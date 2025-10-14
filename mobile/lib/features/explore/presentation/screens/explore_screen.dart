@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../data/services/profile_service.dart';
 import '../../../../data/services/salon_service.dart';
 import '../../../../core/widgets/pro_profile_card.dart';
-import '../../../../core/widgets/booking_request_sheet.dart';
+// Removed in-app booking; booking is external link on profiles/salons
 
 /// Explore Screen
 /// Discovery page with filters and search

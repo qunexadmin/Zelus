@@ -18,6 +18,7 @@ class SalonBase(BaseModel):
     phone: Optional[str] = None
     email: Optional[str] = None
     website: Optional[str] = None
+    booking_url: Optional[str] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
     cover_image_url: Optional[str] = None
@@ -40,6 +41,7 @@ class SalonUpdate(BaseModel):
     phone: Optional[str] = None
     email: Optional[str] = None
     website: Optional[str] = None
+    booking_url: Optional[str] = None
     cover_image_url: Optional[str] = None
     logo_url: Optional[str] = None
     is_active: Optional[bool] = None

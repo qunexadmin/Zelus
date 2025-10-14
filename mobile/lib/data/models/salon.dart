@@ -20,6 +20,7 @@ class Salon with _$Salon {
     String? phone,
     String? email,
     String? website,
+    String? bookingUrl,
     @Default([]) List<String> staffIds,
     @Default([]) List<String> photos,
     @Default(0.0) double rating,

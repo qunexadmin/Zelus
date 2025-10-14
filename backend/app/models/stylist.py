@@ -45,7 +45,6 @@ class Stylist(Base):
     # Relationships
     salon = relationship("Salon", back_populates="stylists")
     services = relationship("Service", back_populates="stylist")
-    bookings = relationship("Booking", back_populates="stylist")
 
 
 class Service(Base):

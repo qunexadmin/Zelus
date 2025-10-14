@@ -30,7 +30,7 @@
 
 ### ✅ Implemented (MVP)
 - 🔍 **Salon & Stylist Discovery** - Browse and search professionals
-- 📅 **Booking System** - Complete appointment flow
+- 🔗 **External Booking Links** - Open salon booking pages (no in-app flow)
 - 👤 **User Authentication** - Mock auth (ready for Firebase)
 - ⭐ **Reviews & Ratings** - Social proof system
 - 📱 **Mobile-First UI** - Beautiful Material Design 3
@@ -134,8 +134,6 @@ flutter run -d chrome  # or Android/iOS
 - `GET /salons/{id}` - Get salon details
 - `GET /stylists/{id}` - Get stylist profile
 - `GET /stylists/{id}/services` - Get services
-- `POST /bookings` - Create booking
-- `GET /bookings/{user_id}` - List user bookings
 
 **API Docs:** http://3.24.31.8:8006/docs
 
@@ -145,10 +143,9 @@ flutter run -d chrome  # or Android/iOS
 
 ### Core Tables
 - **users** - Customer accounts
-- **salons** - Salon locations
+- **salons** - Salon locations (includes `booking_url`)
 - **stylists** - Professional stylists
 - **services** - Services offered
-- **bookings** - Appointments
 
 ### Sample Data
 - ✅ 3 salons (Elite Hair Studio, Color Studio NYC, Downtown Barbers)
@@ -181,7 +178,7 @@ flutter run -d chrome  # or Android/iOS
 - ✅ **Professional Profiles System**
   - ProProfile model with freezed + json_serializable
   - Full profile pages with portfolio, reviews, ratings
-  - Book Now integration (no payment yet)
+  - Book Now opens external salon `bookingUrl`
   - AI review summaries (≥10 reviews)
   - Follow system ready
 - ✅ **Enhanced Discovery & Search**
@@ -271,15 +268,10 @@ flutter run -d chrome  # or Android/iOS
 
 ## 📚 Documentation
 
-### Main Docs
-- **Project Overview:** [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) - This file
-- **Backend Guide:** [BACKEND.md](BACKEND.md) - API & database docs
-- **Frontend Guide:** [FRONTEND.md](FRONTEND.md) - Mobile app overview
-
-### Phase 1 MVP Docs (Mobile)
-- **Mobile README:** [mobile/README.md](mobile/README.md) - Setup & features
-- **Migration Notes:** [mobile/MIGRATION_NOTES.md](mobile/MIGRATION_NOTES.md) - Changes & integration
-- **Feature Access Guide:** [mobile/FEATURE_ACCESS_GUIDE.md](mobile/FEATURE_ACCESS_GUIDE.md) - Testing guide
+- **[README.md](README.md)** - Quick start guide
+- **[PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)** - Project overview & progress (this file)
+- **[BACKEND.md](BACKEND.md)** - Backend API & database
+- **[mobile/README.md](mobile/README.md)** - Mobile app: setup, features, testing & integration
 
 ---
 
@@ -305,7 +297,6 @@ flutter run -d chrome  # or Android/iOS
 
 ### v1.0.0 - October 11-12, 2025
 - Initial MVP deployment
-- Core booking features
 - Social feed integration
 - Mock authentication
 - Sample data

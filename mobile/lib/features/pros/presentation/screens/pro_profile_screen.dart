@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../data/services/profile_service.dart';
 import '../../../../data/services/review_service.dart';
 import '../../../../core/widgets/rating_bar.dart';
 import '../../../../core/widgets/tag_chips.dart';
-import '../../../../core/widgets/booking_request_sheet.dart';
 import '../../../../core/widgets/follow_button.dart';
 import '../../../../ai/summary/ai_review_summarizer.dart';
 import '../../../../core/feature_flags.dart';
@@ -120,11 +120,20 @@ class ProProfileScreen extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: FilledButton(
-                              onPressed: () => BookingRequestSheet.show(
-                                context,
-                                proId: profile.id,
-                                salonId: profile.salonId,
-                              ),
+                              onPressed: profile.bookingUrl != null
+                                  ? () async {
+                                      final url = Uri.parse(profile.bookingUrl!);
+                                      if (await canLaunchUrl(url)) {
+                                        await launchUrl(url, mode: LaunchMode.externalApplication);
+                                      } else {
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(content: Text('Booking link not available')),
+                                          );
+                                        }
+                                      }
+                                    }
+                                  : null,
                               child: const Text('Book Now'),
                             ),
                           ),
