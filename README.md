@@ -1,10 +1,12 @@
-# 🎨 Zelux - Stylist-First Beauty Platform
+# 🎨 Zelux - Beauty Pro Network
 
-**A modern beauty booking platform connecting customers with professional stylists**
+**A modern beauty discovery & booking platform with AI-powered features and social content**
+
+**Version:** v1.1.0 - Phase 1 MVP Complete! 🎉
 
 ---
 
-## 🚀 Quick Start (Social-First MVP)
+## 🚀 Quick Start (Phase 1 MVP)
 
 ### Prerequisites
 - **Backend:** Python 3.10+, Docker
