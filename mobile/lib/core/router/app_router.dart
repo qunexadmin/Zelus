@@ -14,6 +14,7 @@ import '../../features/explore/presentation/screens/explore_screen.dart';
 import '../../features/pros/presentation/screens/pro_profile_screen.dart';
 import '../../features/upload/presentation/screens/upload_screen.dart';
 import '../../features/collections/presentation/screens/collections_screen.dart';
+import '../../features/trending/presentation/screens/trending_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -93,6 +94,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/collections',
         name: 'collections',
         builder: (context, state) => const CollectionsScreen(),
+      ),
+      GoRoute(
+        path: '/trending',
+        name: 'trending',
+        builder: (context, state) => const TrendingScreen(),
       ),
     ],
   );
