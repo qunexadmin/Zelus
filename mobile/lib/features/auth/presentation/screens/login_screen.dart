@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _emailOrPhoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _isLoading = false;
@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   
   @override
   void dispose() {
-    _emailController.dispose();
+    _emailOrPhoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
       
       if (mounted) {
         // Navigate to home page after successful login
-        // Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Login successful!')),
         );
@@ -157,20 +157,15 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Email Field
-          _buildLabel('Email Address'),
+          // Email or Phone Field
+          _buildLabel('Email or Phone (Optional)'),
           const SizedBox(height: 8),
           _buildTextField(
-            controller: _emailController,
-            hintText: 'Enter your email',
-            keyboardType: TextInputType.emailAddress,
+            controller: _emailOrPhoneController,
+            hintText: 'Enter your email or phone number',
+            keyboardType: TextInputType.text,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              if (!value.contains('@')) {
-                return 'Please enter a valid email';
-              }
+              // Allow blank for now (no validation)
               return null;
             },
           ),
@@ -178,19 +173,14 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 24),
           
           // Password Field
-          _buildLabel('Password'),
+          _buildLabel('Password (Optional)'),
           const SizedBox(height: 8),
           _buildTextField(
             controller: _passwordController,
             hintText: 'Enter your password',
             obscureText: true,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              if (value.length < 6) {
-                return 'Password must be at least 6 characters';
-              }
+              // Allow blank for now (no validation)
               return null;
             },
           ),

@@ -6,10 +6,10 @@
 
 ## 📊 Project Status
 
-**Version:** 1.0.0 MVP  
+**Version:** 1.2.0 (Design System Overhaul)  
 **Status:** ✅ Deployed & Running  
 **Server:** AWS EC2 (3.24.31.8:8006)  
-**Last Updated:** October 12, 2025
+**Last Updated:** October 15, 2025
 
 ---
 
@@ -87,13 +87,19 @@ Zelus/
 ├── mobile/                  # Flutter mobile app
 │   ├── lib/
 │   │   ├── features/       # Feature modules
+│   │   │   ├── auth/       # Login (email/phone, optional fields)
+│   │   │   ├── home/       # 4-tab navigation (Salons/Pros/Saved/Profile)
+│   │   │   ├── explore/    # Advanced filters & discovery
+│   │   │   ├── collections/# Saved collections
+│   │   │   └── ...
 │   │   ├── core/           # Shared utilities
+│   │   │   ├── theme/      # Design system (charcoal/gold palette)
+│   │   │   └── router/     # GoRouter (starts at /login)
 │   │   └── main.dart       # App entry point
 │   └── pubspec.yaml        # Flutter dependencies
 │
 ├── PROJECT_OVERVIEW.md      # This file
 ├── BACKEND.md              # Backend documentation
-├── FRONTEND.md             # Frontend documentation
 └── README.md               # Quick start guide
 
 ```
@@ -221,14 +227,30 @@ flutter run -d chrome  # or Android/iOS
   - FEATURE_ACCESS_GUIDE.md (testing guide)
   - All routes documented
 
+### October 15, 2025 - Design System Overhaul
+- ✅ **UI Redesign Phase 2 Complete!**
+  - Sophisticated charcoal & muted gold color palette
+  - Light typography (w200-w400) with Inter font
+  - Minimalist, luxurious design aesthetic
+  - Consistent design system across all screens
+  - Login page as entry point (email or phone)
+  - 4-tab bottom navigation (removed Feed tab)
+  - Enhanced haptic feedback throughout
+  - Pull-to-refresh on all major screens
+- ✅ **Redesigned Screens:**
+  - Discover Tab: Dynamic greeting, AI insights, trending styles
+  - Profile Tab: Stats section, removed Quick Access icons
+  - Explore Screen: Advanced filters with elegant UI
+  - Collections: Refined grid layout with themed cards
+  - Salon Detail: Enhanced info cards and booking button
+  - Stylist Profile: Portfolio grid and review cards
+- ✅ **Design Tokens:**
+  - Primary: Charcoal #1F2937
+  - Accent: Muted Gold #B8956A
+  - Surface: Light Gray #F9FAFB
+  - Typography: Inter with light weights
+
 ### October 12, 2025 - Social Platform Evolution
-- ✅ **UI Redesign Phase 1 Complete!**
-  - Modern color palette (soft purple, pink gradients)
-  - Gradient header with SliverAppBar
-  - Floating glassmorphic search bar
-  - Premium salon cards with shadows
-  - Modern category chips with gradients
-  - Social media-inspired aesthetics
 - ✅ Backend social endpoints: `/feed`, `/feed/trending`, tag stubs
 - ✅ Mobile Feed tabs: For You / Trending / Following
 - ✅ Reels full-screen vertical feed
@@ -285,7 +307,19 @@ flutter run -d chrome  # or Android/iOS
 
 ## 📝 Version History
 
-### v1.1.0 - October 14, 2025 (Current - Phase 1 MVP)
+### v1.2.0 - October 15, 2025 (Current - Design System Overhaul)
+- 🎨 Complete UI redesign with sophisticated design system
+- Charcoal & muted gold color palette
+- Light typography (Inter font, w200-w400 weights)
+- Login page as entry point (email/phone, optional validation)
+- 4-tab bottom navigation (Feed removed from nav)
+- Redesigned all major screens (Discover, Profile, Explore, Collections, Salon, Stylist)
+- Enhanced haptic feedback throughout
+- Pull-to-refresh on all major screens
+- Removed Quick Access section from Profile
+- Consistent design language across the app
+
+### v1.1.0 - October 14, 2025 (Phase 1 MVP)
 - ✨ Beauty Pro Network Phase 1 MVP
 - Professional profiles with AI features
 - Advanced discovery & filters

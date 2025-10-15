@@ -17,7 +17,7 @@ import '../../features/trending/presentation/screens/trending_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/login',
     routes: [
       GoRoute(
         path: '/login',

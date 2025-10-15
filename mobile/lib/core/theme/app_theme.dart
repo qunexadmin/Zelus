@@ -2,34 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Brand Colors - Minimalist (White/Black) with subtle red accent
-  static const Color primaryColor = Colors.black; // Primary actions, headings
-  static const Color primaryDark = Colors.black;
-  static const Color secondaryColor = Colors.redAccent; // Accent for likes/CTAs
-  static const Color accentColor = Colors.redAccent;
-  static const Color gradientStart = Color(0xFFF7F7F7);
-  static const Color gradientEnd = Color(0xFFFFFFFF);
+  // Brand Colors - ZELUS Minimalist Aesthetic (matching login page)
+  static const Color primaryColor = Color(0xFF1F2937); // Charcoal Black - primary actions
+  static const Color primaryDark = Color(0xFF111827); // Darker charcoal
+  static const Color accentColor = Color(0xFFB8956A); // Muted Gold - sophisticated accent
+  static const Color accentLight = Color(0x1AB8956A); // 10% opacity gold
   
+  // Semantic Colors
   static const Color backgroundColor = Color(0xFFFFFFFF);
-  static const Color surfaceColor = Colors.white;
+  static const Color surfaceColor = Color(0xFFF9FAFB); // Subtle grey surface
   static const Color cardBackground = Color(0xFFFFFFFF);
-  static const Color errorColor = Color(0xFFFF3B30);
-  static const Color successColor = Color(0xFF34C759);
-  static const Color warningColor = Color(0xFFFF9500);
+  static const Color errorColor = Color(0xFFEF4444);
+  static const Color successColor = Color(0xFF10B981);
+  static const Color warningColor = Color(0xFFF59E0B);
   
-  // Text Colors
-  static const Color textPrimary = Color(0xFF0A0A0A);
-  static const Color textSecondary = Color(0xFF6B6B6B);
-  static const Color textTertiary = Color(0xFF9B9B9B);
+  // Text Colors - matching login page
+  static const Color textPrimary = Colors.black;
+  static const Color textSecondary = Color(0xFF6B7280);
+  static const Color textTertiary = Color(0xFF9CA3AF);
   static const Color textLight = Color(0xFFFFFFFF);
   
-  // Border & Divider Colors
-  static const Color borderLight = Color(0xFFE8E8E8);
-  static const Color dividerColor = Color(0xFFEEEEEE);
+  // Border & Divider Colors - matching login page
+  static const Color borderLight = Color(0xFFE5E7EB);
+  static const Color dividerColor = Color(0xFFD1D5DB);
   
   // Gradient Definitions
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [gradientStart, gradientEnd],
+    colors: [Color(0xFFF7F7F7), Color(0xFFFFFFFF)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -38,6 +37,13 @@ class AppTheme {
     colors: [Color(0xFFFAFAFA), Color(0xFFFFFFFF)],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
+  );
+  
+  // Accent Gradient (Gold)
+  static const LinearGradient accentGradient = LinearGradient(
+    colors: [Color(0xFFB8956A), Color(0xFFC9A876)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
   );
   
   // Border Radius
@@ -94,31 +100,42 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: backgroundColor,
       textTheme: GoogleFonts.interTextTheme().copyWith(
-        headlineLarge: const TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
+        displayLarge: const TextStyle(
+          fontSize: 64,
+          fontWeight: FontWeight.w200, // Ultra-light like login page
+          letterSpacing: 14,
           color: textPrimary,
+        ),
+        headlineLarge: const TextStyle(
+          fontSize: 34,
+          fontWeight: FontWeight.w300, // Light weight like login
+          color: textPrimary,
+          letterSpacing: -1.2,
         ),
         headlineMedium: const TextStyle(
           fontSize: 24,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w300, // Light weight
           color: textPrimary,
+          letterSpacing: -0.5,
         ),
         headlineSmall: const TextStyle(
           fontSize: 20,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
           color: textPrimary,
         ),
         bodyLarge: const TextStyle(
           fontSize: 16,
+          fontWeight: FontWeight.w400,
           color: textPrimary,
         ),
         bodyMedium: const TextStyle(
-          fontSize: 14,
+          fontSize: 15,
+          fontWeight: FontWeight.w300,
           color: textSecondary,
         ),
         bodySmall: const TextStyle(
-          fontSize: 12,
+          fontSize: 13,
+          fontWeight: FontWeight.w300,
           color: textTertiary,
         ),
       ),
@@ -146,13 +163,13 @@ class AppTheme {
           backgroundColor: primaryColor,
           foregroundColor: textLight,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radiusMedium),
           ),
           textStyle: GoogleFonts.inter(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
             letterSpacing: 0.5,
           ),
         ),
@@ -160,14 +177,14 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: primaryColor,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 13),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radiusMedium),
           ),
-          side: const BorderSide(color: primaryColor, width: 1.5),
+          side: const BorderSide(color: borderLight, width: 1),
           textStyle: GoogleFonts.inter(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
           ),
         ),
       ),
@@ -184,28 +201,29 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusMedium),
-          borderSide: const BorderSide(color: primaryColor, width: 2),
+          borderSide: const BorderSide(color: primaryColor, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusMedium),
           borderSide: const BorderSide(color: errorColor),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        hintStyle: TextStyle(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+        hintStyle: const TextStyle(
           color: textTertiary,
           fontSize: 15,
+          fontWeight: FontWeight.w300,
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: backgroundColor,
-        selectedColor: secondaryColor.withOpacity(0.12),
+        backgroundColor: surfaceColor,
+        selectedColor: accentLight,
         labelStyle: GoogleFonts.inter(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontSize: 13,
+          fontWeight: FontWeight.w400,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radiusXLarge),
+          borderRadius: BorderRadius.circular(radiusMedium),
         ),
       ),
     );

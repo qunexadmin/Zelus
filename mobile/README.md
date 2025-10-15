@@ -4,6 +4,14 @@ Zelux mobile application built with Flutter - A beauty professional discovery pl
 
 ## ✨ Phase 1 MVP Features (October 2025)
 
+### 🎨 Design System (October 15 Update)
+- **Sophisticated Palette** - Charcoal (#1F2937) + Muted Gold (#B8956A)
+- **Light Typography** - Inter font with ultra-light weights (w200-w400)
+- **Minimalist Aesthetic** - Clean, luxurious, consistent across all screens
+- **Haptic Feedback** - Enhanced touch interactions throughout
+- **Entry Point** - Login page first, accepts email or phone (optional fields)
+- **Navigation** - 4-tab bottom nav: Salons, Pros, Saved, Profile (Feed removed)
+
 ### Professional Profiles 👥
 - **ProProfile Model** - Comprehensive professional profiles with services, portfolio, ratings, and experience
 - **Book Now** - Opens external booking page (salon `bookingUrl`), no in-app flow
@@ -124,13 +132,68 @@ By default, all services use mock data for development. Mock JSON files are loca
 - **Framework**: Flutter 3.0+
 - **State Management**: Riverpod 2.4.9
 - **Networking**: Dio 5.4.0
-- **Navigation**: GoRouter 12.1.3
-- **UI**: Material Design 3
-- **Authentication**: Firebase Auth (disabled for web testing)
+- **Navigation**: GoRouter 12.1.3 (initial route: `/login`)
+- **UI**: Material Design 3 with custom design system
+- **Typography**: Google Fonts (Inter) with light weights
+- **Authentication**: Firebase Auth (disabled for web testing, optional login for dev)
 - **Video Player**: video_player 2.8.1 + chewie 1.7.4
 - **WebView**: webview_flutter 4.4.2 (for oEmbed)
 - **Serialization**: freezed 2.4.5 + json_serializable 6.7.1
 - **Local Storage**: Hive 2.2.3 + SharedPreferences 2.2.2
+
+## 🎨 Design System Reference
+
+All design tokens are centralized in `/lib/core/theme/app_theme.dart`:
+
+### Color Palette
+```dart
+// Primary Colors
+primaryColor: #1F2937   // Charcoal Black - primary actions
+primaryDark: #111827    // Darker charcoal
+
+// Accent Colors
+accentColor: #B8956A    // Muted Gold - sophisticated accent
+accentLight: #1AB8956A  // 10% opacity gold
+
+// Surface Colors
+surfaceColor: #F9FAFB   // Light gray backgrounds
+borderLight: #E5E7EB    // Subtle borders
+dividerColor: #F3F4F6   // Dividers
+
+// Text Colors
+textPrimary: #000000    // Black
+textSecondary: #6B7280  // Gray 500
+textTertiary: #9CA3AF   // Gray 400
+
+// Semantic Colors
+errorColor: #DC2626     // Red 600
+successColor: #059669   // Green 600
+```
+
+### Typography (Inter Font)
+```dart
+displayLarge:   64px, w200, letterSpacing: 14    // Ultra-light hero text
+headlineLarge:  34px, w300, letterSpacing: -1.2  // Section headers
+headlineMedium: 28px, w300, letterSpacing: -0.5  // Card titles
+headlineSmall:  24px, w400                       // Subsections
+bodyLarge:      16px, w400                       // Body text
+bodyMedium:     15px, w300                       // Light body
+bodySmall:      13px, w400                       // Captions
+```
+
+### Border Radius & Spacing
+- Cards: `12px` radius
+- Buttons: `12px` radius
+- Chips: `20px` radius
+- Standard padding: `24px` horizontal
+- Card spacing: `16px` between elements
+
+### Design Principles
+1. **Minimalism** - Clean layouts, generous whitespace
+2. **Light Typography** - Prefer w200-w400 weights for elegance
+3. **Subtle Accents** - Use muted gold sparingly for emphasis
+4. **Consistency** - Apply theme colors throughout
+5. **Haptic Feedback** - Add to all interactive elements
 
 ## Prerequisites
 
@@ -194,8 +257,9 @@ lib/
 ├── core/
 │   ├── api/                # API client configuration
 │   ├── feature_flags.dart  # [NEW] Feature toggles
-│   ├── router/             # App navigation (extended with new routes)
-│   ├── theme/              # App theme & styling
+│   ├── router/             # App navigation (starts at /login)
+│   ├── theme/              # [UPDATED] Design system (charcoal/gold palette)
+│   │   └── app_theme.dart  # Charcoal #1F2937, Muted Gold #B8956A, Inter font
 │   └── widgets/            # [NEW] Shared UI components
 │       ├── pro_profile_card.dart
 │       ├── booking_request_sheet.dart
@@ -232,17 +296,20 @@ lib/
 │   ├── summary/ai_review_summarizer.dart
 │   └── insights/trend_radar.dart
 └── features/
-    ├── auth/               # Authentication screens
-    ├── home/               # Home screen with tabs
-    ├── salons/             # Salon discovery & details
-    ├── stylists/           # Stylist profiles
+    ├── auth/               # [UPDATED] Login (email/phone, optional fields)
+    ├── home/               # [UPDATED] 4-tab bottom nav (Feed removed)
+    │   └── widgets/
+    │       ├── discover_tab.dart    # [REDESIGNED] Dynamic greeting, AI insights
+    │       └── profile_tab.dart     # [REDESIGNED] Stats, removed Quick Access
+    ├── salons/             # [UPDATED] Salon discovery & enhanced details
+    ├── stylists/           # [UPDATED] Stylist profiles with new design
     ├── bookings/           # Booking flow
     ├── ai_preview/         # AI style preview
-    ├── feed/               # Social feed & reels
-    ├── explore/            # [NEW] Discovery with filters
+    ├── feed/               # Social feed & reels (removed from nav)
+    ├── explore/            # [UPDATED] Discovery with elegant filters
     ├── pros/               # [NEW] Professional profiles
     ├── upload/             # [NEW] Content upload
-    ├── collections/        # [NEW] Saved collections
+    ├── collections/        # [UPDATED] Refined grid with themed cards
     └── visual_search/      # [NEW] Phase 2 interface stub
 
 assets/mock/                # [NEW] Mock data JSON files
@@ -255,12 +322,12 @@ assets/mock/                # [NEW] Mock data JSON files
 
 ## 📱 Key Screens & Routes
 
-### Core Navigation
-- **`/`** - Home screen with tabs (Discover, Feed, Profile)
-- **`/login`** - Authentication screen
-- **`/explore`** - [NEW] Discovery page with filters
-- **`/upload`** - [NEW] Content upload with AI assistance
-- **`/collections`** - [NEW] Saved collections manager
+### Core Navigation (Updated October 15)
+- **`/login`** - **Entry point** - Email or phone login (optional fields for dev)
+- **`/`** - Home screen with 4 tabs: Salons (Discover), Pros (Explore), Saved (Collections), Profile
+- **`/explore`** - Discovery page with advanced filters (city, service, rating)
+- **`/upload`** - Content upload with AI assistance (FAB button)
+- **`/collections`** - Saved collections manager
 
 ### Professionals & Salons
 - **`/pros/:id`** - [NEW] Full professional profile page

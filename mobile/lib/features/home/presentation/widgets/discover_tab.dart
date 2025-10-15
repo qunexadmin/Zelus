@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,16 +21,32 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
     super.dispose();
   }
 
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
+  }
+
+  Future<void> _onRefresh() async {
+    HapticFeedback.mediumImpact();
+    // TODO: Implement actual data refresh
+    await Future.delayed(const Duration(milliseconds: 800));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Clean Minimal Header
+        child: RefreshIndicator(
+          onRefresh: _onRefresh,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              // Clean Minimal Header - Matching Login Page Typography
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
                 child: Row(
@@ -40,11 +57,11 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Good Morning',
-                            style: TextStyle(
+                            _getGreeting(),
+                            style: const TextStyle(
                               fontSize: 15,
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w400,
+                              color: AppTheme.textSecondary,
+                              fontWeight: FontWeight.w300, // Light weight
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -52,7 +69,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                             'Sarah',
                             style: TextStyle(
                               fontSize: 34,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w300, // Light weight like login
                               color: Colors.black,
                               letterSpacing: -1.2,
                             ),
@@ -64,8 +81,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                     Container(
                       width: 44,
                       height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
+                      decoration: const BoxDecoration(
+                        color: AppTheme.primaryColor,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.person, color: Colors.white, size: 24),
@@ -74,26 +91,31 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 ),
               ),
 
-              // Minimal Search Bar
+              // Minimal Search Bar - Matching Login Page Style
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                    color: AppTheme.surfaceColor,
                     borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: AppTheme.borderLight),
                   ),
                   child: TextField(
                     controller: _searchController,
-                    decoration: InputDecoration(
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    decoration: const InputDecoration(
                       hintText: 'Search salons, styles, professionals...',
                       hintStyle: TextStyle(
-                        color: Colors.grey[500],
+                        color: AppTheme.textTertiary,
                         fontSize: 15,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w300,
                       ),
-                      prefixIcon: Icon(Icons.search, color: Colors.grey[600], size: 22),
+                      prefixIcon: Icon(Icons.search, color: AppTheme.textSecondary, size: 22),
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(
+                      contentPadding: EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 14,
                       ),
@@ -104,13 +126,13 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 
               const SizedBox(height: 32),
 
-              // AI Insight Card - Minimal Design
+              // AI Insight Card - Matching Login Page Style
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: AppTheme.primaryColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(
@@ -136,7 +158,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
@@ -148,7 +170,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                           color: Colors.white,
                           fontSize: 15,
                           height: 1.5,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w300, // Light weight
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -158,7 +180,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
+                            foregroundColor: AppTheme.primaryColor,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
@@ -169,7 +191,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                             'Explore Styles',
                             style: TextStyle(
                               fontSize: 15,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.5,
                             ),
                           ),
                         ),
@@ -181,7 +204,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 
               const SizedBox(height: 40),
 
-              // Section Header
+              // Section Header - Light Typography
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
@@ -191,7 +214,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                       'Recent Visits',
                       style: TextStyle(
                         fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w300, // Light weight
                         color: Colors.black,
                         letterSpacing: -0.5,
                       ),
@@ -199,7 +222,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                     TextButton(
                       onPressed: () {},
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.black,
+                        foregroundColor: AppTheme.primaryColor,
                         padding: EdgeInsets.zero,
                       ),
                       child: const Text(
@@ -250,7 +273,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                       'Quick Actions',
                       style: TextStyle(
                         fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w300, // Light weight
                         color: Colors.black,
                         letterSpacing: -0.5,
                       ),
@@ -287,7 +310,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                       'Trending This Week',
                       style: TextStyle(
                         fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w300, // Light weight
                         color: Colors.black,
                         letterSpacing: -0.5,
                       ),
@@ -295,7 +318,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                     TextButton(
                       onPressed: () {},
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.black,
+                        foregroundColor: AppTheme.primaryColor,
                         padding: EdgeInsets.zero,
                       ),
                       child: const Text(
@@ -345,9 +368,9 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
       margin: const EdgeInsets.only(left: 4, right: 12),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.grey[50],
+        color: AppTheme.surfaceColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!, width: 1),
+        border: Border.all(color: AppTheme.borderLight, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -359,7 +382,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: AppTheme.primaryColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(Icons.store, color: Colors.white, size: 18),
@@ -369,7 +392,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 name,
                 style: const TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
                 maxLines: 1,
@@ -378,10 +401,10 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
               const SizedBox(height: 6),
               Text(
                 service,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.w400,
+                  color: AppTheme.textSecondary,
+                  fontWeight: FontWeight.w300,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -389,9 +412,10 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
               const SizedBox(height: 4),
               Text(
                 date,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13,
-                  color: Colors.grey[500],
+                  color: AppTheme.textTertiary,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             ],
@@ -401,8 +425,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
             child: OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.black,
-                side: const BorderSide(color: Colors.black, width: 1.5),
+                foregroundColor: AppTheme.primaryColor,
+                side: const BorderSide(color: AppTheme.primaryColor, width: 1),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -412,7 +436,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 'Book Again',
                 style: TextStyle(
                   fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -424,21 +448,23 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 
   Widget _buildQuickAction(String title, IconData icon) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        HapticFeedback.lightImpact();
+      },
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.grey[50],
+          color: AppTheme.surfaceColor,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey[200]!, width: 1),
+          border: Border.all(color: AppTheme.borderLight, width: 1),
         ),
         child: Column(
           children: [
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: AppTheme.primaryColor,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: Colors.white, size: 26),
@@ -447,7 +473,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
             Text(
               title,
               style: const TextStyle(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 fontSize: 15,
                 color: Colors.black,
               ),
@@ -464,29 +490,29 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
   Widget _buildTrendingCard(String title, String saves) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[50],
+        color: AppTheme.surfaceColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!, width: 1),
+        border: Border.all(color: AppTheme.borderLight, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                color: AppTheme.surfaceColor,
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
                 ),
               ),
               child: Stack(
                 children: [
-                  Center(
+                  const Center(
                     child: Icon(
                       Icons.style,
                       size: 48,
-                      color: Colors.grey[400],
+                      color: AppTheme.textTertiary,
                     ),
                   ),
                   Positioned(
@@ -517,7 +543,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 Text(
                   title,
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                     fontSize: 16,
                     color: Colors.black,
                   ),
@@ -525,14 +551,14 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    const Icon(Icons.favorite_border, size: 15, color: Colors.black),
+                    const Icon(Icons.favorite_border, size: 15, color: AppTheme.primaryColor),
                     const SizedBox(width: 6),
                     Text(
                       '$saves saves',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 13,
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w500,
+                        color: AppTheme.textSecondary,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],

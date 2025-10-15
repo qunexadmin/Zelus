@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,81 +19,181 @@ class SalonDetailScreen extends ConsumerWidget {
     // final salon = ref.watch(salonProvider(salonId));
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           // App bar with image
           SliverAppBar(
             expandedHeight: 250,
             pinned: true,
+            backgroundColor: AppTheme.primaryColor,
+            foregroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text('Elite Salon'),
+              title: const Text(
+                'Elite Salon',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               background: Container(
-                color: Colors.grey[300],
+                color: AppTheme.primaryColor,
                 child: const Center(
-                  child: Icon(Icons.store, size: 80, color: Colors.grey),
+                  child: Icon(Icons.store, size: 80, color: Colors.white),
                 ),
               ),
             ),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                HapticFeedback.lightImpact();
+                context.pop();
+              },
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: () {
+                  HapticFeedback.lightImpact();
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.bookmark_border),
+                onPressed: () {
+                  HapticFeedback.mediumImpact();
+                },
+              ),
+            ],
           ),
 
           // Salon info
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Rating
                   Row(
                     children: [
                       const Icon(Icons.star, color: AppTheme.accentColor, size: 24),
-                      const SizedBox(width: 4),
-                      Text(
+                      const SizedBox(width: 6),
+                      const Text(
                         '4.8',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '(234 reviews)',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  Row(
-                    children: [
-                      const Icon(Icons.location_on, color: AppTheme.textSecondary),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          '123 Main St, Downtown',
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  
-                  Row(
-                    children: [
-                      const Icon(Icons.access_time, color: AppTheme.textSecondary),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Open: 9:00 AM - 8:00 PM',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      const SizedBox(width: 12),
+                      const Text(
+                        '(234 reviews)',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300,
+                          color: AppTheme.textSecondary,
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 24),
                   
-                  Text(
-                    'About',
-                    style: Theme.of(context).textTheme.headlineSmall,
+                  // Location
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppTheme.surfaceColor,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.borderLight),
+                    ),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.location_on, color: AppTheme.primaryColor, size: 20),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            '123 Main St, Downtown',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
+                  const SizedBox(height: 12),
+                  
+                  // Hours
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppTheme.surfaceColor,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.borderLight),
+                    ),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.access_time, color: AppTheme.primaryColor, size: 20),
+                        SizedBox(width: 12),
+                        Text(
+                          'Open: 9:00 AM - 8:00 PM',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  
+                  // About
+                  const Text(
+                    'About',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
                     'Premier beauty salon offering cutting-edge hair styling, coloring, and beauty treatments. Our expert stylists are dedicated to helping you look and feel your best.',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
+                      color: AppTheme.textSecondary,
+                      height: 1.6,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  
+                  // Book Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        elevation: 0,
+                      ),
+                      child: const Text(
+                        'Book Appointment',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -102,16 +203,20 @@ class SalonDetailScreen extends ConsumerWidget {
           // Services section
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+              child: const Text(
                 'Popular Services',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
 
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) => _buildServiceCard(
@@ -129,16 +234,20 @@ class SalonDetailScreen extends ConsumerWidget {
           // Stylists section
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
+              padding: const EdgeInsets.fromLTRB(24, 32, 24, 16),
+              child: const Text(
                 'Our Stylists',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
 
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) => _buildStylistCard(
@@ -153,7 +262,7 @@ class SalonDetailScreen extends ConsumerWidget {
             ),
           ),
 
-          const SliverToBoxAdapter(child: SizedBox(height: 16)),
+          const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
       ),
     );
@@ -166,62 +275,72 @@ class SalonDetailScreen extends ConsumerWidget {
     int duration,
     double price,
   ) {
-    return Card(
+    return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(
-                Icons.content_cut,
-                color: AppTheme.primaryColor,
-              ),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.surfaceColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderLight),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor,
+              borderRadius: BorderRadius.circular(12),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '$duration min',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
+            child: const Icon(
+              Icons.content_cut,
+              color: Colors.white,
+              size: 28,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\$${price.toStringAsFixed(0)}',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.primaryColor,
+                  name,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '$duration min',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w300,
+                    color: AppTheme.textTertiary,
                   ),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Text(
+            '\$${price.toStringAsFixed(0)}',
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              color: AppTheme.primaryColor,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -233,24 +352,80 @@ class SalonDetailScreen extends ConsumerWidget {
     double rating,
     String id,
   ) {
-    return Card(
+    return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: AppTheme.primaryColor.withOpacity(0.1),
-          child: const Icon(Icons.person, color: AppTheme.primaryColor),
+      decoration: BoxDecoration(
+        color: AppTheme.surfaceColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderLight),
+      ),
+      child: InkWell(
+        onTap: () {
+          HapticFeedback.lightImpact();
+          context.push('/stylist/$id');
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: const BoxDecoration(
+                  color: AppTheme.primaryColor,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.person, color: Colors.white, size: 28),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.star, color: AppTheme.accentColor, size: 18),
+                  const SizedBox(width: 4),
+                  Text(
+                    rating.toStringAsFixed(1),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 8),
+              const Icon(
+                Icons.chevron_right,
+                color: AppTheme.textTertiary,
+              ),
+            ],
+          ),
         ),
-        title: Text(name),
-        subtitle: Text(title),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.star, color: AppTheme.accentColor, size: 16),
-            const SizedBox(width: 4),
-            Text(rating.toStringAsFixed(1)),
-          ],
-        ),
-        onTap: () => context.push('/stylist/$id'),
       ),
     );
   }

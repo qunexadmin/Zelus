@@ -2,7 +2,7 @@
 
 **A modern beauty discovery & booking platform with AI-powered features and social content**
 
-**Version:** v1.1.0 - Phase 1 MVP Complete! 🎉
+**Version:** v1.2.0 - Design System Overhaul Complete! 🎉
 
 ---
 
@@ -26,13 +26,15 @@ flutter pub get
 flutter run -d chrome  # or android/ios
 ```
 
-**Login:** `demo@zelux.com` / `any password`
+**Login:** Enter any email/phone (fields are optional for development)
 
-### What you'll see
-- Feed tab with For You / Trending / Following
-- Reels (tap play icon in Feed app bar)
-- Like/Comment prompts login
-- “Become a Stylist” → onboarding form
+### What you'll see (October 15 Update)
+- **Elegant Login Page** - Sophisticated charcoal & muted gold design
+- **4-Tab Navigation** - Salons, Pros, Saved, Profile (Feed removed from nav)
+- **Discover Tab** - Dynamic greeting, AI insights, trending styles
+- **Profile Tab** - Stats section with refined menu
+- **Haptic Feedback** - Enhanced touch interactions
+- **Pull-to-Refresh** - On all major screens
 
 ---
 
@@ -74,11 +76,12 @@ Feed endpoints:
 
 ## 🎯 Key Features
 
-- 🔍 Salon & Stylist Discovery
-- 📅 Complete Booking System
-- 👤 User Authentication (Mock)
-- ⭐ Reviews & Ratings
-- 📱 Beautiful Material Design 3 UI
+- 🎨 **Sophisticated Design System** - Charcoal & muted gold palette with light typography
+- 🔍 **Salon & Stylist Discovery** - Advanced filters and elegant UI
+- 📅 **Complete Booking System** - External booking links to salons
+- 👤 **User Authentication** - Mock (email/phone optional for dev)
+- ⭐ **Reviews & Ratings** - AI-powered summaries
+- 📱 **Beautiful Material Design 3 UI** - Consistent, minimalist, luxurious
 
 ---
 
@@ -98,14 +101,15 @@ Feed endpoints:
 
 ---
 
-## 🧪 Test the Flow
+## 🧪 Test the Flow (Updated October 15)
 
 1. Run mobile app: `flutter run -d chrome`
-2. Login: `demo@zelux.com`
-3. Browse salons → Select "Elite Hair Studio"
-4. Choose stylist → "Jane Smith"
-5. Book appointment → Complete flow
-6. View booking in "My Bookings"
+2. **Login page** - Enter any email/phone (or leave blank) → Tap "Sign In"
+3. **Discover Tab** - See dynamic greeting, AI insights, recent visits
+4. **Bottom Nav** - Switch between Salons, Pros, Saved, Profile
+5. **Explore Tab** - Apply filters (city, service, rating)
+6. **Salon Detail** - View services, stylists → "Book Appointment"
+7. **Profile Tab** - View stats, access account settings
 
 ---
 
@@ -113,7 +117,7 @@ Feed endpoints:
 
 **Repository:** https://github.com/qunexadmin/Zelus  
 **Issues:** GitHub Issues  
-**Last Updated:** October 12, 2025
+**Last Updated:** October 15, 2025
 
 ---
 

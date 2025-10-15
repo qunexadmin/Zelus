@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../data/services/profile_service.dart';
 import '../../../../data/services/salon_service.dart';
 import '../../../../core/widgets/pro_profile_card.dart';
-// Removed in-app booking; booking is external link on profiles/salons
+import '../../../../core/theme/app_theme.dart';
 
 /// Explore Screen
 /// Discovery page with filters and search
@@ -28,26 +29,51 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Explore'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Custom Header - Matching Design System
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Explore',
+                      style: TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black,
+                        letterSpacing: -1.2,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppTheme.surfaceColor,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.borderLight),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.search, color: AppTheme.primaryColor),
             onPressed: () {
+                        HapticFeedback.lightImpact();
               // TODO: Implement search
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Search coming soon!')),
               );
             },
+                    ),
           ),
         ],
       ),
-      body: Column(
-        children: [
+            ),
+            
           // Filters
           _buildFilters(),
           
-          const Divider(height: 1),
+            const Divider(height: 1, color: AppTheme.borderLight),
           
           // Content Tabs
           Expanded(
@@ -55,8 +81,21 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
               length: 2,
               child: Column(
                 children: [
-                  const TabBar(
-                    tabs: [
+                    TabBar(
+                      indicatorColor: AppTheme.primaryColor,
+                      indicatorWeight: 2,
+                      labelColor: AppTheme.primaryColor,
+                      unselectedLabelColor: AppTheme.textTertiary,
+                      labelStyle: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      unselectedLabelStyle: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300,
+                      ),
+                      onTap: (_) => HapticFeedback.selectionClick(),
+                      tabs: const [
                       Tab(text: 'Professionals'),
                       Tab(text: 'Salons'),
                     ],
@@ -74,20 +113,23 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
             ),
           ),
         ],
+        ),
       ),
     );
   }
 
   Widget _buildFilters() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Filters',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
                 ),
           ),
           const SizedBox(height: 12),
@@ -124,8 +166,19 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                 // Clear filters
                 if (_selectedCity != null || _selectedService != null || _minRating != null)
                   TextButton(
-                    onPressed: _clearFilters,
-                    child: const Text('Clear All'),
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      _clearFilters();
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppTheme.primaryColor,
+                    ),
+                    child: const Text(
+                      'Clear All',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
               ],
             ),
@@ -141,12 +194,23 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     required VoidCallback onTap,
   }) {
     return ActionChip(
-      label: Text(label),
-      onPressed: onTap,
-      backgroundColor: selected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
-      side: BorderSide(
-        color: selected ? Theme.of(context).primaryColor : Colors.grey[300]!,
+      label: Text(
+        label,
+        style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w400,
+          color: selected ? AppTheme.primaryColor : AppTheme.textSecondary,
+        ),
       ),
+      onPressed: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
+      backgroundColor: selected ? AppTheme.accentLight : AppTheme.surfaceColor,
+      side: BorderSide(
+        color: selected ? AppTheme.primaryColor : AppTheme.borderLight,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     );
   }
 
@@ -177,13 +241,33 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
         }
 
         if (filteredProfiles.isEmpty) {
-          return const Center(
-            child: Text('No professionals found'),
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(Icons.person_search_outlined, size: 64, color: AppTheme.textTertiary),
+                SizedBox(height: 16),
+                Text(
+                  'No professionals found',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+              ],
+            ),
           );
         }
 
-                        return ListView.builder(
-          padding: const EdgeInsets.all(16),
+                        return RefreshIndicator(
+          onRefresh: () async {
+            HapticFeedback.mediumImpact();
+            await Future.delayed(const Duration(milliseconds: 800));
+            ref.invalidate(profilesProvider);
+          },
+          child: ListView.builder(
+            padding: const EdgeInsets.all(24),
           itemCount: filteredProfiles.length,
           itemBuilder: (context, index) {
             final profile = filteredProfiles[index];
@@ -191,8 +275,12 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
               padding: const EdgeInsets.only(bottom: 16),
               child: ProProfileCard(
                 profile: profile,
-                onTap: () => context.push('/pros/${profile.id}'),
+                  onTap: () {
+                    HapticFeedback.lightImpact();
+                    context.push('/pros/${profile.id}');
+                  },
                                 onBookNow: () async {
+                    HapticFeedback.mediumImpact();
                                   final urlStr = profile.bookingUrl;
                                   if (urlStr == null || urlStr.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -212,11 +300,36 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
               ),
             );
           },
+          ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(
+        child: CircularProgressIndicator(color: AppTheme.primaryColor),
+      ),
       error: (error, stack) => Center(
-        child: Text('Error: $error'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: AppTheme.errorColor),
+            const SizedBox(height: 16),
+            const Text(
+              'Failed to load',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error.toString(),
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppTheme.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -248,91 +361,325 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
         }
 
         if (filteredSalons.isEmpty) {
-          return const Center(
-            child: Text('No salons found'),
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(Icons.store_outlined, size: 64, color: AppTheme.textTertiary),
+                SizedBox(height: 16),
+                Text(
+                  'No salons found',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+              ],
+            ),
           );
         }
 
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
+        return RefreshIndicator(
+          onRefresh: () async {
+            HapticFeedback.mediumImpact();
+            await Future.delayed(const Duration(milliseconds: 800));
+            ref.invalidate(salonsProvider);
+          },
+          child: ListView.builder(
+            padding: const EdgeInsets.all(24),
           itemCount: filteredSalons.length,
           itemBuilder: (context, index) {
             final salon = filteredSalons[index];
-            return Card(
+              return Container(
               margin: const EdgeInsets.only(bottom: 16),
-              child: ListTile(
-                leading: salon.photos.isNotEmpty
-                    ? Image.network(salon.photos.first, width: 60, height: 60, fit: BoxFit.cover)
-                    : const Icon(Icons.store, size: 60),
-                title: Text(salon.name),
-                subtitle: Text('${salon.city}, ${salon.state}\n${salon.rating} ⭐ (${salon.reviewCount} reviews)'),
-                isThreeLine: true,
-                onTap: () => context.push('/salon/${salon.id}'),
+                decoration: BoxDecoration(
+                  color: AppTheme.surfaceColor,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppTheme.borderLight),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    HapticFeedback.lightImpact();
+                    context.push('/salon/${salon.id}');
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        // Salon Image/Icon
+                        Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryColor,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: salon.photos.isNotEmpty
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    salon.photos.first,
+                                    width: 70,
+                                    height: 70,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : const Icon(Icons.store, size: 36, color: Colors.white),
+                        ),
+                        const SizedBox(width: 16),
+                        // Salon Info
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                salon.name,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${salon.city}, ${salon.state}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppTheme.textSecondary,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  const Icon(Icons.star, size: 16, color: AppTheme.accentColor),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${salon.rating}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '(${salon.reviewCount} reviews)',
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w300,
+                                      color: AppTheme.textTertiary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(
+                          Icons.chevron_right,
+                          color: AppTheme.textTertiary,
+                        ),
+                      ],
+                    ),
+                  ),
               ),
             );
           },
+          ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(
+        child: CircularProgressIndicator(color: AppTheme.primaryColor),
+      ),
       error: (error, stack) => Center(
-        child: Text('Error: $error'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: AppTheme.errorColor),
+            const SizedBox(height: 16),
+            const Text(
+              'Failed to load',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error.toString(),
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppTheme.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   void _showCityPicker() {
+    HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      builder: (context) => ListView(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Text(
+                'Select City',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Divider(),
+            Flexible(
+              child: ListView(
         shrinkWrap: true,
         children: _cities.map((city) {
+                  final isSelected = _selectedCity == city;
           return ListTile(
-            title: Text(city),
-            selected: _selectedCity == city,
+                    title: Text(
+                      city,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: isSelected ? FontWeight.w500 : FontWeight.w300,
+                        color: isSelected ? AppTheme.primaryColor : Colors.black,
+                      ),
+                    ),
+                    selected: isSelected,
+                    selectedTileColor: AppTheme.accentLight,
             onTap: () {
+                      HapticFeedback.selectionClick();
               setState(() => _selectedCity = city);
               Navigator.pop(context);
             },
           );
         }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   void _showServicePicker() {
+    HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      builder: (context) => ListView(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Text(
+                'Select Service',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Divider(),
+            Flexible(
+              child: ListView(
         shrinkWrap: true,
         children: _services.map((service) {
+                  final isSelected = _selectedService == service;
           return ListTile(
-            title: Text(service),
-            selected: _selectedService == service,
+                    title: Text(
+                      service,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: isSelected ? FontWeight.w500 : FontWeight.w300,
+                        color: isSelected ? AppTheme.primaryColor : Colors.black,
+                      ),
+                    ),
+                    selected: isSelected,
+                    selectedTileColor: AppTheme.accentLight,
             onTap: () {
+                      HapticFeedback.selectionClick();
               setState(() => _selectedService = service);
               Navigator.pop(context);
             },
           );
         }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   void _showRatingPicker() {
+    HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      builder: (context) => ListView(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Text(
+                'Minimum Rating',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Divider(),
+            Flexible(
+              child: ListView(
         shrinkWrap: true,
         children: [4.5, 4.0, 3.5, 3.0].map((rating) {
+                  final isSelected = _minRating == rating;
           return ListTile(
-            title: Text('$rating+ Stars'),
-            selected: _minRating == rating,
+                    title: Text(
+                      '$rating+ Stars',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: isSelected ? FontWeight.w500 : FontWeight.w300,
+                        color: isSelected ? AppTheme.primaryColor : Colors.black,
+                      ),
+                    ),
+                    selected: isSelected,
+                    selectedTileColor: AppTheme.accentLight,
             onTap: () {
+                      HapticFeedback.selectionClick();
               setState(() => _minRating = rating);
               Navigator.pop(context);
             },
           );
         }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

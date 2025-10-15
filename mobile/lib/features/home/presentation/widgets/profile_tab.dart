@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,220 +14,241 @@ class ProfileTab extends ConsumerWidget {
     // final user = ref.watch(currentUserProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          // Profile header
-          Center(
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: AppTheme.primaryColor.withOpacity(0.1),
-                  child: const Icon(
-                    Icons.person,
-                    size: 50,
-                    color: AppTheme.primaryColor,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Demo User',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'demo@zelux.com',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-          ),
-          
-          const SizedBox(height: 32),
-          
-          // NEW: Quick Access Section
-          Text(
-            'Quick Access',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          
-          Row(
-            children: [
-              Expanded(
-                child: _buildQuickAccessCard(
-                  context,
-                  'Trending',
-                  Icons.trending_up,
-                  Colors.orange,
-                  () => context.push('/trending'),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildQuickAccessCard(
-                  context,
-                  'Upload',
-                  Icons.add_photo_alternate,
-                  Colors.blue,
-                  () => context.push('/upload'),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _buildQuickAccessCard(
-                  context,
-                  'Reels',
-                  Icons.play_circle_filled,
-                  Colors.purple,
-                  () => context.push('/reels'),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildQuickAccessCard(
-                  context,
-                  'AI Preview',
-                  Icons.auto_awesome,
-                  Colors.green,
-                  () => context.push('/ai-preview'),
-                ),
-              ),
-            ],
-          ),
-          
-          const SizedBox(height: 32),
-          
-          Text(
-            'Account',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          
-          // Menu items
-          _buildMenuItem(
-            context,
-            'Edit Profile',
-            Icons.edit_outlined,
-            () {
-              // TODO: Navigate to edit profile
-            },
-          ),
-          _buildMenuItem(
-            context,
-            'Payment Methods',
-            Icons.payment_outlined,
-            () {
-              // TODO: Navigate to payment methods
-            },
-          ),
-          _buildMenuItem(
-            context,
-            'Notifications',
-            Icons.notifications_outlined,
-            () {
-              // TODO: Navigate to notifications settings
-            },
-          ),
-          _buildMenuItem(
-            context,
-            'Help & Support',
-            Icons.help_outline,
-            () {
-              // TODO: Navigate to help
-            },
-          ),
-          _buildMenuItem(
-            context,
-            'Settings',
-            Icons.settings_outlined,
-            () {
-              // TODO: Navigate to settings
-            },
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Logout button
-          OutlinedButton.icon(
-            onPressed: () {
-              // TODO: Implement logout
-              context.go('/login');
-            },
-            icon: const Icon(Icons.logout),
-            label: const Text('Logout'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AppTheme.errorColor,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMenuItem(
-    BuildContext context,
-    String title,
-    IconData icon,
-    VoidCallback onTap,
-  ) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: Icon(icon, color: AppTheme.primaryColor),
-        title: Text(title),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: onTap,
-      ),
-    );
-  }
-
-  Widget _buildQuickAccessCard(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color color,
-    VoidCallback onTap,
-  ) {
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: color, size: 28),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+              // Custom Header - Matching Login Page Style
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+                child: Column(
+                  children: [
+                    // Profile Avatar
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.primaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 20,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        size: 50,
+                        color: Colors.white,
+                      ),
                     ),
-                textAlign: TextAlign.center,
+                    const SizedBox(height: 20),
+                    // Name - Light Typography
+                    const Text(
+                      'Sarah Anderson',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'sarah@zelus.com',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300,
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Stats Section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildStatItem('42', 'Visits'),
+                        Container(
+                          width: 1,
+                          height: 40,
+                          color: AppTheme.borderLight,
+                        ),
+                        _buildStatItem('18', 'Favorites'),
+                        Container(
+                          width: 1,
+                          height: 40,
+                          color: AppTheme.borderLight,
+                        ),
+                        _buildStatItem('156', 'Points'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
+              
+              const SizedBox(height: 40),
+              
+              // Account Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Account',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    // Menu items - Cleaner Design
+                    _buildMenuItem(
+                      context,
+                      'Edit Profile',
+                      Icons.person_outline,
+                      () {
+                        HapticFeedback.lightImpact();
+                        // TODO: Navigate to edit profile
+                      },
+                    ),
+                    _buildMenuItem(
+                      context,
+                      'Payment Methods',
+                      Icons.credit_card_outlined,
+                      () {
+                        HapticFeedback.lightImpact();
+                        // TODO: Navigate to payment methods
+                      },
+                    ),
+                    _buildMenuItem(
+                      context,
+                      'Notifications',
+                      Icons.notifications_outlined,
+                      () {
+                        HapticFeedback.lightImpact();
+                        // TODO: Navigate to notifications settings
+                      },
+                    ),
+                    _buildMenuItem(
+                      context,
+                      'Help & Support',
+                      Icons.help_outline,
+                      () {
+                        HapticFeedback.lightImpact();
+                        // TODO: Navigate to help
+                      },
+                    ),
+                    _buildMenuItem(
+                      context,
+                      'Settings',
+                      Icons.settings_outlined,
+                      () {
+                        HapticFeedback.lightImpact();
+                        // TODO: Navigate to settings
+                      },
+                    ),
+                    
+                    const SizedBox(height: 24),
+                    
+                    // Logout button
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          HapticFeedback.mediumImpact();
+                          context.go('/login');
+                        },
+                        icon: const Icon(Icons.logout),
+                        label: const Text('Logout'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppTheme.errorColor,
+                          side: const BorderSide(color: AppTheme.errorColor, width: 1),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              const SizedBox(height: 100),
             ],
           ),
+        ),
+      ),
+    );
+  }
+  
+  static Widget _buildStatItem(String value, String label) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w300,
+            color: AppTheme.textSecondary,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ],
+    );
+  }
+
+  static Widget _buildMenuItem(
+    BuildContext context,
+    String title,
+    IconData icon,
+    VoidCallback onTap,
+  ) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        margin: const EdgeInsets.only(bottom: 8),
+        decoration: BoxDecoration(
+          color: AppTheme.surfaceColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppTheme.borderLight),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppTheme.primaryColor, size: 22),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            const Icon(
+              Icons.chevron_right,
+              color: AppTheme.textTertiary,
+              size: 20,
+            ),
+          ],
         ),
       ),
     );
