@@ -89,7 +89,7 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: ColorScheme.light(
         primary: primaryColor,
-        secondary: secondaryColor,
+        secondary: accentColor,
         error: errorColor,
         background: backgroundColor,
         surface: surfaceColor,
