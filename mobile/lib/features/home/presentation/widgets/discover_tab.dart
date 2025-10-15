@@ -13,7 +13,6 @@ class DiscoverTab extends ConsumerStatefulWidget {
 
 class _DiscoverTabState extends ConsumerState<DiscoverTab> {
   final _searchController = TextEditingController();
-  String _selectedCategory = '';
 
   @override
   void dispose() {
@@ -24,237 +23,397 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
-      // Remove default padding to start gradient from very top
-      body: Column(
-        children: [
-          // Fixed Gradient Header - Always at top
-          Container(
-            decoration: const BoxDecoration(
-              gradient: AppTheme.primaryGradient,
-            ),
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 20, 24, 50),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Clean Minimal Header
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Welcome badge
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.25),
-                            borderRadius: BorderRadius.circular(16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Good Morning',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.auto_awesome,
-                            color: Colors.white,
-                            size: 24,
+                          const SizedBox(height: 4),
+                          const Text(
+                            'Sarah',
+                            style: TextStyle(
+                              fontSize: 34,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              letterSpacing: -1.2,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Welcome Back',
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              const Text(
-                                'Let\'s find your style',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    // Main title - FULLY VISIBLE
-                    const Text(
-                      'Discover',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 42,
-                        letterSpacing: -1.5,
-                        height: 1.1,
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Find your perfect beauty professional',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.95),
-                        fontSize: 16,
+                    // Minimal Profile Icon
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.person, color: Colors.white, size: 24),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Minimal Search Bar
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search salons, styles, professionals...',
+                      hintStyle: TextStyle(
+                        color: Colors.grey[500],
+                        fontSize: 15,
                         fontWeight: FontWeight.w400,
+                      ),
+                      prefixIcon: Icon(Icons.search, color: Colors.grey[600], size: 22),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              // AI Insight Card - Minimal Design
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.auto_awesome,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          const Text(
+                            'AI Recommendation',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Based on your style history, we recommend trying a balayage with warm tones for your next visit.',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          height: 1.5,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Explore Styles',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              // Section Header
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Recent Visits',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: const Text(
+                        'See All',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
+
+              const SizedBox(height: 16),
+
+              // Recent Visits - Clean Cards
+              SizedBox(
+                height: 160,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    final visits = [
+                      {'name': 'Elite Hair Studio', 'service': 'Haircut & Style', 'date': '2 days ago'},
+                      {'name': 'Color Studio NYC', 'service': 'Balayage Color', 'date': '2 weeks ago'},
+                      {'name': 'Downtown Barbers', 'service': 'Beard Trim', 'date': '1 month ago'},
+                    ];
+                    return _buildRecentVisit(
+                      visits[index]['name']!,
+                      visits[index]['service']!,
+                      visits[index]['date']!,
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              // Quick Actions
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Quick Actions',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(child: _buildQuickAction('Book Again', Icons.calendar_today)),
+                        const SizedBox(width: 12),
+                        Expanded(child: _buildQuickAction('AI Try-On', Icons.face_retouching_natural)),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(child: _buildQuickAction('Find Nearby', Icons.near_me)),
+                        const SizedBox(width: 12),
+                        Expanded(child: _buildQuickAction('Trending', Icons.trending_up)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              // Trending Styles
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Trending This Week',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: const Text(
+                        'View All',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Trending Grid
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.9,
+                  children: [
+                    _buildTrendingCard('Summer Waves', '2.3k'),
+                    _buildTrendingCard('Bold Highlights', '1.8k'),
+                    _buildTrendingCard('Sleek Bob', '1.5k'),
+                    _buildTrendingCard('Natural Curls', '1.2k'),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 100),
+            ],
           ),
+        ),
+      ),
+    );
+  }
 
-          // Scrollable content
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Floating Search Bar
-                  Transform.translate(
-                    offset: const Offset(0, 0),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF9C27B0).withOpacity(0.25),
-                              blurRadius: 25,
-                              offset: const Offset(0, 12),
-                            ),
-                          ],
-                        ),
-                        child: TextField(
-                          controller: _searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Search salons, stylists, services...',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                              fontSize: 15,
-                            ),
-                            prefixIcon: ShaderMask(
-                              shaderCallback: (bounds) => const LinearGradient(
-                                colors: [Color(0xFF9C27B0), Color(0xFFE91E63)],
-                              ).createShader(bounds),
-                              child: const Icon(Icons.search, color: Colors.white, size: 24),
-                            ),
-                            suffixIcon: Container(
-                              margin: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [Color(0xFF9C27B0), Color(0xFFE91E63)],
-                                ),
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: IconButton(
-                                icon: const Icon(Icons.tune, color: Colors.white, size: 20),
-                                onPressed: () {},
-                              ),
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Categories
-                  Container(
-                    height: 140,
-                    margin: const EdgeInsets.only(top: 0, bottom: 10),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      children: [
-                        _buildModernCategoryChip('Haircut', Icons.content_cut, 
-                          const [Color(0xFFE91E63), Color(0xFFF06292)]),
-                        _buildModernCategoryChip('Color', Icons.palette, 
-                          const [Color(0xFF9C27B0), Color(0xFFBA68C8)]),
-                        _buildModernCategoryChip('Styling', Icons.brush, 
-                          const [Color(0xFF673AB7), Color(0xFF9575CD)]),
-                        _buildModernCategoryChip('Spa', Icons.spa, 
-                          const [Color(0xFF3F51B5), Color(0xFF7986CB)]),
-                        _buildModernCategoryChip('Nails', Icons.back_hand, 
-                          const [Color(0xFF2196F3), Color(0xFF64B5F6)]),
-                        _buildModernCategoryChip('Makeup', Icons.face, 
-                          const [Color(0xFF00BCD4), Color(0xFF4DD0E1)]),
-                      ],
-                    ),
-                  ),
-
-                  // Section Header
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Featured Salons',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          ),
-                          child: ShaderMask(
-                            shaderCallback: (bounds) => const LinearGradient(
-                              colors: [Color(0xFF9C27B0), Color(0xFFE91E63)],
-                            ).createShader(bounds),
-                            child: const Text(
-                              'See All',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Featured Salons Grid
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.70,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                      ),
-                      itemCount: 6,
-                      itemBuilder: (context, index) => _buildBeautifulSalonCard(
-                        'Salon ${index + 1}',
-                        'Downtown',
-                        4.5 + (index * 0.1),
-                        'salon-$index',
-                        index,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 120),
-                ],
+  Widget _buildRecentVisit(String name, String service, String date) {
+    return Container(
+      width: 220,
+      margin: const EdgeInsets.only(left: 4, right: 12),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey[200]!, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.store, color: Colors.white, size: 18),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                service,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w400,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                date,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.black,
+                side: const BorderSide(color: Colors.black, width: 1.5),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                'Book Again',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -263,71 +422,38 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
     );
   }
 
-  Widget _buildModernCategoryChip(String label, IconData icon, List<Color> gradient) {
-    final isSelected = _selectedCategory == label;
-    
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedCategory = isSelected ? '' : label;
-        });
-      },
+  Widget _buildQuickAction(String title, IconData icon) {
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(16),
       child: Container(
-        margin: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.grey[50],
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey[200]!, width: 1),
+        ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              width: 90,
-              height: 90,
+            Container(
+              padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                gradient: isSelected
-                    ? LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: gradient,
-                      )
-                    : LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          gradient[0].withOpacity(0.15),
-                          gradient[1].withOpacity(0.15),
-                        ],
-                      ),
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: gradient[0].withOpacity(0.5),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
-                        ),
-                      ]
-                    : [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                color: isSelected ? Colors.white : gradient[0],
-                size: 40,
-              ),
+              child: Icon(icon, color: Colors.white, size: 26),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 14),
             Text(
-              label,
-              style: TextStyle(
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                color: isSelected ? gradient[0] : Colors.grey[700],
-                fontSize: 13,
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                color: Colors.black,
               ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -335,227 +461,86 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
     );
   }
 
-  Widget _buildBeautifulSalonCard(String name, String location, double rating, String id, int index) {
-    final gradients = [
-      [const Color(0xFF9C27B0), const Color(0xFFE91E63)], // Purple to Pink
-      [const Color(0xFFE91E63), const Color(0xFFFF9800)], // Pink to Orange
-      [const Color(0xFF673AB7), const Color(0xFF9C27B0)], // Deep Purple
-      [const Color(0xFF3F51B5), const Color(0xFF2196F3)], // Blue
-      [const Color(0xFF00BCD4), const Color(0xFF009688)], // Cyan
-      [const Color(0xFFFF5722), const Color(0xFFFFC107)], // Orange
-    ];
-    
-    final cardGradient = gradients[index % gradients.length];
-    
-    return GestureDetector(
-      onTap: () => context.push('/salon/$id'),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.white,
-              cardGradient[0].withOpacity(0.08),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: cardGradient[0].withOpacity(0.2),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
+  Widget _buildTrendingCard(String title, String saves) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey[200]!, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+              ),
               child: Stack(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          cardGradient[0].withOpacity(0.7),
-                          cardGradient[1].withOpacity(0.5),
-                        ],
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                      ),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.store_rounded,
-                        size: 60,
-                        color: Colors.white.withOpacity(0.9),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withOpacity(0.5),
-                          ],
-                        ),
-                      ),
+                  Center(
+                    child: Icon(
+                      Icons.style,
+                      size: 48,
+                      color: Colors.grey[400],
                     ),
                   ),
                   Positioned(
                     top: 12,
                     right: 12,
                     child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(6),
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.15),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
                       ),
-                      child: Icon(
-                        Icons.favorite_border_rounded,
+                      child: const Icon(
+                        Icons.bookmark_border,
                         size: 18,
-                        color: cardGradient[0],
+                        color: Colors.black,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: -0.3,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    const Icon(Icons.favorite_border, size: 15, color: Colors.black),
+                    const SizedBox(width: 6),
+                    Text(
+                      '$saves saves',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              cardGradient[0].withOpacity(0.2),
-                              cardGradient[1].withOpacity(0.2),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(
-                          Icons.location_on,
-                          size: 14,
-                          color: cardGradient[0],
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          location,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: cardGradient,
-                          ),
-                          borderRadius: BorderRadius.circular(14),
-                          boxShadow: [
-                            BoxShadow(
-                              color: cardGradient[0].withOpacity(0.4),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.star_rounded,
-                              size: 16,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              rating.toStringAsFixed(1),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              cardGradient[0].withOpacity(0.2),
-                              cardGradient[1].withOpacity(0.2),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 14,
-                          color: cardGradient[0],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
