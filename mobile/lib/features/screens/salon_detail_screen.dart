@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/theme/app_theme.dart';
+import '../../core/theme/app_theme.dart';
 
 /// Enhanced Salon Detail Screen
 /// Full featured salon page with gallery, team, services, and reviews

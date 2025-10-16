@@ -6,10 +6,10 @@
 
 ## 📊 Project Status
 
-**Version:** 1.2.0 (Design System Overhaul)  
+**Version:** 1.3.0 (Codebase Cleanup)  
 **Status:** ✅ Deployed & Running  
 **Server:** AWS EC2 (3.24.31.8:8006)  
-**Last Updated:** October 15, 2025
+**Last Updated:** October 16, 2025
 
 ---
 
@@ -70,7 +70,7 @@
 
 ---
 
-## 📂 Project Structure
+## 📂 Project Structure (Simplified!)
 
 ```
 Zelus/
@@ -84,17 +84,19 @@ Zelus/
 │   ├── requirements.txt    # Python dependencies
 │   └── .env                # Environment config
 │
-├── mobile/                  # Flutter mobile app
+├── mobile/                  # Flutter mobile app (CLEANED!)
 │   ├── lib/
-│   │   ├── features/       # Feature modules
-│   │   │   ├── auth/       # Login (email/phone, optional fields)
-│   │   │   ├── home/       # 4-tab navigation (Salons/Pros/Saved/Profile)
-│   │   │   ├── explore/    # Advanced filters & discovery
-│   │   │   ├── collections/# Saved collections
-│   │   │   └── ...
-│   │   ├── core/           # Shared utilities
-│   │   │   ├── theme/      # Design system (charcoal/gold palette)
-│   │   │   └── router/     # GoRouter (starts at /login)
+│   │   ├── core/           # Core utilities (11 files)
+│   │   │   ├── api/        # API client
+│   │   │   ├── theme/      # Design system (charcoal/gold)
+│   │   │   ├── router/     # Navigation (starts at /login)
+│   │   │   └── widgets/    # Shared UI components (6 widgets)
+│   │   ├── data/           # Data layer (12 files)
+│   │   │   ├── models/     # 6 data models
+│   │   │   └── services/   # 6 business services
+│   │   ├── ai/             # AI features (2 files)
+│   │   ├── features/
+│   │   │   └── screens/    # ALL SCREENS (11 files in 1 folder!)
 │   │   └── main.dart       # App entry point
 │   └── pubspec.yaml        # Flutter dependencies
 │
@@ -307,7 +309,16 @@ flutter run -d chrome  # or Android/iOS
 
 ## 📝 Version History
 
-### v1.2.0 - October 15, 2025 (Current - Design System Overhaul)
+### v1.3.0 - October 16, 2025 (Current - Codebase Cleanup)
+- 🧹 Massive codebase simplification
+- **Folder Structure:** Consolidated 9 feature folders → 1 flat `screens/` folder (67% reduction!)
+- **Data Layer:** Removed 3 unused files (stream_asset, cloudflare_stream_service, trend_service)
+- **Core Widgets:** Removed 3 unused widgets (hashtag_chips, salon_card, save_button)
+- **Deleted Features:** Removed unused feed, upload, and visual_search folders
+- **Result:** 34 files cleaned up, all imports updated, zero linter errors
+- **Navigation:** Super easy - all screens in one place!
+
+### v1.2.0 - October 15, 2025 (Design System Overhaul)
 - 🎨 Complete UI redesign with sophisticated design system
 - Charcoal & muted gold color palette
 - Light typography (Inter font, w200-w400 weights)

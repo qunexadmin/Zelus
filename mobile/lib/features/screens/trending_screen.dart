@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../data/services/feed_service.dart';
-import '../../../../core/widgets/embedded_post_widget.dart';
-import '../../../../core/widgets/media_tile.dart';
-import '../../../../core/feature_flags.dart';
+import '../../data/services/feed_service.dart';
+import '../../core/widgets/embedded_post_widget.dart';
+import '../../core/widgets/media_tile.dart';
+import '../../core/feature_flags.dart';
 
 /// Trending Screen
 /// Shows trending content including external posts from Instagram/TikTok

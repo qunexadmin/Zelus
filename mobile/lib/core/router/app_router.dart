@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/auth/presentation/screens/login_screen.dart';
-import '../../features/home/presentation/screens/home_screen.dart';
-import '../../features/salons/presentation/screens/salon_detail_screen.dart';
-import '../../features/stylists/presentation/screens/stylist_profile_screen.dart';
-import '../../features/ai_preview/presentation/screens/ai_preview_screen.dart';
-import '../../features/feed/presentation/screens/reels_screen.dart';
-import '../../features/stylists/presentation/screens/stylist_onboard_screen.dart';
-import '../../features/explore/presentation/screens/explore_screen.dart';
-import '../../features/pros/presentation/screens/pro_profile_screen.dart';
-import '../../features/upload/presentation/screens/upload_screen.dart';
-import '../../features/collections/presentation/screens/collections_screen.dart';
-import '../../features/trending/presentation/screens/trending_screen.dart';
+import '../../features/screens/login_screen.dart';
+import '../../features/screens/home_screen.dart';
+import '../../features/screens/salon_detail_screen.dart';
+import '../../features/screens/ai_preview_screen.dart';
+import '../../features/screens/stylist_onboard_screen.dart';
+import '../../features/screens/explore_screen.dart';
+import '../../features/screens/pro_profile_screen.dart';
+import '../../features/screens/collections_screen.dart';
+import '../../features/screens/trending_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -42,18 +39,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'stylist-profile',
         builder: (context, state) {
           final stylistId = state.pathParameters['id']!;
-          return StylistProfileScreen(stylistId: stylistId);
+          return ProProfileScreen(proId: stylistId);
         },
       ),
       GoRoute(
         path: '/ai-preview',
         name: 'ai-preview',
         builder: (context, state) => const AIPreviewScreen(),
-      ),
-      GoRoute(
-        path: '/reels',
-        name: 'reels',
-        builder: (context, state) => const ReelsScreen(),
       ),
       GoRoute(
         path: '/stylist-onboard',
@@ -72,11 +64,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final proId = state.pathParameters['id']!;
           return ProProfileScreen(proId: proId);
         },
-      ),
-      GoRoute(
-        path: '/upload',
-        name: 'upload',
-        builder: (context, state) => const UploadScreen(),
       ),
       GoRoute(
         path: '/collections',

@@ -3,13 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../widgets/discover_tab.dart';
-import '../widgets/profile_tab.dart';
-import '../../../feed/presentation/widgets/feed_tab.dart';
-import '../../../explore/presentation/screens/explore_screen.dart';
-import '../../../collections/presentation/screens/collections_screen.dart';
-import '../../../../core/feature_flags.dart';
-import '../../../../core/theme/app_theme.dart';
+import 'discover_tab.dart';
+import 'profile_tab.dart';
+import 'explore_screen.dart';
+import 'collections_screen.dart';
+import '../../core/feature_flags.dart';
+import '../../core/theme/app_theme.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

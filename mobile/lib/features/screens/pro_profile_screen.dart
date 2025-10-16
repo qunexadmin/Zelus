@@ -5,14 +5,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../data/services/profile_service.dart';
-import '../../../../data/services/review_service.dart';
-import '../../../../core/widgets/rating_bar.dart';
-import '../../../../core/widgets/tag_chips.dart';
-import '../../../../core/widgets/follow_button.dart';
-import '../../../../ai/summary/ai_review_summarizer.dart';
-import '../../../../core/feature_flags.dart';
-import '../../../../core/theme/app_theme.dart';
+import '../../data/services/profile_service.dart';
+import '../../data/services/review_service.dart';
+import '../../core/widgets/rating_bar.dart';
+import '../../core/widgets/tag_chips.dart';
+import '../../core/widgets/follow_button.dart';
+import '../../ai/summary/ai_review_summarizer.dart';
+import '../../core/feature_flags.dart';
+import '../../core/theme/app_theme.dart';
 
 /// Enhanced Professional Profile Screen
 /// Full featured profile page with gallery, reviews, and booking

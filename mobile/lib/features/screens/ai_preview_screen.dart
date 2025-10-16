@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import '../../../../core/theme/app_theme.dart';
+import '../../core/theme/app_theme.dart';
 
 class AIPreviewScreen extends ConsumerStatefulWidget {
   const AIPreviewScreen({super.key});

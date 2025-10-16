@@ -2,7 +2,7 @@
 
 **A modern beauty discovery & booking platform with AI-powered features and social content**
 
-**Version:** v1.2.0 - Design System Overhaul Complete! 🎉
+**Version:** v1.3.0 - Codebase Cleanup Complete! 🎉
 
 ---
 
@@ -28,11 +28,12 @@ flutter run -d chrome  # or android/ios
 
 **Login:** Enter any email/phone (fields are optional for development)
 
-### What you'll see (October 15 Update)
+### What you'll see (October 16 Update)
 - **Elegant Login Page** - Sophisticated charcoal & muted gold design
-- **4-Tab Navigation** - Salons, Pros, Saved, Profile (Feed removed from nav)
+- **4-Tab Navigation** - Home, Pros, Saved, Profile
 - **Discover Tab** - Dynamic greeting, AI insights, trending styles
 - **Profile Tab** - Stats section with refined menu
+- **Clean Codebase** - Simplified folder structure, easy to navigate
 - **Haptic Feedback** - Enhanced touch interactions
 - **Pull-to-Refresh** - On all major screens
 
@@ -101,15 +102,15 @@ Feed endpoints:
 
 ---
 
-## 🧪 Test the Flow (Updated October 15)
+## 🧪 Test the Flow (Updated October 16)
 
 1. Run mobile app: `flutter run -d chrome`
 2. **Login page** - Enter any email/phone (or leave blank) → Tap "Sign In"
-3. **Discover Tab** - See dynamic greeting, AI insights, recent visits
-4. **Bottom Nav** - Switch between Salons, Pros, Saved, Profile
-5. **Explore Tab** - Apply filters (city, service, rating)
-6. **Salon Detail** - View services, stylists → "Book Appointment"
-7. **Profile Tab** - View stats, access account settings
+3. **Home Tab** - See dynamic greeting, AI insights, trending styles
+4. **Pros Tab** - Browse professionals with filters (city, service, rating)
+5. **Saved Tab** - View and organize collections
+6. **Profile Tab** - View stats, access account settings
+7. **Tap any pro** - View profile, portfolio, reviews → Contact/Book
 
 ---
 
@@ -117,7 +118,7 @@ Feed endpoints:
 
 **Repository:** https://github.com/qunexadmin/Zelus  
 **Issues:** GitHub Issues  
-**Last Updated:** October 15, 2025
+**Last Updated:** October 16, 2025
 
 ---
 

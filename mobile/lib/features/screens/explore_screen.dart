@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../data/services/profile_service.dart';
-import '../../../../data/services/salon_service.dart';
-import '../../../../core/widgets/pro_profile_card.dart';
-import '../../../../core/theme/app_theme.dart';
+import '../../data/services/profile_service.dart';
+import '../../data/services/salon_service.dart';
+import '../../core/widgets/pro_profile_card.dart';
+import '../../core/theme/app_theme.dart';
 
 /// Enhanced Explore Screen
 /// Professional discovery with advanced filters and smart recommendations
