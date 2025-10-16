@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -37,8 +38,8 @@ class _LoginPageState extends State<LoginPage> {
       setState(() => _isLoading = false);
       
       if (mounted) {
-        // Navigate to home page after successful login
-        Navigator.pushReplacementNamed(context, '/');
+        // Navigate to home page after successful login using GoRouter
+        context.go('/');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Login successful!')),
         );

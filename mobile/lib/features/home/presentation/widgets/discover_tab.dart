@@ -91,7 +91,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                   ),
                 ),
 
-                // Minimal Search Bar - Matching Login Page Style
+                // AI-Powered Search Bar - Matching Login Page Style
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Container(
@@ -106,16 +106,28 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                         fontSize: 15,
                         fontWeight: FontWeight.w300,
                       ),
-                      decoration: const InputDecoration(
-                        hintText: 'Search salons, styles, professionals...',
-                        hintStyle: TextStyle(
+                      decoration: InputDecoration(
+                        hintText: 'AI-powered search...',
+                        hintStyle: const TextStyle(
                           color: AppTheme.textTertiary,
                           fontSize: 15,
                           fontWeight: FontWeight.w300,
                         ),
-                        prefixIcon: Icon(Icons.search, color: AppTheme.textSecondary, size: 22),
+                        prefixIcon: Container(
+                          padding: const EdgeInsets.all(12),
+                          child: const Icon(
+                            Icons.auto_awesome,
+                            color: AppTheme.accentColor,
+                            size: 20,
+                          ),
+                        ),
+                        suffixIcon: const Icon(
+                          Icons.search,
+                          color: AppTheme.textSecondary,
+                          size: 22,
+                        ),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 14,
                         ),
@@ -124,81 +136,39 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                   ),
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
 
-                // AI Insight Card - Matching Login Page Style
+                // AI Search Suggestions (instead of Quick Access)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Container(
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Icon(
-                                Icons.auto_awesome,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            const Text(
-                              'AI Recommendation',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Try asking...',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: AppTheme.textSecondary,
+                          letterSpacing: -0.3,
                         ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Based on your style history, we recommend trying a balayage with warm tones for your next visit.',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            height: 1.5,
-                            fontWeight: FontWeight.w300, // Light weight
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppTheme.primaryColor,
-                              elevation: 0,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: const Text(
-                              'Explore Styles',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 12),
+                      _buildSearchSuggestion(
+                        'Check Jane Smith\'s availability',
+                        Icons.calendar_today_outlined,
+                      ),
+                      const SizedBox(height: 8),
+                      _buildSearchSuggestion(
+                        'What\'s trending this week?',
+                        Icons.trending_up,
+                      ),
+                      const SizedBox(height: 8),
+                      _buildSearchSuggestion(
+                        'Find salons near me',
+                        Icons.near_me_outlined,
+                      ),
+                    ],
                   ),
                 ),
 
@@ -239,9 +209,9 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 
                 const SizedBox(height: 16),
 
-                // Recent Visits - Clean Cards
+                // Recent Visits - Clean Cards with Fixed Width
                 SizedBox(
-                  height: 160,
+                  height: 220, // Increased to 220 to prevent 18px overflow
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -258,43 +228,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                         visits[index]['date']!,
                       );
                     },
-                  ),
-                ),
-
-                const SizedBox(height: 40),
-
-                // Quick Actions
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Quick Actions',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w300, // Light weight
-                          color: Colors.black,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(child: _buildQuickAction('Book Again', Icons.calendar_today)),
-                          const SizedBox(width: 12),
-                          Expanded(child: _buildQuickAction('AI Try-On', Icons.face_retouching_natural)),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Expanded(child: _buildQuickAction('Find Nearby', Icons.near_me)),
-                          const SizedBox(width: 12),
-                          Expanded(child: _buildQuickAction('Trending', Icons.trending_up)),
-                        ],
-                      ),
-                    ],
                   ),
                 ),
 
@@ -355,8 +288,56 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 ),
 
                 const SizedBox(height: 100),
-            ],
+              ],
+            ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchSuggestion(String text, IconData icon) {
+    return InkWell(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        _searchController.text = text;
+      },
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: AppTheme.surfaceColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppTheme.borderLight, width: 1),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.accentLight,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, color: AppTheme.accentColor, size: 18),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: AppTheme.textSecondary,
+                  letterSpacing: -0.2,
+                ),
+              ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 14,
+              color: AppTheme.textTertiary,
+            ),
+          ],
         ),
       ),
     );
@@ -364,9 +345,9 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 
   Widget _buildRecentVisit(String name, String service, String date) {
     return Container(
-      width: 220,
-      margin: const EdgeInsets.only(left: 4, right: 12),
-      padding: const EdgeInsets.all(20),
+      width: 240, // Fixed width for proper scrolling
+      margin: const EdgeInsets.only(left: 4, right: 12, top: 4, bottom: 4),
+      padding: const EdgeInsets.all(16), // Reduced from 18
       decoration: BoxDecoration(
         color: AppTheme.surfaceColor,
         borderRadius: BorderRadius.circular(16),
@@ -374,115 +355,74 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppTheme.primaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(Icons.store, color: Colors.white, size: 18),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  service,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: AppTheme.textSecondary,
-                    fontWeight: FontWeight.w300,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  date,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppTheme.textTertiary,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
+                child: const Icon(Icons.store, color: Colors.white, size: 18),
+              ),
+              const Spacer(),
             ],
           ),
+          const SizedBox(height: 12), // Reduced from 14
+          Text(
+            name,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 4), // Reduced from 6
+          Text(
+            service,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppTheme.textSecondary,
+              fontWeight: FontWeight.w300,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 3), // Reduced from 4
+          Text(
+            date,
+            style: const TextStyle(
+              fontSize: 13,
+              color: AppTheme.textTertiary,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          const Spacer(),
           SizedBox(
             width: double.infinity,
             child: OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AppTheme.primaryColor,
-                  side: const BorderSide(color: AppTheme.primaryColor, width: 1),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppTheme.primaryColor,
+                side: const BorderSide(color: AppTheme.primaryColor, width: 1),
+                padding: const EdgeInsets.symmetric(vertical: 9), // Reduced from 10
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Text(
-                  'Book Again',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+              ),
+              child: const Text(
+                'Book Again',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
+              ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildQuickAction(String title, IconData icon) {
-    return InkWell(
-      onTap: () {
-        HapticFeedback.lightImpact();
-      },
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: AppTheme.surfaceColor,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppTheme.borderLight, width: 1),
-        ),
-        child: Column(
-          children: [
-            Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryColor,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(icon, color: Colors.white, size: 26),
-            ),
-            const SizedBox(height: 14),
-            Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -499,71 +439,71 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
         children: [
           Expanded(
             child: Container(
-                decoration: const BoxDecoration(
-                  color: AppTheme.surfaceColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
+              decoration: const BoxDecoration(
+                color: AppTheme.surfaceColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+              ),
+              child: Stack(
+                children: [
+                  const Center(
+                    child: Icon(
+                      Icons.style,
+                      size: 48,
+                      color: AppTheme.textTertiary,
+                    ),
                   ),
-                ),
-                child: Stack(
-                  children: [
-                    const Center(
-                      child: Icon(
-                        Icons.style,
-                        size: 48,
-                        color: AppTheme.textTertiary,
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.bookmark_border,
+                        size: 18,
+                        color: Colors.black,
                       ),
                     ),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.bookmark_border,
-                          size: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(14),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: Colors.black,
                   ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      const Icon(Icons.favorite_border, size: 15, color: AppTheme.primaryColor),
-                      const SizedBox(width: 6),
-                      Text(
-                        '$saves saves',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: AppTheme.textSecondary,
-                          fontWeight: FontWeight.w400,
-                        ),
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    const Icon(Icons.favorite_border, size: 15, color: AppTheme.primaryColor),
+                    const SizedBox(width: 6),
+                    Text(
+                      '$saves saves',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: AppTheme.textSecondary,
+                        fontWeight: FontWeight.w400,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
