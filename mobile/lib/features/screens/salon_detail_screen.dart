@@ -132,7 +132,7 @@ class _SalonDetailScreenState extends ConsumerState<SalonDetailScreen> {
                           ? CachedNetworkImage(
                               imageUrl: salon['cover'] as String,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
+                              errorWidget: (context, url, error) =>
                                   _buildDefaultCover(),
                             )
                           : _buildDefaultCover(),

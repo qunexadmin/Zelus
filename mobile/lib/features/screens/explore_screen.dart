@@ -501,7 +501,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
           filteredProfiles = filteredProfiles
               .where((p) =>
                   p.name.toLowerCase().contains(query) ||
-                  p.specialty.toLowerCase().contains(query))
+                  p.specialties.any((s) => s.toLowerCase().contains(query)))
               .toList();
         }
         
@@ -519,7 +519,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
 
         if (_selectedSpecialty != null) {
           filteredProfiles = filteredProfiles
-              .where((p) => p.specialty.contains(_selectedSpecialty!))
+              .where((p) => p.specialties.contains(_selectedSpecialty!))
               .toList();
         }
         
