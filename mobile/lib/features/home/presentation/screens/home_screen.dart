@@ -61,27 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: FeatureFlags.videoUpload || FeatureFlags.aiAutoTagging
-          ? FloatingActionButton.extended(
-              onPressed: () {
-                HapticFeedback.mediumImpact();
-                context.push('/upload');
-              },
-              backgroundColor: AppTheme.primaryColor,
-              foregroundColor: Colors.white,
-              elevation: 2,
-              icon: const Icon(Icons.add_photo_alternate),
-              label: const Text(
-                'Upload',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // Upload button removed - can be accessed via profile menu or add button in navigation if needed
     );
   }
 }
-
