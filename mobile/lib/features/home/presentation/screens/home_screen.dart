@@ -40,9 +40,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         },
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.store_outlined),
-            selectedIcon: Icon(Icons.store),
-            label: 'Salons',
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_search_outlined),
