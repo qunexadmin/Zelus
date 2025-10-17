@@ -97,7 +97,7 @@ Zelus/
 │   │   │   └── services/   # 6 business services
 │   │   ├── ai/             # AI features (2 files)
 │   │   ├── features/
-│   │   │   └── screens/    # ALL SCREENS (12 files in 1 folder!)
+│   │   │   └── screens/    # ALL SCREENS (11 files in 1 folder!)
 │   │   └── main.dart       # App entry point
 │   └── pubspec.yaml        # Flutter dependencies
 │
@@ -237,7 +237,7 @@ flutter run -d chrome  # or Android/iOS
   - Minimalist, luxurious design aesthetic
   - Consistent design system across all screens
   - Login page as entry point (email or phone)
-  - 5-tab bottom navigation (Home, Pros, Retail, Saved, Profile)
+  - 4-tab bottom navigation (Home, Explore, Saved, Profile)
   - Enhanced haptic feedback throughout
   - Pull-to-refresh on all major screens
 - ✅ **Redesigned Screens:**
@@ -312,15 +312,20 @@ flutter run -d chrome  # or Android/iOS
 ## 📝 Version History
 
 ### v1.4.0 - October 17, 2025 (Current - Retail & Product Discovery)
-- 🛍️ **New Retail Tab** - AI-powered product discovery & price tracking
-- **5-Tab Navigation:** Home, Pros, **Retail**, Saved, Profile
-- **Product Discovery:** AI search with category filters (Hair Care, Styling, Tools, etc.)
-- **3 Sub-Tabs:** For You (AI recommendations), Watchlist (price tracking), Deals (limited offers)
+- 🛍️ **Retail Integration** - AI-powered product discovery merged into Explore
+- **4-Tab Navigation:** Home, **Explore**, Saved, Profile (cleaner, more intuitive)
+- **Explore Screen Enhanced:** 3 tabs → Professionals | Salons | **Retail**
+  - All discovery features unified in one place
+  - Seamless switching between pros, salons, and products
+  - Better information architecture
+- **Product Discovery:** AI-powered search for beauty products
 - **Smart Features:**
   - Price drop alerts with green notification banners
-  - Watchlist with tracking stats (items tracked, price drops, savings)
+  - Watchlist section with tracked products
   - Product cards with discount badges, ratings, save/bookmark
-  - Category shopping grid (6 categories with item counts)
+  - AI recommendations based on user visits
+  - Trending products section
+  - Hot deals & limited offers
 - **Mock Data:** ~40 realistic beauty products (OLAPLEX, K18, DYSON, GHD, etc.)
 - **Pricing:** $8 - $549 range with discounts up to 40% off
 - **UI Consistency:** Same design system (charcoal/gold, light typography)

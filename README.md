@@ -30,9 +30,12 @@ flutter run -d chrome  # or android/ios
 
 ### What you'll see (October 17 Update)
 - **Elegant Login Page** - Sophisticated charcoal & muted gold design
-- **5-Tab Navigation** - Home, Pros, **Retail**, Saved, Profile
+- **4-Tab Navigation** - Home, **Explore**, Saved, Profile (cleaner!)
 - **Discover Tab** - Dynamic greeting, AI insights, trending styles
-- **Retail Tab** - AI product discovery, price tracking, deals & watchlist
+- **Explore Tab** - Professionals | Salons | **Retail** (all discovery unified)
+  - Browse pros with advanced filters
+  - Find salons near you
+  - Discover beauty products with price tracking
 - **Profile Tab** - Stats section with refined menu
 - **Clean Codebase** - Simplified folder structure, easy to navigate
 - **Haptic Feedback** - Enhanced touch interactions
@@ -109,15 +112,16 @@ Feed endpoints:
 1. Run mobile app: `flutter run -d chrome`
 2. **Login page** - Enter any email/phone (or leave blank) → Tap "Sign In"
 3. **Home Tab** - See dynamic greeting, AI insights, trending styles
-4. **Pros Tab** - Browse professionals with filters (city, service, rating)
-5. **Retail Tab** - Discover products, track prices, view deals
-   - Search products with AI
-   - Browse by category (Hair Care, Styling, Tools)
-   - Add to watchlist for price tracking
-   - View deals & limited offers
-6. **Saved Tab** - View and organize collections
-7. **Profile Tab** - View stats, access account settings
-8. **Tap any pro** - View profile, portfolio, reviews → Contact/Book
+4. **Explore Tab** - Unified discovery with 3 tabs:
+   - **Professionals** - Browse with filters (city, service, rating)
+   - **Salons** - Find locations near you
+   - **Retail** - Discover products, track prices, view deals
+     - AI recommendations based on your visits
+     - Track products on watchlist
+     - Hot deals & price drop alerts
+5. **Saved Tab** - View and organize collections
+6. **Profile Tab** - View stats, access account settings
+7. **Tap any pro** - View profile, portfolio, reviews → Contact/Book
 
 ---
 

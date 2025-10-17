@@ -49,7 +49,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -250,6 +250,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
                     tabs: const [
                       Tab(text: 'Professionals'),
                       Tab(text: 'Salons'),
+                      Tab(text: 'Retail'),
                     ],
                   ),
                 ],
@@ -263,6 +264,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
                 children: [
                   _buildProfessionalsTab(),
                   _buildSalonsTab(),
+                  _buildRetailTab(),
                 ],
               ),
             ),
@@ -1552,4 +1554,626 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
       _searchController.clear();
     });
   }
+
+  // ==================== RETAIL TAB ====================
+
+  Widget _buildRetailTab() {
+    return ListView(
+      padding: const EdgeInsets.all(24),
+      children: [
+        // Price Drop Alert
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFE8F5E9), Color(0xFFC8E6C9)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppTheme.successColor.withOpacity(0.3)),
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.notifications_active, color: AppTheme.successColor, size: 22),
+              ),
+              const SizedBox(width: 14),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '3 Price Drops!',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF2E7D32),
+                      ),
+                    ),
+                    Text(
+                      'Products in your watchlist are on sale',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFF388E3C),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.successColor),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 24),
+
+        // AI Recommendations
+        _buildRetailSectionHeader('AI Recommendations', 'Based on your visits'),
+        const SizedBox(height: 12),
+        _buildProductGrid(_mockRecommendedProducts),
+
+        const SizedBox(height: 32),
+
+        // Trending Products
+        _buildRetailSectionHeader('Trending Now', 'Popular this week'),
+        const SizedBox(height: 12),
+        _buildProductGrid(_mockTrendingProducts),
+
+        const SizedBox(height: 32),
+
+        // Your Watchlist
+        _buildRetailSectionHeader('Your Watchlist', '4 products'),
+        const SizedBox(height: 12),
+        ..._mockWatchlistProducts.map((product) => _buildWatchlistProductCard(product)),
+
+        const SizedBox(height: 32),
+
+        // Deals & Offers
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFFFEBEE), Color(0xFFFCE4EC)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppTheme.errorColor.withOpacity(0.3)),
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.local_fire_department, color: AppTheme.errorColor, size: 24),
+              ),
+              const SizedBox(width: 14),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hot Deals Today',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.errorColor,
+                      ),
+                    ),
+                    Text(
+                      'Up to 40% off on selected items',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFFAD1457),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 16),
+        _buildProductGrid(_mockDealProducts),
+
+        const SizedBox(height: 100),
+      ],
+    );
+  }
+
+  Widget _buildRetailSectionHeader(String title, String subtitle) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+                letterSpacing: -0.5,
+              ),
+            ),
+            if (subtitle.isNotEmpty)
+              Text(
+                subtitle,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w300,
+                  color: AppTheme.textSecondary,
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProductGrid(List<Map<String, dynamic>> products) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.7,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        return _buildProductCard(products[index]);
+      },
+    );
+  }
+
+  Widget _buildProductCard(Map<String, dynamic> product) {
+    return InkWell(
+      onTap: () {
+        HapticFeedback.mediumImpact();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Opening ${product['name']}')),
+        );
+      },
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.surfaceColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppTheme.borderLight),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Product Image
+            Stack(
+              children: [
+                Container(
+                  height: 140,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      product['emoji'],
+                      style: const TextStyle(fontSize: 48),
+                    ),
+                  ),
+                ),
+                // Discount Badge
+                if (product['discount'] != null)
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: AppTheme.errorColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        product['discount'],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                // Favorite Button
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      product['isSaved'] ? Icons.bookmark : Icons.bookmark_border,
+                      size: 18,
+                      color: product['isSaved'] ? AppTheme.primaryColor : AppTheme.textSecondary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Product Info
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product['brand'],
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.textSecondary,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      product['name'],
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                        height: 1.2,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        if (product['oldPrice'] != null) ...[
+                          Text(
+                            product['oldPrice'],
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: AppTheme.textTertiary,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                        ],
+                        Text(
+                          product['price'],
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: AppTheme.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        const Icon(Icons.star, size: 12, color: AppTheme.accentColor),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${product['rating']} (${product['reviews']})',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            color: AppTheme.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWatchlistProductCard(Map<String, dynamic> product) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppTheme.surfaceColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderLight),
+      ),
+      child: Row(
+        children: [
+          // Product Image
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                product['emoji'],
+                style: const TextStyle(fontSize: 32),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Product Info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product['brand'],
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  product['name'],
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Text(
+                      product['price'],
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.primaryColor,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    if (product['priceStatus'] == 'down')
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: AppTheme.successColor,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.arrow_downward, size: 10, color: Colors.white),
+                            const SizedBox(width: 2),
+                            Text(
+                              product['priceChange'],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // Remove Button
+          IconButton(
+            icon: const Icon(Icons.close, size: 20),
+            color: AppTheme.textTertiary,
+            onPressed: () {
+              HapticFeedback.lightImpact();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Mock Data for Retail
+  final List<Map<String, dynamic>> _mockRecommendedProducts = [
+    {
+      'name': 'Color Safe Shampoo',
+      'brand': 'OLAPLEX',
+      'price': '\$28',
+      'oldPrice': null,
+      'discount': null,
+      'rating': '4.8',
+      'reviews': '2.3k',
+      'emoji': '🧴',
+      'isSaved': false,
+    },
+    {
+      'name': 'Bond Repair Treatment',
+      'brand': 'K18',
+      'price': '\$75',
+      'oldPrice': '\$89',
+      'discount': '15% OFF',
+      'rating': '4.9',
+      'reviews': '1.8k',
+      'emoji': '✨',
+      'isSaved': true,
+    },
+    {
+      'name': 'Heat Protectant Spray',
+      'brand': 'GHD',
+      'price': '\$32',
+      'oldPrice': null,
+      'discount': null,
+      'rating': '4.7',
+      'reviews': '1.2k',
+      'emoji': '💨',
+      'isSaved': false,
+    },
+    {
+      'name': 'Curling Iron Pro',
+      'brand': 'DYSON',
+      'price': '\$499',
+      'oldPrice': '\$549',
+      'discount': '10% OFF',
+      'rating': '4.9',
+      'reviews': '3.5k',
+      'emoji': '💇',
+      'isSaved': false,
+    },
+  ];
+
+  final List<Map<String, dynamic>> _mockTrendingProducts = [
+    {
+      'name': 'Hair Dryer Supersonic',
+      'brand': 'DYSON',
+      'price': '\$429',
+      'oldPrice': null,
+      'discount': null,
+      'rating': '4.8',
+      'reviews': '4.2k',
+      'emoji': '💨',
+      'isSaved': false,
+    },
+    {
+      'name': 'Leave-In Conditioner',
+      'brand': 'MOROCCAN OIL',
+      'price': '\$34',
+      'oldPrice': '\$42',
+      'discount': '20% OFF',
+      'rating': '4.7',
+      'reviews': '2.1k',
+      'emoji': '💧',
+      'isSaved': true,
+    },
+    {
+      'name': 'Volume Mousse',
+      'brand': 'LIVING PROOF',
+      'price': '\$29',
+      'oldPrice': null,
+      'discount': null,
+      'rating': '4.6',
+      'reviews': '980',
+      'emoji': '☁️',
+      'isSaved': false,
+    },
+    {
+      'name': 'Shine Serum',
+      'brand': 'KERASTASE',
+      'price': '\$45',
+      'oldPrice': null,
+      'discount': null,
+      'rating': '4.8',
+      'reviews': '1.5k',
+      'emoji': '✨',
+      'isSaved': false,
+    },
+  ];
+
+  final List<Map<String, dynamic>> _mockDealProducts = [
+    {
+      'name': 'Purple Shampoo',
+      'brand': 'FANOLA',
+      'price': '\$15',
+      'oldPrice': '\$25',
+      'discount': '40% OFF',
+      'rating': '4.6',
+      'reviews': '890',
+      'emoji': '💜',
+      'isSaved': false,
+    },
+    {
+      'name': 'Flat Iron Classic',
+      'brand': 'GHD',
+      'price': '\$129',
+      'oldPrice': '\$189',
+      'discount': '32% OFF',
+      'rating': '4.9',
+      'reviews': '3.2k',
+      'emoji': '🔥',
+      'isSaved': true,
+    },
+    {
+      'name': 'Argan Oil Treatment',
+      'brand': 'JOSIE MARAN',
+      'price': '\$48',
+      'oldPrice': '\$68',
+      'discount': '30% OFF',
+      'rating': '4.7',
+      'reviews': '1.8k',
+      'emoji': '🌰',
+      'isSaved': false,
+    },
+    {
+      'name': 'Dry Shampoo',
+      'brand': 'BATISTE',
+      'price': '\$8',
+      'oldPrice': '\$12',
+      'discount': '35% OFF',
+      'rating': '4.5',
+      'reviews': '2.5k',
+      'emoji': '💨',
+      'isSaved': false,
+    },
+  ];
+
+  final List<Map<String, dynamic>> _mockWatchlistProducts = [
+    {
+      'name': 'Bond Repair Shampoo',
+      'brand': 'OLAPLEX',
+      'price': '\$28',
+      'emoji': '🧴',
+      'priceStatus': 'down',
+      'priceChange': '-12%',
+    },
+    {
+      'name': 'Hair Mask Deep Conditioner',
+      'brand': 'BRIOGEO',
+      'price': '\$36',
+      'emoji': '🥥',
+      'priceStatus': 'down',
+      'priceChange': '-8%',
+    },
+    {
+      'name': 'Texturizing Spray',
+      'brand': 'OUAI',
+      'price': '\$28',
+      'emoji': '💨',
+      'priceStatus': 'stable',
+      'priceChange': null,
+    },
+    {
+      'name': 'Heat Protectant',
+      'brand': 'CHI',
+      'price': '\$18',
+      'emoji': '🛡️',
+      'priceStatus': 'down',
+      'priceChange': '-15%',
+    },
+  ];
 }

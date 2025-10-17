@@ -12,7 +12,7 @@ Zelux mobile application built with Flutter - A beauty professional discovery pl
 - **Minimalist Aesthetic** - Clean, luxurious, consistent across all screens
 - **Haptic Feedback** - Enhanced touch interactions throughout
 - **Entry Point** - Login page first, accepts email or phone (optional fields)
-- **Navigation** - 5-tab bottom nav: Home, Pros, **Retail**, Saved, Profile
+- **Navigation** - 4-tab bottom nav: Home, **Explore**, Saved, Profile (clean & intuitive)
 
 ### Professional Profiles 👥
 - **ProProfile Model** - Comprehensive professional profiles with services, portfolio, ratings
@@ -26,10 +26,11 @@ Zelux mobile application built with Flutter - A beauty professional discovery pl
 - **Location & Map** - Find salons near you
 
 ### Discovery & Search 🔍
-- **Explore Page** - Browse professionals and salons with filters
+- **Explore Page** - Unified discovery hub with 3 tabs (Professionals | Salons | Retail)
 - **Advanced Filters** - City, service type, rating, and trending options
 - **Lightweight Personalization** - Local ranking by searches, saves, and location
-- **Responsive Design** - Tab-based navigation (Professionals/Salons)
+- **Seamless Switching** - Easy navigation between pros, salons, and products
+- **Better UX** - All discovery features in one logical place
 
 ### AI-Powered Features 🤖
 - **Review Summarizer** - Aggregate review insights (`/lib/ai/summary/ai_review_summarizer.dart`)
@@ -51,14 +52,15 @@ Zelux mobile application built with Flutter - A beauty professional discovery pl
 - **Deep Links** - View content on source platforms
 
 ### Retail & Product Discovery 🛍️
-- **AI Product Search** - Search beauty products with AI assistance
-- **Category Filters** - Browse by Hair Care, Styling, Tools, Color Care, Treatments
-- **3 Sub-Tabs:**
-  - **For You** - AI recommendations based on visits & preferences
-  - **Watchlist** - Price tracking with drop alerts (stats: items tracked, price drops, savings)
-  - **Deals** - Limited time offers with discount badges
+- **Integrated in Explore** - 3rd tab alongside Professionals and Salons
+- **AI Product Search** - Discover beauty products via shared search bar
+- **Smart Sections:**
+  - **Price Drop Alerts** - Green banners for products on sale
+  - **AI Recommendations** - Based on your visits & preferences
+  - **Trending Products** - Popular items this week
+  - **Your Watchlist** - Track prices on saved products
+  - **Hot Deals** - Limited time offers with discount badges
 - **Product Cards** - Brand, price, ratings, discount badges, save/bookmark
-- **Price Drop Alerts** - Green notification banners for tracked products on sale
 - **Mock Data** - ~40 realistic products (OLAPLEX, K18, DYSON, GHD, MOROCCAN OIL, etc.)
 - **Future Ready** - Prepared for SerpAPI/Google Shopping API integration
 
@@ -202,13 +204,12 @@ lib/
 │   └── insights/trend_radar.dart
 │
 └── features/
-    └── screens/            # ALL SCREENS IN ONE FOLDER! (12 files)
+    └── screens/            # ALL SCREENS IN ONE FOLDER! (11 files)
         ├── login_screen.dart           # Login/auth
-        ├── home_screen.dart            # 5-tab navigation
+        ├── home_screen.dart            # 4-tab navigation
         ├── discover_tab.dart           # Home feed
         ├── profile_tab.dart            # User profile
-        ├── explore_screen.dart         # Pro/salon discovery
-        ├── retail_tab.dart             # Product discovery & price tracking
+        ├── explore_screen.dart         # Pros/Salons/Retail (3 tabs)
         ├── pro_profile_screen.dart     # Professional profiles
         ├── salon_detail_screen.dart    # Salon pages
         ├── collections_screen.dart     # Saved collections
@@ -217,14 +218,14 @@ lib/
         └── stylist_onboard_screen.dart # Onboarding flow
 ```
 
-**Total: 12 screens, 12 data files, 11 core files - Clean and simple!**
+**Total: 11 screens, 12 data files, 11 core files - Clean and simple!**
 
 ## 📱 Key Screens & Routes
 
 ### Core Navigation
 - **`/login`** - **Entry point** - Email or phone login
-- **`/`** - Home screen with 5 tabs: Home, Pros, **Retail**, Saved, Profile
-- **`/explore`** - Discovery page with advanced filters
+- **`/`** - Home screen with 4 tabs: Home, **Explore**, Saved, Profile
+- **`/explore`** - Unified discovery with 3 tabs: Professionals | Salons | Retail
 - **`/collections`** - Saved collections manager
 - **`/trending`** - Trending content feed
 
@@ -359,17 +360,22 @@ flutter format lib/
 
 ## 🚀 Recent Updates
 
-### October 17, 2025 - Retail & Product Discovery
-- ✅ **New Retail Tab** - 5th tab in bottom navigation (between Pros and Saved)
-- ✅ **AI Product Search** - Search beauty products with category filters
-- ✅ **3 Sub-Tabs** - For You (AI recommendations), Watchlist (price tracking), Deals
-- ✅ **Smart Features:**
+### October 17, 2025 - Retail & Product Discovery (Refined UX)
+- ✅ **Retail Integrated into Explore** - Better information architecture
+- ✅ **4-Tab Navigation** - Home | Explore | Saved | Profile (cleaner!)
+- ✅ **Explore Enhanced** - 3 tabs: Professionals | Salons | **Retail**
+  - Unified discovery experience
+  - Seamless context switching
+  - All exploration in one place
+- ✅ **Retail Features:**
   - Price drop alerts with notification banners
-  - Watchlist with tracking stats dashboard
+  - Watchlist section for tracked products
   - Product cards with discount badges, ratings, save/bookmark
-  - Category shopping grid (6 categories)
+  - AI recommendations based on visits
+  - Trending products & hot deals
 - ✅ **Mock Data** - ~40 realistic beauty products ($8-$549 range)
 - ✅ **Design Consistency** - Same charcoal/gold theme, light typography
+- ✅ **Removed** - Category filters (can add back if needed)
 - ✅ **Future Ready** - Prepared for SerpAPI/Google Shopping API integration
 
 ### October 16, 2025 - Codebase Cleanup

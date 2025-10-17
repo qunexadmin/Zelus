@@ -7,7 +7,6 @@ import 'discover_tab.dart';
 import 'profile_tab.dart';
 import 'explore_screen.dart';
 import 'collections_screen.dart';
-import 'retail_tab.dart';
 import '../../core/feature_flags.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -23,8 +22,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final List<Widget> _tabs = const [
     DiscoverTab(),
-    ExploreScreen(), // Professional discovery with filters
-    RetailTab(), // AI-powered product discovery
+    ExploreScreen(), // Professional, salon & product discovery
     CollectionsScreen(), // Saved collections
     ProfileTab(),
   ];
@@ -46,14 +44,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_search_outlined),
-            selectedIcon: Icon(Icons.person_search),
-            label: 'Pros',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.shopping_bag_outlined),
-            selectedIcon: Icon(Icons.shopping_bag),
-            label: 'Retail',
+            icon: Icon(Icons.explore_outlined),
+            selectedIcon: Icon(Icons.explore),
+            label: 'Explore',
           ),
           NavigationDestination(
             icon: Icon(Icons.bookmark_outline),
