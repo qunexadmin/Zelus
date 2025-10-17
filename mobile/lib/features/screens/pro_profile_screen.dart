@@ -130,6 +130,18 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                               ? CachedNetworkImage(
                                   imageUrl: profile.portfolio.first,
                                   fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) => Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [AppTheme.primaryColor, AppTheme.primaryDark],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                    ),
+                                    child: const Center(
+                                      child: Icon(Icons.person, size: 100, color: Colors.white54),
+                                    ),
+                                  ),
                                 )
                               : Container(
                                   decoration: BoxDecoration(
@@ -396,6 +408,9 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                 child: CircleAvatar(
                   radius: 48,
                   backgroundImage: CachedNetworkImageProvider(profile.photoUrl),
+                  onBackgroundImageError: (exception, stackTrace) {
+                    // Handle error silently
+                  },
                 ),
               ),
               if (profile.isVerified)
@@ -434,7 +449,7 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  profile.specialty,
+                  profile.specialties.isNotEmpty ? profile.specialties.join(', ') : 'Professional Stylist',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -942,6 +957,12 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                           ),
                         ),
                       ),
+                      errorWidget: (context, url, error) => Container(
+                        color: AppTheme.surfaceColor,
+                        child: const Center(
+                          child: Icon(Icons.image, size: 48, color: AppTheme.textTertiary),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -1162,6 +1183,9 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                   ? CircleAvatar(
                       radius: 20,
                       backgroundImage: CachedNetworkImageProvider(review.userPhotoUrl!),
+                      onBackgroundImageError: (exception, stackTrace) {
+                        // Handle error silently
+                      },
                     )
                   : const CircleAvatar(
                       radius: 20,
