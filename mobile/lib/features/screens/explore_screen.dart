@@ -223,11 +223,6 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
 
                   const SizedBox(height: 16),
 
-                  // Quick Specialties
-                  _buildSpecialtiesSection(),
-
-                  const SizedBox(height: 24),
-
                   // Available Now Section
                   if (_availableNow) _buildAvailableNowSection(),
 
@@ -247,6 +242,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
                         fontWeight: FontWeight.w300,
                       ),
                       onTap: (_) => HapticFeedback.selectionClick(),
+                      dividerHeight: 0,
                     tabs: const [
                       Tab(text: 'Professionals'),
                       Tab(text: 'Salons'),
