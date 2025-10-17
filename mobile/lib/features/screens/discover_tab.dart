@@ -30,11 +30,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
     return 'Good Evening';
   }
 
-  String _getWeatherRecommendation() {
-    // Mock weather-based recommendation
-    return 'Great day for outdoor photoshoots! ☀️';
-  }
-
   Future<void> _onRefresh() async {
     HapticFeedback.mediumImpact();
     // TODO: Implement actual data refresh
@@ -168,9 +163,16 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.surfaceColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppTheme.borderLight),
+                      border: Border.all(color: AppTheme.borderLight, width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
                     child: TextField(
                       controller: _searchController,
@@ -237,48 +239,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
-
-                // Weather-based Smart Suggestion
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFFFFF3E0), Color(0xFFFFE0B2)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFFFD180), width: 1),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(Icons.wb_sunny, color: Color(0xFFFF9800), size: 20),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            _getWeatherRecommendation(),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xFF6D4C41),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
                 const SizedBox(height: 24),
 
                 // AI Search Suggestions
@@ -319,6 +279,17 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                         Icons.near_me_outlined,
                         onTap: () {
                           context.push('/explore');
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      _buildSearchSuggestion(
+                        'Check retail offers',
+                        Icons.local_offer_outlined,
+                        onTap: () {
+                          // TODO: Navigate to retail offers section
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Retail offers coming soon!')),
+                          );
                         },
                       ),
                     ],
@@ -516,16 +487,27 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: AppTheme.surfaceColor,
+          gradient: LinearGradient(
+            colors: [
+              AppTheme.surfaceColor,
+              AppTheme.surfaceColor.withOpacity(0.5),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppTheme.borderLight, width: 1),
+          border: Border.all(color: AppTheme.borderLight.withOpacity(0.5), width: 1),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.accentLight,
+                gradient: LinearGradient(
+                  colors: [AppTheme.accentLight, AppTheme.accentLight.withOpacity(0.6)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(icon, color: AppTheme.accentColor, size: 18),
@@ -536,8 +518,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 text,
                 style: const TextStyle(
                   fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  color: AppTheme.textSecondary,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
                   letterSpacing: -0.2,
                 ),
               ),

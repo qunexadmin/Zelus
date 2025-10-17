@@ -6,10 +6,10 @@
 
 ## 📊 Project Status
 
-**Version:** 1.3.0 (Codebase Cleanup)  
+**Version:** 1.4.0 (Retail & Product Discovery)  
 **Status:** ✅ Deployed & Running  
 **Server:** AWS EC2 (3.24.31.8:8006)  
-**Last Updated:** October 16, 2025
+**Last Updated:** October 17, 2025
 
 ---
 
@@ -31,6 +31,7 @@
 ### ✅ Implemented (MVP)
 - 🔍 **Salon & Stylist Discovery** - Browse and search professionals
 - 🔗 **External Booking Links** - Open salon booking pages (no in-app flow)
+- 🛍️ **Retail & Product Discovery** - AI-powered product search, price tracking, watchlist
 - 👤 **User Authentication** - Mock auth (ready for Firebase)
 - ⭐ **Reviews & Ratings** - Social proof system
 - 📱 **Mobile-First UI** - Beautiful Material Design 3
@@ -96,7 +97,7 @@ Zelus/
 │   │   │   └── services/   # 6 business services
 │   │   ├── ai/             # AI features (2 files)
 │   │   ├── features/
-│   │   │   └── screens/    # ALL SCREENS (11 files in 1 folder!)
+│   │   │   └── screens/    # ALL SCREENS (12 files in 1 folder!)
 │   │   └── main.dart       # App entry point
 │   └── pubspec.yaml        # Flutter dependencies
 │
@@ -236,7 +237,7 @@ flutter run -d chrome  # or Android/iOS
   - Minimalist, luxurious design aesthetic
   - Consistent design system across all screens
   - Login page as entry point (email or phone)
-  - 4-tab bottom navigation (removed Feed tab)
+  - 5-tab bottom navigation (Home, Pros, Retail, Saved, Profile)
   - Enhanced haptic feedback throughout
   - Pull-to-refresh on all major screens
 - ✅ **Redesigned Screens:**
@@ -246,6 +247,7 @@ flutter run -d chrome  # or Android/iOS
   - Collections: Refined grid layout with themed cards
   - Salon Detail: Enhanced info cards and booking button
   - Stylist Profile: Portfolio grid and review cards
+  - Retail Tab: AI-powered product discovery with price tracking
 - ✅ **Design Tokens:**
   - Primary: Charcoal #1F2937
   - Accent: Muted Gold #B8956A
@@ -309,7 +311,22 @@ flutter run -d chrome  # or Android/iOS
 
 ## 📝 Version History
 
-### v1.3.0 - October 16, 2025 (Current - Codebase Cleanup)
+### v1.4.0 - October 17, 2025 (Current - Retail & Product Discovery)
+- 🛍️ **New Retail Tab** - AI-powered product discovery & price tracking
+- **5-Tab Navigation:** Home, Pros, **Retail**, Saved, Profile
+- **Product Discovery:** AI search with category filters (Hair Care, Styling, Tools, etc.)
+- **3 Sub-Tabs:** For You (AI recommendations), Watchlist (price tracking), Deals (limited offers)
+- **Smart Features:**
+  - Price drop alerts with green notification banners
+  - Watchlist with tracking stats (items tracked, price drops, savings)
+  - Product cards with discount badges, ratings, save/bookmark
+  - Category shopping grid (6 categories with item counts)
+- **Mock Data:** ~40 realistic beauty products (OLAPLEX, K18, DYSON, GHD, etc.)
+- **Pricing:** $8 - $549 range with discounts up to 40% off
+- **UI Consistency:** Same design system (charcoal/gold, light typography)
+- **Future Ready:** Prepared for SerpAPI/Google Shopping API integration
+
+### v1.3.0 - October 16, 2025 (Codebase Cleanup)
 - 🧹 Massive codebase simplification
 - **Folder Structure:** Consolidated 9 feature folders → 1 flat `screens/` folder (67% reduction!)
 - **Data Layer:** Removed 3 unused files (stream_asset, cloudflare_stream_service, trend_service)

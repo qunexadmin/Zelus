@@ -2,7 +2,7 @@
 
 Zelux mobile application built with Flutter - A beauty professional discovery platform with social content and booking features.
 
-**Last Updated:** October 16, 2025 - Codebase Cleanup Complete! 🎉
+**Last Updated:** October 17, 2025 - Retail & Product Discovery! 🛍️
 
 ## ✨ Current Features
 
@@ -12,7 +12,7 @@ Zelux mobile application built with Flutter - A beauty professional discovery pl
 - **Minimalist Aesthetic** - Clean, luxurious, consistent across all screens
 - **Haptic Feedback** - Enhanced touch interactions throughout
 - **Entry Point** - Login page first, accepts email or phone (optional fields)
-- **Navigation** - 4-tab bottom nav: Home, Pros, Saved, Profile
+- **Navigation** - 5-tab bottom nav: Home, Pros, **Retail**, Saved, Profile
 
 ### Professional Profiles 👥
 - **ProProfile Model** - Comprehensive professional profiles with services, portfolio, ratings
@@ -49,6 +49,18 @@ Zelux mobile application built with Flutter - A beauty professional discovery pl
 - **Trending Feed** - Hot content from across the platform
 - **Embedded Posts** - Display external content with attribution
 - **Deep Links** - View content on source platforms
+
+### Retail & Product Discovery 🛍️
+- **AI Product Search** - Search beauty products with AI assistance
+- **Category Filters** - Browse by Hair Care, Styling, Tools, Color Care, Treatments
+- **3 Sub-Tabs:**
+  - **For You** - AI recommendations based on visits & preferences
+  - **Watchlist** - Price tracking with drop alerts (stats: items tracked, price drops, savings)
+  - **Deals** - Limited time offers with discount badges
+- **Product Cards** - Brand, price, ratings, discount badges, save/bookmark
+- **Price Drop Alerts** - Green notification banners for tracked products on sale
+- **Mock Data** - ~40 realistic products (OLAPLEX, K18, DYSON, GHD, MOROCCAN OIL, etc.)
+- **Future Ready** - Prepared for SerpAPI/Google Shopping API integration
 
 ## 🛠️ Tech Stack
 
@@ -190,12 +202,13 @@ lib/
 │   └── insights/trend_radar.dart
 │
 └── features/
-    └── screens/            # ALL SCREENS IN ONE FOLDER! (11 files)
+    └── screens/            # ALL SCREENS IN ONE FOLDER! (12 files)
         ├── login_screen.dart           # Login/auth
-        ├── home_screen.dart            # 4-tab navigation
+        ├── home_screen.dart            # 5-tab navigation
         ├── discover_tab.dart           # Home feed
         ├── profile_tab.dart            # User profile
         ├── explore_screen.dart         # Pro/salon discovery
+        ├── retail_tab.dart             # Product discovery & price tracking
         ├── pro_profile_screen.dart     # Professional profiles
         ├── salon_detail_screen.dart    # Salon pages
         ├── collections_screen.dart     # Saved collections
@@ -204,13 +217,13 @@ lib/
         └── stylist_onboard_screen.dart # Onboarding flow
 ```
 
-**Total: 11 screens, 12 data files, 11 core files - Clean and simple!**
+**Total: 12 screens, 12 data files, 11 core files - Clean and simple!**
 
 ## 📱 Key Screens & Routes
 
 ### Core Navigation
 - **`/login`** - **Entry point** - Email or phone login
-- **`/`** - Home screen with 4 tabs: Home, Pros, Saved, Profile
+- **`/`** - Home screen with 5 tabs: Home, Pros, **Retail**, Saved, Profile
 - **`/explore`** - Discovery page with advanced filters
 - **`/collections`** - Saved collections manager
 - **`/trending`** - Trending content feed
@@ -345,6 +358,19 @@ flutter format lib/
 ```
 
 ## 🚀 Recent Updates
+
+### October 17, 2025 - Retail & Product Discovery
+- ✅ **New Retail Tab** - 5th tab in bottom navigation (between Pros and Saved)
+- ✅ **AI Product Search** - Search beauty products with category filters
+- ✅ **3 Sub-Tabs** - For You (AI recommendations), Watchlist (price tracking), Deals
+- ✅ **Smart Features:**
+  - Price drop alerts with notification banners
+  - Watchlist with tracking stats dashboard
+  - Product cards with discount badges, ratings, save/bookmark
+  - Category shopping grid (6 categories)
+- ✅ **Mock Data** - ~40 realistic beauty products ($8-$549 range)
+- ✅ **Design Consistency** - Same charcoal/gold theme, light typography
+- ✅ **Future Ready** - Prepared for SerpAPI/Google Shopping API integration
 
 ### October 16, 2025 - Codebase Cleanup
 - ✅ **Simplified folder structure**

@@ -2,7 +2,7 @@
 
 **A modern beauty discovery & booking platform with AI-powered features and social content**
 
-**Version:** v1.3.0 - Codebase Cleanup Complete! 🎉
+**Version:** v1.4.0 - Retail & Product Discovery! 🛍️
 
 ---
 
@@ -28,10 +28,11 @@ flutter run -d chrome  # or android/ios
 
 **Login:** Enter any email/phone (fields are optional for development)
 
-### What you'll see (October 16 Update)
+### What you'll see (October 17 Update)
 - **Elegant Login Page** - Sophisticated charcoal & muted gold design
-- **4-Tab Navigation** - Home, Pros, Saved, Profile
+- **5-Tab Navigation** - Home, Pros, **Retail**, Saved, Profile
 - **Discover Tab** - Dynamic greeting, AI insights, trending styles
+- **Retail Tab** - AI product discovery, price tracking, deals & watchlist
 - **Profile Tab** - Stats section with refined menu
 - **Clean Codebase** - Simplified folder structure, easy to navigate
 - **Haptic Feedback** - Enhanced touch interactions
@@ -79,6 +80,7 @@ Feed endpoints:
 
 - 🎨 **Sophisticated Design System** - Charcoal & muted gold palette with light typography
 - 🔍 **Salon & Stylist Discovery** - Advanced filters and elegant UI
+- 🛍️ **Retail & Product Discovery** - AI-powered product search with price tracking & deals
 - 📅 **Complete Booking System** - External booking links to salons
 - 👤 **User Authentication** - Mock (email/phone optional for dev)
 - ⭐ **Reviews & Ratings** - AI-powered summaries
@@ -102,15 +104,20 @@ Feed endpoints:
 
 ---
 
-## 🧪 Test the Flow (Updated October 16)
+## 🧪 Test the Flow (Updated October 17)
 
 1. Run mobile app: `flutter run -d chrome`
 2. **Login page** - Enter any email/phone (or leave blank) → Tap "Sign In"
 3. **Home Tab** - See dynamic greeting, AI insights, trending styles
 4. **Pros Tab** - Browse professionals with filters (city, service, rating)
-5. **Saved Tab** - View and organize collections
-6. **Profile Tab** - View stats, access account settings
-7. **Tap any pro** - View profile, portfolio, reviews → Contact/Book
+5. **Retail Tab** - Discover products, track prices, view deals
+   - Search products with AI
+   - Browse by category (Hair Care, Styling, Tools)
+   - Add to watchlist for price tracking
+   - View deals & limited offers
+6. **Saved Tab** - View and organize collections
+7. **Profile Tab** - View stats, access account settings
+8. **Tap any pro** - View profile, portfolio, reviews → Contact/Book
 
 ---
 
@@ -118,7 +125,7 @@ Feed endpoints:
 
 **Repository:** https://github.com/qunexadmin/Zelus  
 **Issues:** GitHub Issues  
-**Last Updated:** October 16, 2025
+**Last Updated:** October 17, 2025
 
 ---
 

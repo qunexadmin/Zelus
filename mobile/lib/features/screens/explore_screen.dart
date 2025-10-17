@@ -134,12 +134,11 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
                     // Sort & Filter button
                     Container(
                       decoration: BoxDecoration(
-                        color: AppTheme.surfaceColor,
+                        color: AppTheme.primaryColor,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.borderLight),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.tune, color: AppTheme.primaryColor),
+                        icon: const Icon(Icons.tune, color: Colors.white),
                         onPressed: () {
                           HapticFeedback.lightImpact();
                           _showFilterSheet();
@@ -233,13 +232,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
                   if (_availableNow) _buildAvailableNowSection(),
 
                   // Tabs
-                  Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: AppTheme.borderLight, width: 1),
-                      ),
-                    ),
-                    child: TabBar(
+                  TabBar(
                       controller: _tabController,
                       indicatorColor: AppTheme.primaryColor,
                       indicatorWeight: 2,
@@ -254,11 +247,10 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
                         fontWeight: FontWeight.w300,
                       ),
                       onTap: (_) => HapticFeedback.selectionClick(),
-                      tabs: const [
-                        Tab(text: 'Professionals'),
-                        Tab(text: 'Salons'),
-                      ],
-                    ),
+                    tabs: const [
+                      Tab(text: 'Professionals'),
+                      Tab(text: 'Salons'),
+                    ],
                   ),
                 ],
               ),
@@ -394,18 +386,6 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Text(
-            'Specialties',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        const SizedBox(height: 12),
         SizedBox(
           height: 44,
           child: ListView.builder(
