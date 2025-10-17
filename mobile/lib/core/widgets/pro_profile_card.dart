@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../data/models/pro_profile.dart';
+import '../theme/app_theme.dart';
 import 'rating_bar.dart';
 
 /// Professional Profile Card
@@ -22,150 +23,209 @@ class ProProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header: Photo + Name + Verification
-              Row(
-                children: [
-                  // Profile Photo
-                  CircleAvatar(
-                    radius: 32,
-                    backgroundImage: CachedNetworkImageProvider(profile.photoUrl),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppTheme.surfaceColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppTheme.borderLight),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header: Photo + Name + Info
+            Row(
+              children: [
+                // Profile Photo
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(profile.photoUrl),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  const SizedBox(width: 12),
-                  
-                  // Name and Salon
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
+                  child: profile.isVerified
+                      ? Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            padding: const EdgeInsets.all(2),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.verified,
+                              size: 14,
+                              color: AppTheme.successColor,
+                            ),
+                          ),
+                        )
+                      : null,
+                ),
+                const SizedBox(width: 12),
+                
+                // Name and Info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      if (profile.salonName != null)
+                        Text(
+                          profile.salonName!,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w300,
+                            color: AppTheme.textSecondary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.star, size: 14, color: AppTheme.accentColor),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${profile.rating}',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '(${profile.reviewCount})',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                              color: AppTheme.textTertiary,
+                            ),
+                          ),
+                          if (profile.location != null) ...[
+                            const SizedBox(width: 8),
+                            const Icon(Icons.location_on, size: 12, color: AppTheme.textSecondary),
+                            const SizedBox(width: 2),
                             Flexible(
                               child: Text(
-                                profile.name,
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                profile.location!,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppTheme.textSecondary,
+                                ),
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            if (profile.isVerified) ...[
-                              const SizedBox(width: 4),
-                              const Icon(Icons.verified, size: 18, color: Colors.blue),
-                            ],
                           ],
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // Bio
+            Text(
+              profile.bio,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w300,
+                color: AppTheme.textSecondary,
+                height: 1.4,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // Services - More subtle
+            Row(
+              children: [
+                Expanded(
+                  child: Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: profile.services.take(3).map((service) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: AppTheme.borderLight, width: 1),
                         ),
-                        if (profile.salonName != null) ...[
-                          const SizedBox(height: 2),
-                          Text(
-                            profile.salonName!,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey[600],
-                                ),
+                        child: Text(
+                          service,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            color: AppTheme.textSecondary,
                           ),
-                        ],
-                        if (profile.location != null) ...[
-                          const SizedBox(height: 2),
-                          Row(
-                            children: [
-                              Icon(Icons.location_on, size: 14, color: Colors.grey[600]),
-                              const SizedBox(width: 2),
-                              Text(
-                                profile.location!,
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Colors.grey[600],
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                if (profile.priceRange != null)
+                  Text(
+                    profile.priceRange!,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.primaryColor,
                     ),
                   ),
-                ],
-              ),
-              
+              ],
+            ),
+            
+            if (showBookButton && onBookNow != null) ...[
               const SizedBox(height: 12),
-              
-              // Bio
-              Text(
-                profile.bio,
-                style: Theme.of(context).textTheme.bodyMedium,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              
-              const SizedBox(height: 12),
-              
-              // Services
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: profile.services.take(3).map((service) {
-                  return Chip(
-                    label: Text(
-                      service,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                  );
-                }).toList(),
-              ),
-              
-              const SizedBox(height: 12),
-              
-              // Footer: Rating + Price Range + Book Button
-              Row(
-                children: [
-                  // Rating
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomRatingBar(
-                          rating: profile.rating,
-                          size: 16,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${profile.reviewCount} reviews',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.grey[600],
-                              ),
-                        ),
-                        if (profile.priceRange != null) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            profile.priceRange!,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ],
-                      ],
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: onBookNow,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppTheme.primaryColor,
+                    side: const BorderSide(color: AppTheme.primaryColor, width: 1),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  
-                  // Book Button
-                  if (showBookButton && onBookNow != null)
-                    FilledButton(
-                      onPressed: onBookNow,
-                      child: const Text('Book Now'),
+                  child: const Text(
+                    'Book Now',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                     ),
-                ],
+                  ),
+                ),
               ),
             ],
-          ),
+          ],
         ),
       ),
     );

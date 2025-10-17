@@ -216,12 +216,12 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
                   // Active Filters Summary
                   if (_hasActiveFilters()) _buildActiveFiltersSummary(),
 
-                  const SizedBox(height: 16),
+                  if (_hasActiveFilters() || _availableNow) const SizedBox(height: 12),
 
                   // Available Now Section
                   if (_availableNow) _buildAvailableNowSection(),

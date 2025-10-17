@@ -378,47 +378,101 @@ class _LoginPageState extends State<LoginPage> {
     return Row(
       children: [
         Expanded(
-          child: _buildSocialButton(
-            label: 'Google',
-            onPressed: () {
-              // TODO: Implement Google Sign In
-            },
-          ),
+          child: _buildGoogleButton(),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _buildSocialButton(
-            label: 'Apple',
-            onPressed: () {
-              // TODO: Implement Apple Sign In
-            },
-          ),
+          child: _buildAppleButton(),
         ),
       ],
     );
   }
 
-  Widget _buildSocialButton({
-    required String label,
-    required VoidCallback onPressed,
-  }) {
+  Widget _buildGoogleButton() {
     return OutlinedButton(
-      onPressed: onPressed,
+      onPressed: () {
+        HapticFeedback.lightImpact();
+        // TODO: Implement Google Sign In
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Google Sign In coming soon!')),
+        );
+      },
       style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         side: BorderSide(color: Colors.grey[300]!),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.grey[700],
       ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Google Logo SVG
+          Container(
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg',
+                ),
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          const Text(
+            'Google',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+              letterSpacing: 0.25,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAppleButton() {
+    return OutlinedButton(
+      onPressed: () {
+        HapticFeedback.lightImpact();
+        // TODO: Implement Apple Sign In
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Apple Sign In coming soon!')),
+        );
+      },
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        side: BorderSide(color: Colors.grey[300]!),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
         ),
+        backgroundColor: Colors.white,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Apple Logo - Using Icon
+          const Icon(
+            Icons.apple,
+            size: 22,
+            color: Colors.black,
+          ),
+          const SizedBox(width: 8),
+          const Text(
+            'Apple',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+              letterSpacing: 0.25,
+            ),
+          ),
+        ],
       ),
     );
   }
