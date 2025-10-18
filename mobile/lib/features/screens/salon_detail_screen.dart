@@ -465,6 +465,28 @@ class _SalonDetailScreenState extends ConsumerState<SalonDetailScreen> {
               border: Border.all(color: AppTheme.borderLight),
             ),
             child: IconButton(
+              icon: const Icon(Icons.chat_bubble_outline, color: AppTheme.primaryColor),
+              onPressed: () {
+                HapticFeedback.lightImpact();
+                context.push(
+                  '/chat',
+                  extra: {
+                    'recipientId': salon['id'],
+                    'recipientName': salon['name'],
+                    'recipientPhoto': null,
+                  },
+                );
+              },
+            ),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            decoration: BoxDecoration(
+              color: AppTheme.surfaceColor,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppTheme.borderLight),
+            ),
+            child: IconButton(
               icon: const Icon(Icons.directions, color: AppTheme.primaryColor),
               onPressed: () => _getDirections(salon),
             ),

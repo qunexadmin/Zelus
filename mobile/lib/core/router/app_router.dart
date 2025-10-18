@@ -12,6 +12,7 @@ import '../../features/screens/pro_profile_screen.dart';
 import '../../features/screens/collections_screen.dart';
 import '../../features/screens/trending_screen.dart';
 import '../../features/screens/activity_feed_screen.dart';
+import '../../features/screens/chat_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -80,6 +81,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/following',
         name: 'following',
         builder: (context, state) => const ActivityFeedScreen(),
+      ),
+      GoRoute(
+        path: '/chat',
+        name: 'chat',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return ChatScreen(
+            recipientId: extra?['recipientId'] as String?,
+            recipientName: extra?['recipientName'] as String?,
+            recipientPhoto: extra?['recipientPhoto'] as String?,
+          );
+        },
       ),
     ],
   );

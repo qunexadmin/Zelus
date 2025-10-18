@@ -7,6 +7,7 @@ import 'discover_tab.dart';
 import 'profile_tab.dart';
 import 'explore_screen.dart';
 import 'collections_screen.dart';
+import 'messages_tab.dart';
 import '../../core/feature_flags.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -23,6 +24,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   final List<Widget> _tabs = const [
     DiscoverTab(),
     ExploreScreen(), // Professional, salon & product discovery
+    MessagesTab(), // Messages & AI assistant
     CollectionsScreen(), // Saved collections
     ProfileTab(),
   ];
@@ -47,6 +49,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             icon: Icon(Icons.explore_outlined),
             selectedIcon: Icon(Icons.explore),
             label: 'Explore',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.chat_bubble_outline),
+            selectedIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
           ),
           NavigationDestination(
             icon: Icon(Icons.bookmark_outline),

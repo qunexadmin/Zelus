@@ -6,10 +6,10 @@
 
 ## 📊 Project Status
 
-**Version:** 1.4.0 (Retail & Product Discovery)  
+**Version:** 1.5.0 (Social Layer & Messaging)  
 **Status:** ✅ Deployed & Running  
 **Server:** AWS EC2 (3.24.31.8:8006)  
-**Last Updated:** October 17, 2025
+**Last Updated:** October 18, 2025
 
 ---
 
@@ -36,13 +36,15 @@
 - ⭐ **Reviews & Ratings** - Social proof system
 - 📱 **Mobile-First UI** - Beautiful Material Design 3
 - 🌐 **RESTful API** - FastAPI with OpenAPI docs
+- 🤝 **Social Features** - Follow system, activity feed, engagement
+- 💬 **Messaging & AI Assistant** - Direct chat with stylists/salons + smart AI helper
 
 ### 🚧 Planned (Future)
 - 🤖 **AI Style Preview** - Try hairstyles before booking
 - 💳 **Payment Processing** - Stripe integration
 - 🔔 **Push Notifications** - Booking reminders
-- 💬 **In-App Chat** - Customer-stylist messaging
 - 📊 **Analytics Dashboard** - Business insights
+- 🎥 **Video Calls** - Virtual consultations
 
 ---
 
@@ -92,18 +94,17 @@ Zelus/
 │   │   │   ├── theme/      # Design system (charcoal/gold)
 │   │   │   ├── router/     # Navigation (starts at /login)
 │   │   │   └── widgets/    # Shared UI components (6 widgets)
-│   │   ├── data/           # Data layer (12 files)
-│   │   │   ├── models/     # 6 data models
-│   │   │   └── services/   # 6 business services
+│   │   ├── data/           # Data layer (14 files)
+│   │   │   ├── models/     # 7 data models (includes activity_post)
+│   │   │   └── services/   # 7 business services (includes activity_feed_service)
 │   │   ├── ai/             # AI features (2 files)
 │   │   ├── features/
-│   │   │   └── screens/    # ALL SCREENS (11 files in 1 folder!)
+│   │   │   └── screens/    # ALL SCREENS (14 files in 1 folder!)
 │   │   └── main.dart       # App entry point
 │   └── pubspec.yaml        # Flutter dependencies
 │
-├── PROJECT_OVERVIEW.md      # This file
-├── BACKEND.md              # Backend documentation
-└── README.md               # Quick start guide
+├── PROJECT_OVERVIEW.md      # This file (complete documentation)
+└── BACKEND.md              # Backend API & database details
 
 ```
 
@@ -116,21 +117,47 @@ Zelus/
 - Flutter 3.0+ (Mobile)
 - Docker (Database)
 
-### Start Backend
+### Start Backend (AWS Server)
 ```bash
 cd backend
 source venv/bin/activate
 uvicorn app.main:app --host 0.0.0.0 --port 8006 --reload
 ```
 
-### Start Mobile App
+### Start Mobile App (Your Laptop)
 ```bash
 cd mobile
 flutter pub get
-flutter run -d chrome  # or Android/iOS
+flutter pub run build_runner build --delete-conflicting-outputs  # Generate freezed files
+flutter run -d chrome  # or android/ios
 ```
 
-**Login:** `demo@zelux.com` / `any password`
+**Login:** Enter any email/phone (fields are optional for development)
+
+### What You'll See (v1.5.0)
+- **Elegant Login Page** - Sophisticated charcoal & muted gold design
+- **5-Tab Navigation** - Home, **Explore**, **Messages**, Saved, Profile
+- **Discover Tab** - Dynamic greeting, AI insights, trending styles, activity feed
+- **Explore Tab** - Professionals | Salons | **Retail** (all discovery unified)
+  - Browse pros with advanced filters
+  - Find salons near you
+  - Discover beauty products with price tracking
+- **Messages Tab** - AI Assistant + direct chat with stylists/salons
+- **Saved Tab** - Collections & bookmarks
+- **Profile Tab** - Stats, Following, Account settings
+- **Activity Feed** - See posts from followed stylists
+- **Clean Codebase** - 14 screens in one folder, easy to navigate
+- **Haptic Feedback** - Enhanced touch interactions throughout
+- **Pull-to-Refresh** - On all major screens
+
+### Test the Flow
+1. Run: `flutter run -d chrome`
+2. **Login** - Enter any email/phone → Tap "Sign In"
+3. **Home** - Dynamic greeting, trending styles
+4. **Explore** - Browse professionals, salons, products
+5. **Messages** - Chat with AI Assistant or stylists
+6. **Follow stylists** - See their activity in feed
+7. **Tap any profile** - View portfolio, book, message
 
 ---
 
@@ -294,10 +321,8 @@ flutter run -d chrome  # or Android/iOS
 
 ## 📚 Documentation
 
-- **[README.md](README.md)** - Quick start guide
-- **[PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)** - Project overview & progress (this file)
-- **[BACKEND.md](BACKEND.md)** - Backend API & database
-- **[mobile/README.md](mobile/README.md)** - Mobile app: setup, features, testing & integration
+- **[PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)** - Complete project documentation (this file)
+- **[BACKEND.md](BACKEND.md)** - Backend API & database details
 
 ---
 
@@ -311,7 +336,33 @@ flutter run -d chrome  # or Android/iOS
 
 ## 📝 Version History
 
-### v1.4.0 - October 17, 2025 (Current - Retail & Product Discovery)
+### v1.5.0 - October 18, 2025 (Current - Social Layer & Messaging)
+- 🤝 **Social Features Complete**
+  - **Follow System:** Follow stylists with real-time follower count display
+  - **Activity Feed:** Instagram-style chronological feed at `/following`
+    - 4 post types: Portfolio uploads, promotions, new services, location changes
+    - Co-branding for employed stylists ("at [Salon Name]")
+    - Pull-to-refresh functionality
+    - Beautiful empty state with "Discover Stylists" CTA
+  - **Engagement:** Like, comment, share, and save posts
+  - **Profile Integration:** "Following" section in Profile tab with badge count
+- 💬 **Messaging & AI Assistant**
+  - **Messages Tab:** Dedicated 5th tab in bottom navigation
+  - **AI Assistant:** Always accessible at top of messages list
+  - **Unified Chat System:** Direct messaging with stylists and salons at `/chat`
+  - **Quick Actions:** Pre-built buttons for common queries (find stylist, service prices, hair tips)
+  - **Context-Aware:** AI provides personalized responses based on user questions
+  - **Profile Integration:** Message buttons on all stylist and salon profiles
+  - **Call/Video Options:** Additional communication features for stylist chats
+- 📊 **Statistics:**
+  - 14 screens (added activity_feed_screen, chat_screen, messages_tab)
+  - 14 data files (added activity_post model)
+  - 7 services (added activity_feed_service)
+  - 15 mock activity posts from 5 diverse stylists
+  - 5-tab navigation (Home, Explore, Messages, Saved, Profile)
+- 🎨 **Design Consistency:** Full charcoal/gold theme, haptic feedback throughout
+
+### v1.4.0 - October 17, 2025 (Retail & Product Discovery)
 - 🛍️ **Retail Integration** - AI-powered product discovery merged into Explore
 - **4-Tab Navigation:** Home, **Explore**, Saved, Profile (cleaner, more intuitive)
 - **Explore Screen Enhanced:** 3 tabs → Professionals | Salons | **Retail**

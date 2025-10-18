@@ -612,7 +612,14 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
             child: OutlinedButton.icon(
               onPressed: () {
                 HapticFeedback.lightImpact();
-                _sendMessage(profile);
+                context.push(
+                  '/chat',
+                  extra: {
+                    'recipientId': profile.id,
+                    'recipientName': profile.name,
+                    'recipientPhoto': profile.photoUrl,
+                  },
+                );
               },
               icon: const Icon(Icons.chat_bubble_outline, size: 20),
               label: const Text('Message'),
@@ -1458,14 +1465,6 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
     }
   }
 
-  void _sendMessage(dynamic profile) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Messaging ${profile.name}...'),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
 
   void _shareProfile(String name) {
     ScaffoldMessenger.of(context).showSnackBar(
