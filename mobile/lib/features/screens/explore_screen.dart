@@ -670,6 +670,17 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
                       );
                     }
                   },
+                  onMessage: () {
+                    HapticFeedback.lightImpact();
+                    context.push(
+                      '/chat',
+                      extra: {
+                        'recipientId': profile.id,
+                        'recipientName': profile.name,
+                        'recipientPhoto': profile.photoUrl,
+                      },
+                    );
+                  },
                 ),
               );
             },

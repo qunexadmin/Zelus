@@ -114,38 +114,21 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                           ],
                         ),
                       ),
-                      // Profile Icon with notification badge
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              HapticFeedback.lightImpact();
-                              // Navigate to profile
-                            },
-                            child: Container(
-                              width: 44,
-                              height: 44,
-                              decoration: const BoxDecoration(
-                                color: AppTheme.primaryColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(Icons.person, color: Colors.white, size: 24),
-                            ),
+                      // Messages Icon
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          context.push('/chat');
+                        },
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: const BoxDecoration(
+                            color: AppTheme.primaryColor,
+                            shape: BoxShape.circle,
                           ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: Container(
-                              width: 12,
-                              height: 12,
-                              decoration: BoxDecoration(
-                                color: AppTheme.errorColor,
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 2),
-                              ),
-                            ),
-                          ),
-                        ],
+                          child: const Icon(Icons.chat_bubble_outline, color: Colors.white, size: 22),
+                        ),
                       ),
                     ],
                   ),
@@ -392,11 +375,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 
                 // Your Favorites Section
                 _buildFavoritesSection(),
-
-                const SizedBox(height: 32),
-
-                // New Stylists Near You
-                _buildNewStylistsSection(),
 
                 const SizedBox(height: 32),
 
@@ -964,179 +942,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNewStylistsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Text(
-                    'New Stylists Near You',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.black,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: AppTheme.successColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Text(
-                      '5 NEW',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              TextButton(
-                onPressed: () {
-                  HapticFeedback.lightImpact();
-                  context.push('/explore');
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: AppTheme.primaryColor,
-                  padding: EdgeInsets.zero,
-                ),
-                child: const Text(
-                  'Explore',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 190, // Increased from 180 to prevent overflow
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            children: [
-              _buildNewStylistCard('Michael Chen', 'Color Specialist', '4.8', '50+', '1'),
-              _buildNewStylistCard('Sarah Johnson', 'Bridal Expert', '5.0', '30+', '2'),
-              _buildNewStylistCard('Mike Brown', 'Barber Master', '4.9', '100+', '3'),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNewStylistCard(String name, String specialty, String rating, String reviews, String id) {
-    return InkWell(
-      onTap: () {
-        HapticFeedback.mediumImpact();
-        context.push('/stylist/$id');
-      },
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        width: 160,
-        margin: const EdgeInsets.only(right: 12, top: 4, bottom: 4),
-        padding: const EdgeInsets.all(14), // Reduced from 16
-        decoration: BoxDecoration(
-          color: AppTheme.surfaceColor,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppTheme.borderLight, width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  width: 65, // Reduced from 70
-                  height: 65, // Reduced from 70
-                  decoration: BoxDecoration(
-                    color: AppTheme.accentLight,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: Icon(Icons.person, color: AppTheme.accentColor, size: 32),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: const BoxDecoration(
-                      color: AppTheme.successColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.check, color: Colors.white, size: 10),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10), // Reduced from 12
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 14, // Reduced from 15
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 3), // Reduced from 4
-            Text(
-              specialty,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w300,
-                color: AppTheme.textSecondary,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 6), // Reduced from 8
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.star, color: AppTheme.accentColor, size: 13),
-                const SizedBox(width: 4),
-                Text(
-                  '$rating ($reviews)',
-                  style: const TextStyle(
-                    fontSize: 11, // Reduced from 12
-                    fontWeight: FontWeight.w400,
-                    color: AppTheme.textSecondary,
-                  ),
-                ),
-              ],
             ),
           ],
         ),

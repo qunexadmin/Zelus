@@ -6,7 +6,7 @@
 
 ## 📊 Project Status
 
-**Version:** 1.5.1 (Clean Architecture)  
+**Version:** 1.5.2 (Simplified Navigation)  
 **Status:** ✅ Deployed & Running  
 **Database:** Neon PostgreSQL - zelus (Serverless)  
 **Server:** AWS EC2 (3.24.31.8:8006)  
@@ -143,17 +143,16 @@ flutter run -d chrome  # or android/ios
 
 **Login:** Enter any email/phone (fields are optional for development)
 
-### What You'll See (v1.5.0)
+### What You'll See (v1.5.2)
 - **Elegant Login Page** - Sophisticated charcoal & muted gold design
-- **5-Tab Navigation** - Home, **Explore**, **Messages**, Saved, Profile
-- **Discover Tab** - Dynamic greeting, AI insights, trending styles, activity feed
+- **3-Tab Navigation** - Home | Explore | Profile (clean & minimal!)
+- **Home Tab** - Dynamic greeting, trending styles, **Messages icon** in header (AI assistant)
 - **Explore Tab** - Professionals | Salons | **Retail** (all discovery unified)
-  - Browse pros with advanced filters
+  - Browse pros with advanced filters (Book + Message buttons on each card)
   - Find salons near you
   - Discover beauty products with price tracking
-- **Messages Tab** - AI Assistant + direct chat with stylists/salons
-- **Saved Tab** - Collections & bookmarks
-- **Profile Tab** - Stats, Following, Account settings
+- **Profile Tab** - Stats, Following, Saved Collections, Account settings
+- **Messages** - Always accessible from Home screen header
 - **Activity Feed** - See posts from followed stylists
 - **Clean Codebase** - 14 screens in one folder, easy to navigate
 - **Haptic Feedback** - Enhanced touch interactions throughout
@@ -162,9 +161,9 @@ flutter run -d chrome  # or android/ios
 ### Test the Flow
 1. Run: `flutter run -d chrome`
 2. **Login** - Enter any email/phone → Tap "Sign In"
-3. **Home** - Dynamic greeting, trending styles
+3. **Home** - Dynamic greeting, tap Messages icon for AI chat
 4. **Explore** - Browse professionals, salons, products
-5. **Messages** - Chat with AI Assistant or stylists
+5. **Profile** - View Following, Saved Collections, Settings
 6. **Follow stylists** - See their activity in feed
 7. **Tap any profile** - View portfolio, book, message
 
@@ -391,7 +390,20 @@ alembic downgrade -1
 
 ## 📝 Version History
 
-### v1.5.1 - October 18, 2025 (Current - Clean Architecture)
+### v1.5.2 - October 18, 2025 (Current - Simplified Navigation)
+- 🎯 **3-Tab Navigation** - Cleaner, more focused
+  - **Home** - Main feed with Messages icon in header
+  - **Explore** - Discovery hub (Professionals | Salons | Retail)
+  - **Profile** - User settings & social features
+- 📱 **Messages** - Moved to Home screen header for quick access
+  - **Chat Buttons** - Added Message button next to Book button in Explore listings
+  - **Quick Access** - Message stylists directly from discovery cards
+- 🔖 **Saved Collections** - Moved into Profile tab under Social section
+- 🧹 **Removed** - Separate Messages and Saved tabs from bottom nav
+- 🧹 **Removed** - "Stylists Near You" section from Home screen
+- ✨ **Result** - Cleaner UI, less cluttered navigation, better UX
+
+### v1.5.1 - October 18, 2025 (Clean Architecture)
 - 🧹 **Project Cleanup Complete**
   - Removed Docker setup (migrated to Neon)
   - Cleaned up temporary documentation files
@@ -425,7 +437,9 @@ alembic downgrade -1
   - 14 data files (added activity_post model)
   - 7 services (added activity_feed_service)
   - 15 mock activity posts from 5 diverse stylists
-  - 5-tab navigation (Home, Explore, Messages, Saved, Profile)
+  - 3-tab navigation (Home, Explore, Profile) - simplified!
+  - Messages accessible from Home header
+  - Saved Collections in Profile tab
 - 🎨 **Design Consistency:** Full charcoal/gold theme, haptic feedback throughout
 
 ### v1.4.0 - October 17, 2025 (Retail & Product Discovery)

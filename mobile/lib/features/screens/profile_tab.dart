@@ -111,16 +111,6 @@ class ProfileTab extends ConsumerWidget {
                     const SizedBox(height: 20),
                     _buildMenuItem(
                       context,
-                      'Messages',
-                      Icons.chat_bubble_outline,
-                      () {
-                        HapticFeedback.lightImpact();
-                        context.push('/chat');
-                      },
-                      subtitle: 'Chat with stylists & AI assistant',
-                    ),
-                    _buildMenuItem(
-                      context,
                       'Following',
                       Icons.people_outline,
                       () {
@@ -129,6 +119,16 @@ class ProfileTab extends ConsumerWidget {
                       },
                       subtitle: 'See updates from stylists you follow',
                       badge: _buildFollowingBadge(ref),
+                    ),
+                    _buildMenuItem(
+                      context,
+                      'Saved Collections',
+                      Icons.bookmark_outline,
+                      () {
+                        HapticFeedback.lightImpact();
+                        context.push('/collections');
+                      },
+                      subtitle: 'Your saved posts and bookmarks',
                     ),
                   ],
                 ),
