@@ -7,6 +7,7 @@ python-multipart==0.0.6
 sqlalchemy==2.0.23
 psycopg2-binary==2.9.9
 alembic==1.12.1
+python-dateutil==2.9.0
 
 # Data validation and settings
 pydantic==2.5.0

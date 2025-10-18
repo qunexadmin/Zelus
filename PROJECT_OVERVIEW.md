@@ -6,8 +6,9 @@
 
 ## 📊 Project Status
 
-**Version:** 1.5.0 (Social Layer & Messaging)  
+**Version:** 1.5.1 (Clean Architecture)  
 **Status:** ✅ Deployed & Running  
+**Database:** Neon PostgreSQL (Serverless)  
 **Server:** AWS EC2 (3.24.31.8:8006)  
 **Last Updated:** October 18, 2025
 
@@ -18,10 +19,10 @@
 ```
 ┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
 │  Flutter App    │────────▶│   FastAPI        │────────▶│   PostgreSQL    │
-│  (Mobile/Web)   │  HTTP   │   Backend        │         │   Database      │
-│  Port: -        │         │   Port: 8006     │         │   Port: 5432    │
+│  (Mobile/Web)   │  HTTP   │   Backend        │         │   (Neon)        │
+│  Port: -        │         │   Port: 8006     │         │   Serverless    │
 └─────────────────┘         └──────────────────┘         └─────────────────┘
-     Laptop/Mobile              AWS Server                   Docker Container
+     Laptop/Mobile              AWS Server                  Neon Cloud (AWS)
 ```
 
 ---
@@ -60,7 +61,7 @@
 
 ### Backend (API)
 - **Framework:** FastAPI (Python 3.10)
-- **Database:** PostgreSQL 15
+- **Database:** Neon PostgreSQL 17.5 (Serverless)
 - **ORM:** SQLAlchemy 2.0
 - **Migrations:** Alembic
 - **Validation:** Pydantic
@@ -68,43 +69,51 @@
 
 ### Infrastructure
 - **Hosting:** AWS EC2 (Ubuntu)
-- **Database:** Docker (PostgreSQL)
+- **Database:** Neon PostgreSQL (Serverless, AWS ap-southeast-1)
 - **Version Control:** Git/GitHub
 
 ---
 
-## 📂 Project Structure (Simplified!)
+## 📂 Project Structure (Clean & Simple!)
 
 ```
 Zelus/
 ├── backend/                 # FastAPI backend
-│   ├── app/
+│   ├── app/                # Application code
 │   │   ├── routers/        # API endpoints
-│   │   ├── models/         # Database models
+│   │   ├── models/         # Database models (SQLAlchemy)
 │   │   ├── schemas/        # Pydantic schemas
-│   │   └── main.py         # App entry point
+│   │   ├── core/           # Config & utilities
+│   │   ├── db.py           # Database setup
+│   │   └── main.py         # FastAPI app entry
 │   ├── alembic/            # Database migrations
+│   │   ├── versions/       # Migration files
+│   │   └── env.py          # Alembic config
+│   ├── media/              # Uploaded media files
 │   ├── requirements.txt    # Python dependencies
-│   └── .env                # Environment config
+│   ├── env.example         # Environment template
+│   ├── alembic.ini         # Alembic configuration
+│   └── seed_data.py        # Sample data loader
 │
-├── mobile/                  # Flutter mobile app (CLEANED!)
+├── mobile/                  # Flutter mobile app
 │   ├── lib/
-│   │   ├── core/           # Core utilities (11 files)
-│   │   │   ├── api/        # API client
+│   │   ├── core/           # Core utilities
+│   │   │   ├── api/        # API client (Dio)
 │   │   │   ├── theme/      # Design system (charcoal/gold)
-│   │   │   ├── router/     # Navigation (starts at /login)
-│   │   │   └── widgets/    # Shared UI components (6 widgets)
-│   │   ├── data/           # Data layer (14 files)
-│   │   │   ├── models/     # 7 data models (includes activity_post)
-│   │   │   └── services/   # 7 business services (includes activity_feed_service)
-│   │   ├── ai/             # AI features (2 files)
-│   │   ├── features/
-│   │   │   └── screens/    # ALL SCREENS (14 files in 1 folder!)
-│   │   └── main.dart       # App entry point
+│   │   │   ├── router/     # Navigation (GoRouter)
+│   │   │   └── widgets/    # Reusable UI components
+│   │   ├── data/           # Data layer
+│   │   │   ├── models/     # Data models (freezed)
+│   │   │   └── services/   # Business logic
+│   │   ├── features/       # Feature screens
+│   │   │   └── screens/    # All UI screens (14 files)
+│   │   └── main.dart       # Flutter app entry
+│   ├── assets/             # Images, fonts, etc.
 │   └── pubspec.yaml        # Flutter dependencies
 │
-├── PROJECT_OVERVIEW.md      # This file (complete documentation)
-└── BACKEND.md              # Backend API & database details
+├── PROJECT_OVERVIEW.md      # Complete project documentation
+├── BACKEND.md              # Backend setup guide
+└── .gitignore              # Git ignore rules
 
 ```
 
@@ -115,7 +124,7 @@ Zelus/
 ### Prerequisites
 - Python 3.10+ (Backend)
 - Flutter 3.0+ (Mobile)
-- Docker (Database)
+- Neon account (Database - serverless, no local setup needed)
 
 ### Start Backend (AWS Server)
 ```bash
@@ -289,9 +298,26 @@ flutter run -d chrome  # or android/ios
 - ✅ Stylist onboarding screen & route
 - ✅ Tagging UI (MVP)
 
+### October 18, 2025 - Infrastructure Overhaul
+- ✅ **Database Migration to Neon**
+  - Migrated from local Docker PostgreSQL to Neon
+  - Neon PostgreSQL 17.5 (Serverless) configured
+  - All tables migrated via Alembic
+  - Sample data re-seeded to Neon
+- ✅ **Project Cleanup**
+  - Removed Docker setup (containers, volumes, networks)
+  - Removed docker-compose.yml and Dockerfile
+  - Cleaned Python cache files (__pycache__, .pyc)
+  - Removed temporary migration/cleanup docs
+  - Added comprehensive .gitignore
+  - Simplified to 2 core documentation files
+- ✅ **Testing & Verification**
+  - API tested and verified with Neon
+  - All endpoints working correctly
+  - Documentation updated
+
 ### October 12, 2025 - Initial Deployment
 - ✅ Backend deployed on AWS (port 8006)
-- ✅ PostgreSQL database running (Docker)
 - ✅ Sample data seeded
 - ✅ Mobile app configured
 - ✅ Chrome web testing enabled
@@ -334,9 +360,49 @@ flutter run -d chrome  # or android/ios
 
 ---
 
+## 🗄️ About Alembic (Database Migrations)
+
+**What is Alembic?**
+Alembic is your database version control system. Think of it like Git, but for your database schema.
+
+**Why is it important?**
+- **Track Changes:** Every database change is recorded as a migration file
+- **Version Control:** Rollback to previous database states if needed
+- **Team Collaboration:** Share database changes across your team
+- **Production Safety:** Apply tested changes to production databases
+
+**How it works:**
+```bash
+# 1. Make changes to your models (e.g., add a new column to User model)
+# 2. Create a migration
+alembic revision --autogenerate -m "add bio field to user"
+
+# 3. Review the generated migration file in alembic/versions/
+# 4. Apply the migration
+alembic upgrade head
+
+# 5. If needed, rollback
+alembic downgrade -1
+```
+
+**Never delete the alembic folder!** It contains your database history.
+
+---
+
 ## 📝 Version History
 
-### v1.5.0 - October 18, 2025 (Current - Social Layer & Messaging)
+### v1.5.1 - October 18, 2025 (Current - Clean Architecture)
+- 🧹 **Project Cleanup Complete**
+  - Removed Docker setup (migrated to Neon)
+  - Cleaned up temporary documentation files
+  - Added comprehensive .gitignore
+  - Removed Python cache files
+  - Simplified project structure
+  - Updated all documentation
+- 🗄️ **Database:** Fully migrated to Neon PostgreSQL
+- 📚 **Documentation:** 2 core docs (PROJECT_OVERVIEW.md, BACKEND.md)
+
+### v1.5.0 - October 18, 2025 (Social Layer & Messaging)
 - 🤝 **Social Features Complete**
   - **Follow System:** Follow stylists with real-time follower count display
   - **Activity Feed:** Instagram-style chronological feed at `/following`

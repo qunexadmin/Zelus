@@ -9,9 +9,10 @@
 **Status:** ✅ Running  
 **Server:** AWS EC2 (3.24.31.8)  
 **Port:** 8006  
+**Database:** Neon PostgreSQL (Serverless)  
 **Health:** http://3.24.31.8:8006/health  
 **API Docs:** http://3.24.31.8:8006/docs  
-**Last Updated:** October 12, 2025
+**Last Updated:** October 18, 2025 (Migrated to Neon)
 
 ---
 
@@ -19,7 +20,7 @@
 
 - **Framework:** FastAPI 0.104.1
 - **Python:** 3.10.12
-- **Database:** PostgreSQL 15 (Docker)
+- **Database:** Neon PostgreSQL 17.5 (Serverless)
 - **ORM:** SQLAlchemy 2.0.23
 - **Migrations:** Alembic 1.12.1
 - **Validation:** Pydantic 2.5.0
@@ -62,8 +63,8 @@ backend/
 ### Environment Variables (.env)
 
 ```bash
-# Database
-DATABASE_URL=postgresql://zelux_user:zelux_password@localhost:5432/zelux_db
+# Database (Neon PostgreSQL - Serverless)
+DATABASE_URL=postgresql://user:password@hostname.neon.tech/dbname?sslmode=require
 
 # Security
 SECRET_KEY=dev-secret-key-change-in-production
@@ -87,8 +88,8 @@ PROJECT_NAME=Zelux API
 # Check Python version
 python3 --version  # Should be 3.10+
 
-# Check if database is running
-docker ps | grep zelux-db
+# Database: Neon PostgreSQL (already configured in .env)
+# No Docker required - using serverless Neon database
 ```
 
 ### 2. Create Virtual Environment
@@ -104,20 +105,14 @@ pip install -r requirements.txt
 pip install pydantic[email]  # For email validation
 ```
 
-### 4. Start Database
-```bash
-cd /home/ubuntu/Zelus
-docker compose up -d db
-```
-
-### 5. Initialize Database (First Time)
+### 4. Initialize Database (First Time)
 ```bash
 cd backend
 source venv/bin/activate
 python seed_data.py
 ```
 
-### 6. Start Backend
+### 5. Start Backend
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8006 --reload
 ```
@@ -167,42 +162,45 @@ uvicorn app.main:app --host 0.0.0.0 --port 8006 --reload
 
 ## 🗄️ Database Management
 
-### Start Database
-```bash
-cd /home/ubuntu/Zelus
-docker compose up -d db
-```
+### Database: Neon PostgreSQL (Serverless)
 
-### Stop Database
-```bash
-docker compose stop db
-```
+The database is hosted on Neon (https://neon.tech) - no local Docker setup required.
 
-### Restart Database
+### Database Migrations
 ```bash
-docker compose restart db
-```
-
-### Reset Database (Delete All Data)
-```bash
-cd /home/ubuntu/Zelus
-docker compose down -v
-docker compose up -d db
-
-# Re-seed data
-cd backend
+cd /home/ubuntu/Zelus/backend
 source venv/bin/activate
-python seed_data.py
-```
 
-### Check Database Status
-```bash
-docker ps | grep zelux-db
+# Create new migration
+alembic revision --autogenerate -m "description"
+
+# Apply migrations
+alembic upgrade head
+
+# Rollback migration
+alembic downgrade -1
+
+# Check current version
+alembic current
 ```
 
 ### Connect to Database
 ```bash
-docker exec -it zelux-db psql -U zelux_user -d zelux_db
+# Using psql (install if needed: sudo apt install postgresql-client)
+psql "postgresql://[your-neon-connection-string]"
+
+# Or manage via Neon Console: https://console.neon.tech
+```
+
+### Reset Database (Use with Caution!)
+```bash
+# Option 1: Drop and recreate tables using Alembic
+alembic downgrade base
+alembic upgrade head
+python seed_data.py
+
+# Option 2: Use Neon Console to delete/recreate branch
+# Go to https://console.neon.tech and manage branches
 ```
 
 ---
@@ -433,12 +431,16 @@ pip install -r requirements.txt
 
 ### Database Connection Error
 ```bash
-# Check if database is running
-docker ps | grep zelux-db
+# Check connection string in .env
+cat /home/ubuntu/Zelus/backend/.env | grep DATABASE_URL
 
-# Restart database
-cd /home/ubuntu/Zelus
-docker compose restart db
+# Test connection
+cd /home/ubuntu/Zelus/backend
+source venv/bin/activate
+python -c "from app.db import engine; engine.connect(); print('✅ Connected')"
+
+# Check Neon dashboard: https://console.neon.tech
+# Verify database is active and not suspended
 ```
 
 ### Module Not Found Errors
@@ -513,14 +515,26 @@ mypy app/
 
 ## 🔄 Backup & Restore
 
-### Backup Database
+### Neon Automatic Backups
+Neon automatically backs up your database with point-in-time recovery.
+
+### Manual Backup
 ```bash
-docker exec zelux-db pg_dump -U zelux_user zelux_db > backup.sql
+# Export schema and data
+pg_dump "postgresql://[your-neon-connection-string]" > backup.sql
 ```
 
-### Restore Database
+### Restore from Backup
 ```bash
-docker exec -i zelux-db psql -U zelux_user zelux_db < backup.sql
+# Restore to Neon database
+psql "postgresql://[your-neon-connection-string]" < backup.sql
+```
+
+### Database Branching (Neon Feature)
+```bash
+# Create a development branch from production data
+# Use Neon Console: https://console.neon.tech
+# Branches are instant copies - perfect for testing!
 ```
 
 ---
@@ -533,6 +547,6 @@ docker exec -i zelux-db psql -U zelux_user zelux_db < backup.sql
 
 ---
 
-**Last Updated:** October 12, 2025
+**Last Updated:** October 18, 2025 - Migrated to Neon PostgreSQL
 
 

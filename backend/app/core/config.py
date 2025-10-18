@@ -12,8 +12,8 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     PROJECT_NAME: str = "Zelux API"
     
-    # Database
-    DATABASE_URL: str = "postgresql://zelux_user:zelux_password@localhost:5432/zelux_db"
+    # Database (loaded from .env - uses Neon PostgreSQL)
+    DATABASE_URL: str
     
     # Firebase Auth
     FIREBASE_PROJECT_ID: Optional[str] = None
