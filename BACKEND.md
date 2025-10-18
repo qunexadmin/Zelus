@@ -64,7 +64,8 @@ backend/
 
 ```bash
 # Database (Neon PostgreSQL - Serverless)
-DATABASE_URL=postgresql://user:password@hostname.neon.tech/dbname?sslmode=require
+# Database name: zelus
+DATABASE_URL=postgresql://user:password@hostname.neon.tech/zelus?sslmode=require
 
 # Security
 SECRET_KEY=dev-secret-key-change-in-production

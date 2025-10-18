@@ -8,7 +8,7 @@
 
 **Version:** 1.5.1 (Clean Architecture)  
 **Status:** ✅ Deployed & Running  
-**Database:** Neon PostgreSQL (Serverless)  
+**Database:** Neon PostgreSQL - zelus (Serverless)  
 **Server:** AWS EC2 (3.24.31.8:8006)  
 **Last Updated:** October 18, 2025
 

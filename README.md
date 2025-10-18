@@ -111,7 +111,7 @@ alembic downgrade -1
 | Metric | Value |
 |--------|-------|
 | **Version** | 1.5.1 (Clean Architecture) |
-| **Database** | Neon PostgreSQL 17.5 |
+| **Database** | Neon PostgreSQL 17.5 - zelus |
 | **API Status** | ✅ Running (port 8006) |
 | **Tables** | 4 (users, salons, stylists, services) |
 | **Sample Data** | 3 users, 3 salons, 4 stylists, 7 services |
@@ -149,7 +149,7 @@ curl http://3.24.31.8:8006/api/v1/salons/salon-1
 
 Create `backend/.env`:
 ```bash
-DATABASE_URL=postgresql://user:pass@hostname.neon.tech/db?sslmode=require
+DATABASE_URL=postgresql://user:pass@hostname.neon.tech/zelus?sslmode=require
 SECRET_KEY=your-secret-key
 API_V1_STR=/api/v1
 PROJECT_NAME=Zelux API
@@ -198,6 +198,7 @@ pkill -f "uvicorn"
 
 **Database (Current):**
 - Provider: Neon (https://neon.tech)
+- Database Name: zelus
 - Region: AWS ap-southeast-1
 - Type: Serverless PostgreSQL 17.5
 
