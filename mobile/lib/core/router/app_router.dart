@@ -11,6 +11,7 @@ import '../../features/screens/explore_screen.dart';
 import '../../features/screens/pro_profile_screen.dart';
 import '../../features/screens/collections_screen.dart';
 import '../../features/screens/trending_screen.dart';
+import '../../features/screens/activity_feed_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -74,6 +75,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/trending',
         name: 'trending',
         builder: (context, state) => const TrendingScreen(),
+      ),
+      GoRoute(
+        path: '/following',
+        name: 'following',
+        builder: (context, state) => const ActivityFeedScreen(),
       ),
     ],
   );

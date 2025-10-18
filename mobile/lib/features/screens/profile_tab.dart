@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../data/services/personalization_store.dart';
 
 class ProfileTab extends ConsumerWidget {
   const ProfileTab({super.key});
@@ -85,6 +86,39 @@ class ProfileTab extends ConsumerWidget {
                         ),
                         _buildStatItem('156', 'Points'),
                       ],
+                    ),
+                  ],
+                ),
+              ),
+              
+              const SizedBox(height: 24),
+
+              // Social Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Social',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildMenuItem(
+                      context,
+                      'Following',
+                      Icons.people_outline,
+                      () {
+                        HapticFeedback.lightImpact();
+                        context.push('/following');
+                      },
+                      subtitle: 'See updates from stylists you follow',
+                      badge: _buildFollowingBadge(ref),
                     ),
                   ],
                 ),
@@ -216,8 +250,10 @@ class ProfileTab extends ConsumerWidget {
     BuildContext context,
     String title,
     IconData icon,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap, {
+    String? subtitle,
+    Widget? badge,
+  }) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
@@ -234,15 +270,35 @@ class ProfileTab extends ConsumerWidget {
             Icon(icon, color: AppTheme.primaryColor, size: 22),
             const SizedBox(width: 16),
             Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300,
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
+            if (badge != null) ...[
+              badge,
+              const SizedBox(width: 8),
+            ],
             const Icon(
               Icons.chevron_right,
               color: AppTheme.textTertiary,
@@ -251,6 +307,40 @@ class ProfileTab extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  static Widget _buildFollowingBadge(WidgetRef ref) {
+    final storeAsync = ref.watch(personalizationStoreProvider);
+    
+    return storeAsync.when(
+      data: (store) {
+        return FutureBuilder<List<String>>(
+          future: store.getFollowedIds(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppTheme.accentColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '${snapshot.data!.length}',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 }

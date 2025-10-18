@@ -2,7 +2,7 @@
 
 Zelux mobile application built with Flutter - A beauty professional discovery platform with social content and booking features.
 
-**Last Updated:** October 17, 2025 - Retail & Product Discovery! 🛍️
+**Last Updated:** October 18, 2025 - Social Layer: Follow System & Activity Feed! 📱
 
 ## ✨ Current Features
 
@@ -14,11 +14,20 @@ Zelux mobile application built with Flutter - A beauty professional discovery pl
 - **Entry Point** - Login page first, accepts email or phone (optional fields)
 - **Navigation** - 4-tab bottom nav: Home, **Explore**, Saved, Profile (clean & intuitive)
 
+### Social Features 🤝
+- **Follow System** - Follow your favorite stylists with follower count display
+- **Activity Feed** - Instagram-style chronological feed from followed stylists (`/following`)
+- **Post Types** - Portfolio uploads, promotions, new services, location changes
+- **Co-Branding** - Employed stylists show "at [Salon Name]" attribution
+- **Engagement** - Like, comment, share, and save posts
+- **Pull-to-Refresh** - Stay updated with latest posts
+- **Empty States** - Beautiful prompts to discover and follow stylists
+
 ### Professional Profiles 👥
 - **ProProfile Model** - Comprehensive professional profiles with services, portfolio, ratings
 - **Book Now** - Contact and booking integration
 - **AI Review Highlights** - Smart 2-line summaries when ≥10 reviews available
-- **Follow System** - Save and follow your favorite professionals
+- **Follow Button** - Shows follower count and updates in real-time
 
 ### Salon Pages 🏪
 - **Staff Directory** - Browse all professionals at a salon
@@ -183,15 +192,17 @@ lib/
 │       ├── rating_bar.dart
 │       └── tag_chips.dart
 │
-├── data/                    # Data layer (12 files)
-│   ├── models/             # Data models (6 files)
+├── data/                    # Data layer (14 files)
+│   ├── models/             # Data models (7 files)
+│   │   ├── activity_post.dart
 │   │   ├── collection.dart
 │   │   ├── feed_item.dart
 │   │   ├── oembed_data.dart
 │   │   ├── pro_profile.dart
 │   │   ├── review.dart
 │   │   └── salon.dart
-│   └── services/           # Business logic (6 files)
+│   └── services/           # Business logic (7 files)
+│       ├── activity_feed_service.dart
 │       ├── feed_service.dart
 │       ├── oembed_service.dart
 │       ├── personalization_store.dart
@@ -204,12 +215,13 @@ lib/
 │   └── insights/trend_radar.dart
 │
 └── features/
-    └── screens/            # ALL SCREENS IN ONE FOLDER! (11 files)
+    └── screens/            # ALL SCREENS IN ONE FOLDER! (12 files)
         ├── login_screen.dart           # Login/auth
         ├── home_screen.dart            # 4-tab navigation
         ├── discover_tab.dart           # Home feed
         ├── profile_tab.dart            # User profile
         ├── explore_screen.dart         # Pros/Salons/Retail (3 tabs)
+        ├── activity_feed_screen.dart   # Following/Activity feed
         ├── pro_profile_screen.dart     # Professional profiles
         ├── salon_detail_screen.dart    # Salon pages
         ├── collections_screen.dart     # Saved collections
@@ -218,7 +230,7 @@ lib/
         └── stylist_onboard_screen.dart # Onboarding flow
 ```
 
-**Total: 11 screens, 12 data files, 11 core files - Clean and simple!**
+**Total: 12 screens, 14 data files, 11 core files - Clean and simple!**
 
 ## 📱 Key Screens & Routes
 
@@ -226,6 +238,7 @@ lib/
 - **`/login`** - **Entry point** - Email or phone login
 - **`/`** - Home screen with 4 tabs: Home, **Explore**, Saved, Profile
 - **`/explore`** - Unified discovery with 3 tabs: Professionals | Salons | Retail
+- **`/following`** - Activity feed from followed stylists
 - **`/collections`** - Saved collections manager
 - **`/trending`** - Trending content feed
 
@@ -359,6 +372,19 @@ flutter format lib/
 ```
 
 ## 🚀 Recent Updates
+
+### October 18, 2025 - Social Layer: Follow System & Activity Feed
+- ✅ **Enhanced Follow Button** - Shows follower count, updates in real-time
+- ✅ **Activity Feed Screen** - Instagram-style feed at `/following`
+  - 4 post types: Portfolio uploads, promotions, new services, location changes
+  - Chronological sorting (newest first)
+  - Pull-to-refresh functionality
+  - Beautiful empty state with "Discover Stylists" CTA
+- ✅ **Co-Branding** - Employed stylists show "at [Salon Name]"
+- ✅ **Profile Integration** - "Following" section with badge showing followed count
+- ✅ **Mock Data** - 15 sample posts from 5 diverse stylists
+- ✅ **Engagement** - Like, comment, share, and save post actions
+- ✅ **Design Consistency** - Full charcoal/gold theme, haptic feedback throughout
 
 ### October 17, 2025 - Retail & Product Discovery (Refined UX)
 - ✅ **Retail Integrated into Explore** - Better information architecture

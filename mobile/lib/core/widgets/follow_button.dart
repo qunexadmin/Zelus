@@ -9,19 +9,23 @@ import '../../data/services/personalization_store.dart';
 class FollowButton extends ConsumerStatefulWidget {
   final String userId;
   final bool initialFollowing;
+  final int? followerCount;
   final VoidCallback? onFollowed;
   final VoidCallback? onUnfollowed;
   final ButtonStyle? followingStyle;
   final ButtonStyle? notFollowingStyle;
+  final bool showFollowerCount;
 
   const FollowButton({
     super.key,
     required this.userId,
     this.initialFollowing = false,
+    this.followerCount,
     this.onFollowed,
     this.onUnfollowed,
     this.followingStyle,
     this.notFollowingStyle,
+    this.showFollowerCount = false,
   });
 
   @override
@@ -30,12 +34,14 @@ class FollowButton extends ConsumerStatefulWidget {
 
 class _FollowButtonState extends ConsumerState<FollowButton> {
   late bool _isFollowing;
+  late int _followerCount;
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _isFollowing = widget.initialFollowing;
+    _followerCount = widget.followerCount ?? 0;
     _loadFollowStatus();
   }
 
@@ -70,7 +76,21 @@ class _FollowButtonState extends ConsumerState<FollowButton> {
               width: 16,
               child: CircularProgressIndicator(strokeWidth: 2),
             )
-          : Text(_isFollowing ? 'Following' : 'Follow'),
+          : widget.showFollowerCount
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(_isFollowing ? 'Following' : 'Follow'),
+                    if (widget.showFollowerCount && _followerCount > 0) ...[
+                      const SizedBox(width: 4),
+                      Text(
+                        '($_followerCount)',
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
+                      ),
+                    ],
+                  ],
+                )
+              : Text(_isFollowing ? 'Following' : 'Follow'),
     );
   }
 
@@ -83,13 +103,19 @@ class _FollowButtonState extends ConsumerState<FollowButton> {
       if (_isFollowing) {
         await store.unfollowUser(widget.userId);
         if (mounted) {
-          setState(() => _isFollowing = false);
+          setState(() {
+            _isFollowing = false;
+            if (widget.showFollowerCount) _followerCount--;
+          });
           widget.onUnfollowed?.call();
         }
       } else {
         await store.followUser(widget.userId);
         if (mounted) {
-          setState(() => _isFollowing = true);
+          setState(() {
+            _isFollowing = true;
+            if (widget.showFollowerCount) _followerCount++;
+          });
           widget.onFollowed?.call();
         }
       }

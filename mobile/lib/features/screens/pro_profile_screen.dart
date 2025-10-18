@@ -636,6 +636,8 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
             child: FollowButton(
               userId: profile.id,
               initialFollowing: false,
+              followerCount: profile.followerCount,
+              showFollowerCount: true,
             ),
           ),
         ],
