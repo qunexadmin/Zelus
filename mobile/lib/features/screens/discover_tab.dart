@@ -175,6 +175,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                     indicatorWeight: 2.5,
                     labelColor: Colors.black,
                     unselectedLabelColor: AppTheme.textTertiary,
+                    dividerColor: Colors.transparent, // Remove gray divider line
+                    dividerHeight: 0,
                     labelStyle: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -1586,130 +1588,120 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
     );
   }
 
-  // NEW REDESIGNED METHODS
+  // CLEAN AI-INSPIRED DESIGN
   
   Widget _buildSmartQuickActionsRow() {
     final actions = _getSmartQuickActions();
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Clean minimal header with AI badge
+          Row(
             children: [
-              Icon(Icons.auto_awesome, size: 20, color: AppTheme.primaryColor),
-              SizedBox(width: 8),
-              Text(
-                'For You',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.primaryColor,
-                  letterSpacing: 0.8,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.auto_awesome, size: 12, color: Colors.white),
+                    SizedBox(width: 6),
+                    Text(
+                      'AI Assistant',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 120,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            itemCount: actions.length,
-            itemBuilder: (context, index) {
-              final action = actions[index];
-              return _buildQuickActionCard(
-                action['icon'] as IconData,
-                action['title'] as String,
-                action['subtitle'] as String?,
-                action['onTap'] as VoidCallback,
-                index,
-              );
-            },
-          ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          
+          // Clean vertical cards
+          ...actions.map((action) => _buildCleanActionCard(
+            action['icon'] as IconData,
+            action['title'] as String,
+            action['subtitle'] as String?,
+            action['onTap'] as VoidCallback,
+          )).toList(),
+        ],
+      ),
     );
   }
 
-  Widget _buildQuickActionCard(IconData icon, String title, String? subtitle, VoidCallback onTap, int index) {
-    // Different gradient colors for variety
-    final gradients = [
-      [const Color(0xFF667eea), const Color(0xFF764ba2)], // Purple-blue
-      [const Color(0xFFf093fb), const Color(0xFFf5576c)], // Pink-red
-      [const Color(0xFF4facfe), const Color(0xFF00f2fe)], // Blue-cyan
-    ];
-    final gradient = gradients[index % gradients.length];
-    
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        width: 260,
-        margin: const EdgeInsets.only(right: 12, top: 4, bottom: 4),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: gradient,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: gradient[0].withOpacity(0.4),
-              blurRadius: 16,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.25),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(icon, color: Colors.white, size: 18),
-                ),
-                const Spacer(),
-                const Icon(Icons.arrow_forward, color: Colors.white, size: 18),
-              ],
-            ),
-            const Spacer(),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-                letterSpacing: -0.3,
-                height: 1.3,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            if (subtitle != null) ...[
-              const SizedBox(height: 4),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.white.withOpacity(0.9),
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+  Widget _buildCleanActionCard(IconData icon, String title, String? subtitle, VoidCallback onTap) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFE5E5E5), width: 1),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.03),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
               ),
             ],
-          ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF7F7F7),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, size: 18, color: Colors.black87),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                        letterSpacing: -0.2,
+                        height: 1.3,
+                      ),
+                    ),
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF737373),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios, size: 14, color: Color(0xFFBFBFBF)),
+            ],
+          ),
         ),
       ),
     );

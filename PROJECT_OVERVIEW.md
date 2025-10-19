@@ -403,22 +403,24 @@ alembic downgrade -1
 ### v1.5.3 - October 19, 2025 (Current - Social-First Home)
 - 🏠 **Smart Home Screen Layout** - Instagram-style sticky navigation
   - **Global Utilities** (scroll away):
-    - 🤖 **Smart AI Assistant Card** - Contextual, personalized quick actions
-      - "Style ideas for Oct 25th" (upcoming appointment)
-      - "Price drop on 3 saved items" (watchlist alerts)
-      - "Check Jane's availability" (last visited stylist)
-      - Beautiful gradient design with shadow effects
-    - 📅 **Compact Appointment** - Enhanced design with gradient
-    - 🕐 **Compact Recent Visit** - Polished card design
+    - 🤖 **Clean AI Assistant** - Minimal design inspired by ChatGPT/Notion
+      - Clean white vertical cards with subtle borders
+      - Black "AI Assistant" badge for clear identification
+      - Light gray icon backgrounds, no bright gradients
+      - Contextual actions: "Style ideas for Oct 25th", "Price drop on 3 saved items", "Check Jane's availability"
+    - 📅 **Side-by-Side Cards** - Next Appointment & Last Visit in efficient row layout
+      - Appointment: Soft yellow background with gold accent
+      - Visit: Clean light gray with minimal borders
   - **Sticky Tabs** (Following | Trending) - Stick to top after scrolling
   - **Following Tab**: Activity feed from followed stylists (Instagram-style)
   - **Trending Tab**: Special offers + Trending styles + Inspiration gallery
+- 🎨 **Clean AI-Inspired Design** - Minimal, modern aesthetic
 - 🧠 **AI-First Intelligence** - Contextual actions based on user data
 - 📱 **Modern UX Pattern** - Utilities scroll away, tabs stay accessible
 - 📱 **Social-First Design** - Activity feed is primary home content
 - ⭐ **Favorites Moved** - Now in Profile tab (better organization)
 - 🧹 **Removed** - Bulky search bar, generic suggestions, large cards
-- 🎯 **Result** - ~500px saved, personalized experience, better engagement
+- 🎯 **Result** - Clean, professional look with personalized experience
 
 ### v1.5.2 - October 18, 2025 (Simplified Navigation)
 - 🎯 **3-Tab Navigation** - Cleaner, more focused
