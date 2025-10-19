@@ -97,52 +97,39 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
               pinned: true,
               floating: false,
               expandedHeight: 0,
-              toolbarHeight: 118,
+              toolbarHeight: 96,
               shadowColor: Colors.transparent,
               surfaceTintColor: Colors.transparent,
               flexibleSpace: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Explore',
-                            style: TextStyle(
-                              fontSize: 34,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.black,
-                              letterSpacing: -1.2,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Find your perfect stylist',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: AppTheme.textSecondary,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        'Explore',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black,
+                          letterSpacing: -1.0,
+                        ),
                       ),
                     ),
                     // Sort & Filter button
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.tune, color: Colors.white),
-                        onPressed: () {
-                          HapticFeedback.lightImpact();
-                          _showFilterSheet();
-                        },
+                    InkWell(
+                      onTap: () {
+                        HapticFeedback.lightImpact();
+                        _showFilterSheet();
+                      },
+                      child: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(Icons.tune, color: Colors.white, size: 22),
                       ),
                     ),
                   ],
