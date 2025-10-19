@@ -408,148 +408,32 @@ alembic downgrade -1
 
 ## 📝 Version History
 
-### v1.5.3 - October 19, 2025 (Current - Social-First Home)
-- 🏠 **Smart Home Screen Layout** - Instagram-style sticky navigation
-  - **Global Utilities** (scroll away):
-    - 🔍 **Smart Search Box** - Clean search with voice input
-      - Light gray search bar with white voice button (no double border)
-      - 2-line suggestion chips with specific text & embedded icons
-      - Quick actions: "Get style ideas for your Oct 25th appointment", "3 items on sale in your watchlist", "Book with Jane at Elite Studio"
-      - Uses Wrap widget for natural multi-line layout
-    - 📅 **Side-by-Side Cards** - Next Appointment & Last Visit in efficient row layout
-      - Appointment: Soft yellow background with gold accent
-      - Visit: Clean light gray with minimal borders
-  - **Sticky Tabs** (Following | Trending) - Stick to top after scrolling
-  - **Following Tab**: Activity feed from followed stylists (Instagram-style)
-  - **Trending Tab**: Special offers + Trending styles (2x2 grid)
-- 🎨 **Clean Minimal Design** - White cards with subtle borders
-- 🔍 **Voice Search Ready** - Mic button for voice input
-- 🎯 **Smart Suggestions** - Contextual quick actions in compact chips
-- 📱 **Modern UX Pattern** - Utilities scroll away, tabs stay accessible
-- 📱 **Social-First Design** - Activity feed is primary home content
-- ⭐ **Favorites Moved** - Now in Profile tab (better organization)
-- 🧹 **Removed** - No gray divider lines, cleaner tab bar, inspiration gallery removed (kept trending styles)
-- 🐛 **Fixes** - Header overflow resolved (increased toolbarHeight +6px on Home & Explore)
-- 🎨 **Navigation Icons** - Restored explore_outlined/explore icons for consistent animations
-- 🔐 **Login Page Refinement**:
-  - Removed "Welcome back" message for cleaner look
-  - Removed "(Optional)" text from field labels
-  - Fixed Google icon with proper SVG logo (multicolor Google brand icon)
-- 📱 **App Branding**:
-  - App name changed from "zelux" → **"ZELUS"** (all caps)
-  - Custom app icon setup with HTML generator tool
-  - White minimal icon with ZELUS typography matching login screen
-  - See `APP_ICON_SETUP.md` for icon generation instructions
-- 🎯 **Result** - Clean, professional look with efficient space usage
+### v1.5.3 - October 19, 2025 (Current)
+- 🏠 **Home Screen** - Instagram-style layout with sticky tabs (Following | Trending)
+- 🔍 **Smart Search** - Voice-enabled search with contextual suggestions
+- 💬 **Messages** - Chat feature with AI assistant
+- 📱 **3-Tab Navigation** - Home, Explore, Profile
+- 🎨 **App Branding** - "ZELUS" name with custom icon (see `APP_ICON_SETUP.md`)
 
-### v1.5.2 - October 18, 2025 (Simplified Navigation)
-- 🎯 **3-Tab Navigation** - Cleaner, more focused
-  - **Home** - Main feed with Messages icon in header
-  - **Explore** - Discovery hub (Professionals | Salons | Retail)
-  - **Profile** - User settings & social features
-- 📱 **Messages** - Moved to Home screen header for quick access
-  - **Chat Buttons** - Added Message button next to Book button in Explore listings
-  - **Quick Access** - Message stylists directly from discovery cards
-- 🔖 **Saved Collections** - Moved into Profile tab under Social section
-- 🧹 **Removed** - Separate Messages and Saved tabs from bottom nav
-- 🧹 **Removed** - "Stylists Near You" section from Home screen
-- ✨ **Result** - Cleaner UI, less cluttered navigation, better UX
+### v1.5.0 - October 18, 2025
+- 🤝 **Social Features** - Follow system, activity feed, engagement
+- 💬 **Messaging** - Chat with stylists and AI assistant
+- 🗄️ **Database** - Migrated to Neon PostgreSQL
 
-### v1.5.1 - October 18, 2025 (Clean Architecture)
-- 🧹 **Project Cleanup Complete**
-  - Removed Docker setup (migrated to Neon)
-  - Cleaned up temporary documentation files
-  - Added comprehensive .gitignore
-  - Removed Python cache files
-  - Simplified project structure
-  - Updated all documentation
-- 🗄️ **Database:** Fully migrated to Neon PostgreSQL
-- 📚 **Documentation:** 2 core docs (PROJECT_OVERVIEW.md, BACKEND.md)
+### v1.4.0 - October 17, 2025
+- 🛍️ **Retail Integration** - Product discovery in Explore tab
 
-### v1.5.0 - October 18, 2025 (Social Layer & Messaging)
-- 🤝 **Social Features Complete**
-  - **Follow System:** Follow stylists with real-time follower count display
-  - **Activity Feed:** Instagram-style chronological feed at `/following`
-    - 4 post types: Portfolio uploads, promotions, new services, location changes
-    - Co-branding for employed stylists ("at [Salon Name]")
-    - Pull-to-refresh functionality
-    - Beautiful empty state with "Discover Stylists" CTA
-  - **Engagement:** Like, comment, share, and save posts
-  - **Profile Integration:** "Following" section in Profile tab with badge count
-- 💬 **Messaging & AI Assistant**
-  - **Messages Tab:** Dedicated 5th tab in bottom navigation
-  - **AI Assistant:** Always accessible at top of messages list
-  - **Unified Chat System:** Direct messaging with stylists and salons at `/chat`
-  - **Quick Actions:** Pre-built buttons for common queries (find stylist, service prices, hair tips)
-  - **Context-Aware:** AI provides personalized responses based on user questions
-  - **Profile Integration:** Message buttons on all stylist and salon profiles
-  - **Call/Video Options:** Additional communication features for stylist chats
-- 📊 **Statistics:**
-  - 14 screens (added activity_feed_screen, chat_screen, messages_tab)
-  - 14 data files (added activity_post model)
-  - 7 services (added activity_feed_service)
-  - 15 mock activity posts from 5 diverse stylists
-  - 3-tab navigation (Home, Explore, Profile) - simplified!
-  - Messages accessible from Home header
-  - Saved Collections in Profile tab
-- 🎨 **Design Consistency:** Full charcoal/gold theme, haptic feedback throughout
+### v1.3.0 - October 16, 2025
+- 🧹 **Codebase Cleanup** - Simplified folder structure
 
-### v1.4.0 - October 17, 2025 (Retail & Product Discovery)
-- 🛍️ **Retail Integration** - AI-powered product discovery merged into Explore
-- **4-Tab Navigation:** Home, **Explore**, Saved, Profile (cleaner, more intuitive)
-- **Explore Screen Enhanced:** 3 tabs → Professionals | Salons | **Retail**
-  - All discovery features unified in one place
-  - Seamless switching between pros, salons, and products
-  - Better information architecture
-- **Product Discovery:** AI-powered search for beauty products
-- **Smart Features:**
-  - Price drop alerts with green notification banners
-  - Watchlist section with tracked products
-  - Product cards with discount badges, ratings, save/bookmark
-  - AI recommendations based on user visits
-  - Trending products section
-  - Hot deals & limited offers
-- **Mock Data:** ~40 realistic beauty products (OLAPLEX, K18, DYSON, GHD, etc.)
-- **Pricing:** $8 - $549 range with discounts up to 40% off
-- **UI Consistency:** Same design system (charcoal/gold, light typography)
-- **Future Ready:** Prepared for SerpAPI/Google Shopping API integration
+### v1.2.0 - October 15, 2025
+- 🎨 **Design System** - Charcoal & gold theme, minimal typography
 
-### v1.3.0 - October 16, 2025 (Codebase Cleanup)
-- 🧹 Massive codebase simplification
-- **Folder Structure:** Consolidated 9 feature folders → 1 flat `screens/` folder (67% reduction!)
-- **Data Layer:** Removed 3 unused files (stream_asset, cloudflare_stream_service, trend_service)
-- **Core Widgets:** Removed 3 unused widgets (hashtag_chips, salon_card, save_button)
-- **Deleted Features:** Removed unused feed, upload, and visual_search folders
-- **Result:** 34 files cleaned up, all imports updated, zero linter errors
-- **Navigation:** Super easy - all screens in one place!
-
-### v1.2.0 - October 15, 2025 (Design System Overhaul)
-- 🎨 Complete UI redesign with sophisticated design system
-- Charcoal & muted gold color palette
-- Light typography (Inter font, w200-w400 weights)
-- Login page as entry point (email/phone, optional validation)
-- 4-tab bottom navigation (Feed removed from nav)
-- Redesigned all major screens (Discover, Profile, Explore, Collections, Salon, Stylist)
-- Enhanced haptic feedback throughout
-- Pull-to-refresh on all major screens
-- Removed Quick Access section from Profile
-- Consistent design language across the app
-
-### v1.1.0 - October 14, 2025 (Phase 1 MVP)
-- ✨ Beauty Pro Network Phase 1 MVP
-- Professional profiles with AI features
-- Advanced discovery & filters
-- Content upload with AI assistance
-- Collections & external trends
-- 8 data models, 9 services, 4 AI stubs
-- Feature flags system
-- Comprehensive documentation
+### v1.1.0 - October 14, 2025
+- ✨ **Phase 1 MVP** - Professional profiles, discovery, collections
 
 ### v1.0.0 - October 11-12, 2025
-- Initial MVP deployment
-- Social feed integration
-- Mock authentication
-- Sample data
+- 🚀 **Initial Release** - Basic social feed and authentication
 
 ---
 

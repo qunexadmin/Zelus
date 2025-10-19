@@ -97,7 +97,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
               pinned: true,
               floating: false,
               expandedHeight: 0,
-              toolbarHeight: 116,
+              toolbarHeight: 118,
               shadowColor: Colors.transparent,
               surfaceTintColor: Colors.transparent,
               flexibleSpace: Padding(
@@ -155,63 +155,86 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // AI-Powered Search
+                  // Search Box (Same as Home)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppTheme.surfaceColor,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppTheme.borderLight),
+                        color: const Color(0xFFF7F7F7),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: TextField(
-                        controller: _searchController,
-                        onSubmitted: _handleSearch,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Search professionals, salons...',
-                          hintStyle: const TextStyle(
-                            color: AppTheme.textTertiary,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w300,
-                          ),
-                          prefixIcon: _isSearching
-                              ? const Padding(
-                                  padding: EdgeInsets.all(12),
-                                  child: SizedBox(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16, right: 12),
+                            child: _isSearching
+                                ? const SizedBox(
                                     width: 20,
                                     height: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
                                       color: AppTheme.accentColor,
                                     ),
-                                  ),
-                                )
-                              : const Icon(
-                                  Icons.search,
-                                  color: AppTheme.textSecondary,
-                                  size: 22,
-                                ),
-                          suffixIcon: _searchController.text.isNotEmpty
-                              ? IconButton(
-                                  icon: const Icon(Icons.clear, size: 20),
-                                  color: AppTheme.textSecondary,
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    setState(() {});
-                                  },
-                                )
-                              : null,
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 14,
+                                  )
+                                : const Icon(Icons.search, color: Color(0xFF737373), size: 20),
                           ),
-                        ),
-                        onChanged: (value) => setState(() {}),
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              onSubmitted: _handleSearch,
+                              decoration: const InputDecoration(
+                                hintText: 'Search professionals, salons, services...',
+                                hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFFBFBFBF),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(vertical: 14),
+                              ),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                              onChanged: (value) => setState(() {}),
+                            ),
+                          ),
+                          if (_searchController.text.isNotEmpty)
+                            InkWell(
+                              onTap: () {
+                                HapticFeedback.lightImpact();
+                                _searchController.clear();
+                                setState(() {});
+                              },
+                              borderRadius: BorderRadius.circular(8),
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 8),
+                                padding: const EdgeInsets.all(10),
+                                child: const Icon(Icons.clear, color: Colors.black87, size: 18),
+                              ),
+                            )
+                          else
+                            InkWell(
+                              onTap: () {
+                                HapticFeedback.lightImpact();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Voice search coming soon!')),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(8),
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 8),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(Icons.mic_none, color: Colors.black87, size: 20),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),
