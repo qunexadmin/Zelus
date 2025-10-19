@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../data/models/activity_post.dart';
+import '../../data/services/activity_feed_service.dart';
 
 class DiscoverTab extends ConsumerStatefulWidget {
   const DiscoverTab({super.key});
@@ -12,14 +15,22 @@ class DiscoverTab extends ConsumerStatefulWidget {
   ConsumerState<DiscoverTab> createState() => _DiscoverTabState();
 }
 
-class _DiscoverTabState extends ConsumerState<DiscoverTab> {
+class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProviderStateMixin {
   final _searchController = TextEditingController();
   bool _isSearching = false;
   List<String> _searchHistory = ['Balayage near me', 'Jane Smith', 'Best hair salon'];
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -135,11 +146,62 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 ),
               ),
               
+              // Tab Bar (Following | Trending)
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _StickyTabBarDelegate(
+                  TabBar(
+                    controller: _tabController,
+                    indicatorColor: AppTheme.primaryColor,
+                    indicatorWeight: 2.5,
+                    labelColor: Colors.black,
+                    unselectedLabelColor: AppTheme.textTertiary,
+                    labelStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -0.3,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: -0.3,
+                    ),
+                    tabs: const [
+                      Tab(text: 'Following'),
+                      Tab(text: 'Trending'),
+                    ],
+                  ),
+                ),
+              ),
+              
               // Scrollable Content
               SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height - 200,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      // Following Tab - Activity Feed
+                      _buildFollowingTab(),
+                      
+                      // Trending Tab - All existing content
+                      _buildTrendingTab(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTrendingTab() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
 
                 // AI-Powered Search Bar with Voice
                 Padding(
@@ -373,11 +435,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 
                 const SizedBox(height: 32),
 
-                // Your Favorites Section
-                _buildFavoritesSection(),
-
-                const SizedBox(height: 32),
-
                 // Trending Styles with Images
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -441,12 +498,225 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 _buildInspirationGallery(),
 
                 const SizedBox(height: 100),
-                  ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFollowingTab() {
+    final feedAsync = ref.watch(activityFeedProvider);
+
+    return feedAsync.when(
+      data: (posts) {
+        if (posts.isEmpty) {
+          return _buildEmptyFollowingState();
+        }
+        return RefreshIndicator(
+          onRefresh: () async {
+            HapticFeedback.lightImpact();
+            ref.invalidate(activityFeedProvider);
+          },
+          color: AppTheme.accentColor,
+          child: ListView.builder(
+            padding: const EdgeInsets.only(top: 16, bottom: 100),
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              return _buildActivityPostCard(posts[index]);
+            },
+          ),
+        );
+      },
+      loading: () => const Center(
+        child: CircularProgressIndicator(color: AppTheme.primaryColor),
+      ),
+      error: (error, stack) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: AppTheme.errorColor),
+            const SizedBox(height: 16),
+            Text(
+              'Error loading feed',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppTheme.textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyFollowingState() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(32),
+                decoration: BoxDecoration(
+                  color: AppTheme.surfaceColor,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.people_outline,
+                  size: 64,
+                  color: AppTheme.textTertiary,
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'No Updates Yet',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.black,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Follow stylists to see their latest\nportfolio, promotions, and updates',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w300,
+                  color: AppTheme.textSecondary,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 32),
+              FilledButton.icon(
+                onPressed: () {
+                  HapticFeedback.lightImpact();
+                  context.push('/explore');
+                },
+                icon: const Icon(Icons.explore_outlined),
+                label: const Text('Discover Stylists'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppTheme.primaryColor,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildActivityPostCard(ActivityPost post) {
+    return Card(
+      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: AppTheme.borderLight),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Post Header
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: CachedNetworkImageProvider(post.stylistPhoto),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            post.stylistName,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                          ),
+                          if (post.salonName != null) ...[
+                            const Text(
+                              ' at ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300,
+                                color: AppTheme.textSecondary,
+                              ),
+                            ),
+                            Text(
+                              post.salonName!,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppTheme.primaryColor,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        post.timestamp,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w300,
+                          color: AppTheme.textTertiary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.more_horiz, color: AppTheme.textTertiary),
+                  onPressed: () {
+                    HapticFeedback.lightImpact();
+                  },
+                ),
+              ],
+            ),
+          ),
+          
+          // Post Content based on type
+          if (post.imageUrl != null)
+            CachedNetworkImage(
+              imageUrl: post.imageUrl!,
+              height: 300,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  post.caption,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                    color: Colors.black,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -826,128 +1096,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
     );
   }
 
-  Widget _buildFavoritesSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Your Favorites',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.black,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  HapticFeedback.lightImpact();
-                  context.push('/collections');
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: AppTheme.primaryColor,
-                  padding: EdgeInsets.zero,
-                ),
-                child: const Text(
-                  'Manage',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 100,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            children: [
-              _buildFavoriteItem('Jane Smith', 'Stylist', '⭐ 4.9', Icons.person),
-              _buildFavoriteItem('Elite Studio', 'Salon', '📍 0.5 mi', Icons.store),
-              _buildFavoriteItem('Balayage', 'Service', '💰 \$120', Icons.brush),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFavoriteItem(String name, String type, String info, IconData icon) {
-    return InkWell(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        // Navigate to detail page
-      },
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        width: 150,
-        margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppTheme.surfaceColor,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppTheme.borderLight, width: 1),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: AppTheme.accentLight,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(icon, color: AppTheme.accentColor, size: 20),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    type,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300,
-                      color: AppTheme.textSecondary,
-                    ),
-                  ),
-                  Text(
-                    info,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w400,
-                      color: AppTheme.textTertiary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildInspirationGallery() {
     return Column(
@@ -1284,5 +1432,31 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
         ),
       ),
     );
+  }
+}
+
+// Sticky Tab Bar Delegate for pinned tab bar
+class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
+  const _StickyTabBarDelegate(this.tabBar);
+
+  final TabBar tabBar;
+
+  @override
+  double get minExtent => tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => tabBar.preferredSize.height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.white,
+      child: tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_StickyTabBarDelegate oldDelegate) {
+    return tabBar != oldDelegate.tabBar;
   }
 }

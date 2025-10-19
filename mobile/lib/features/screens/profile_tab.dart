@@ -93,6 +93,38 @@ class ProfileTab extends ConsumerWidget {
               
               const SizedBox(height: 24),
 
+              // Favorites Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Favorites',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildMenuItem(
+                      context,
+                      'Your Favorites',
+                      Icons.favorite_outline,
+                      () {
+                        HapticFeedback.lightImpact();
+                        context.push('/collections');
+                      },
+                      subtitle: 'Stylists, salons, and services you love',
+                    ),
+                  ],
+                ),
+              ),
+              
+              const SizedBox(height: 40),
+
               // Social Section
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
