@@ -97,7 +97,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
               pinned: true,
               floating: false,
               expandedHeight: 0,
-              toolbarHeight: 110,
+              toolbarHeight: 116,
               shadowColor: Colors.transparent,
               surfaceTintColor: Colors.transparent,
               flexibleSpace: Padding(

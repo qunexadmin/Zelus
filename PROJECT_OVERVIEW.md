@@ -143,8 +143,10 @@ flutter run -d chrome  # or android/ios
 
 **Login:** Enter any email/phone (fields are optional for development)
 
+**App Icon Setup (Optional):** To change the app icon, see [`APP_ICON_SETUP.md`](mobile/APP_ICON_SETUP.md)
+
 ### What You'll See (v1.5.3)
-- **Elegant Login Page** - Sophisticated charcoal & muted gold design
+- **Elegant Login Page** - Clean minimal design with ZELUS branding
 - **3-Tab Navigation** - Home | Explore | Profile (clean & minimal!)
 - **Home Tab** - Smart sticky navigation (Instagram-style)
   - **Dynamic Greeting** + Messages icon (always visible)
@@ -157,7 +159,7 @@ flutter run -d chrome  # or android/ios
     - **Appointment + Visit Cards** - Side-by-side compact design
   - **Sticky Tabs** (Following | Trending) - Stick after scrolling, no gray divider
   - **Following Tab**: Activity feed from followed stylists
-  - **Trending Tab**: Special offers + Trending styles + Inspiration gallery
+  - **Trending Tab**: Special offers + Inspiration gallery
 - **Explore Tab** - Professionals | Salons | **Retail** (all discovery unified)
   - Browse pros with advanced filters (Book + Message buttons on each card)
   - Find salons near you
@@ -175,7 +177,7 @@ flutter run -d chrome  # or android/ios
    - **Top**: AI Assistant, Appointment, Visit (scroll down to hide)
    - **Tabs stick**: Following | Trending (always accessible)
    - **Following**: Activity feed from stylists you follow
-   - **Trending**: Trending styles + Inspiration gallery
+   - **Trending**: Special offers + Inspiration gallery
    - Tap Messages icon for AI chat
    - **Try scrolling**: Utilities scroll away, tabs stick!
 4. **Explore** - Browse professionals (Book + Message buttons), salons, products
@@ -419,14 +421,24 @@ alembic downgrade -1
       - Visit: Clean light gray with minimal borders
   - **Sticky Tabs** (Following | Trending) - Stick to top after scrolling
   - **Following Tab**: Activity feed from followed stylists (Instagram-style)
-  - **Trending Tab**: Special offers + Trending styles + Inspiration gallery
+  - **Trending Tab**: Special offers + Inspiration gallery
 - 🎨 **Clean Minimal Design** - White cards with subtle borders
 - 🔍 **Voice Search Ready** - Mic button for voice input
 - 🎯 **Smart Suggestions** - Contextual quick actions in compact chips
 - 📱 **Modern UX Pattern** - Utilities scroll away, tabs stay accessible
 - 📱 **Social-First Design** - Activity feed is primary home content
 - ⭐ **Favorites Moved** - Now in Profile tab (better organization)
-- 🧹 **Removed** - No gray divider lines, cleaner tab bar
+- 🧹 **Removed** - No gray divider lines, cleaner tab bar, trending styles section removed
+- 🐛 **Fixes** - Header overflow resolved (increased toolbarHeight +6px on Home & Explore)
+- 🎨 **Navigation Icons** - Restored explore_outlined/explore icons for consistent animations
+- 🔐 **Login Page Refinement**:
+  - Removed "Welcome back" message for cleaner look
+  - Fixed Google icon visibility (replaced NetworkImage with styled "G" logo)
+- 📱 **App Branding**:
+  - App name changed from "zelux" → **"ZELUS"** (all caps)
+  - Custom app icon setup with HTML generator tool
+  - White minimal icon with ZELUS typography matching login screen
+  - See `APP_ICON_SETUP.md` for icon generation instructions
 - 🎯 **Result** - Clean, professional look with efficient space usage
 
 ### v1.5.2 - October 18, 2025 (Simplified Navigation)

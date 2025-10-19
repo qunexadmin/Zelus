@@ -65,11 +65,6 @@ class _LoginPageState extends State<LoginPage> {
                   
                   const SizedBox(height: 56),
                   
-                  // Welcome Section
-                  _buildWelcome(),
-                  
-                  const SizedBox(height: 40),
-                  
                   // Login Form
                   _buildForm(),
                   
@@ -121,31 +116,6 @@ class _LoginPageState extends State<LoginPage> {
             letterSpacing: 4,
             color: Colors.grey[600],
             fontFamily: 'Helvetica Neue',
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildWelcome() {
-    return Column(
-      children: [
-        Text(
-          'Welcome back',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            letterSpacing: -0.5,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Sign in to continue your journey',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w300,
-            color: Colors.grey[600],
           ),
         ),
       ],
@@ -408,16 +378,23 @@ class _LoginPageState extends State<LoginPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Google Logo SVG
+          // Google Logo - Using styled text
           Container(
             width: 20,
             height: 20,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                  'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg',
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Center(
+              child: Text(
+                'G',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF4285F4), // Google blue
+                  fontFamily: 'Product Sans',
                 ),
-                fit: BoxFit.contain,
               ),
             ),
           ),

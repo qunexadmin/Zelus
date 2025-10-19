@@ -90,7 +90,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                 pinned: true,
                 floating: false,
                 expandedHeight: 0,
-                toolbarHeight: 90,
+                toolbarHeight: 96,
                 shadowColor: Colors.transparent,
                 surfaceTintColor: Colors.transparent,
                 // Border removed for cleaner look
@@ -224,65 +224,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
 
                 // Special Offers Section
                 _buildSpecialOffers(),
-
-                const SizedBox(height: 32),
-
-                // Trending Styles with Images
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Trending This Week',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          HapticFeedback.lightImpact();
-                          context.push('/trending');
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppTheme.primaryColor,
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: const Text(
-                          'View All',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Trending Grid with better visuals
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 0.85,
-                    children: [
-                      _buildTrendingCard('Summer Waves', '2.3k', '🌊', Colors.blue.shade50),
-                      _buildTrendingCard('Bold Highlights', '1.8k', '✨', Colors.amber.shade50),
-                      _buildTrendingCard('Sleek Bob', '1.5k', '💁‍♀️', Colors.pink.shade50),
-                      _buildTrendingCard('Natural Curls', '1.2k', '🌀', Colors.purple.shade50),
-                    ],
-                  ),
-                ),
 
                 const SizedBox(height: 32),
 
@@ -1490,96 +1431,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTrendingCard(String title, String saves, String emoji, Color bgColor) {
-    return InkWell(
-      onTap: () {
-        HapticFeedback.mediumImpact();
-        context.push('/trending');
-      },
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppTheme.borderLight, width: 1),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: bgColor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Text(
-                        emoji,
-                        style: const TextStyle(fontSize: 64),
-                      ),
-                    ),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.bookmark_border,
-                          size: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      const Icon(Icons.favorite, size: 15, color: AppTheme.errorColor),
-                      const SizedBox(width: 6),
-                      Text(
-                        '$saves saves',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: AppTheme.textSecondary,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
               ),
             ),
           ],
