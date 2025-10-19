@@ -43,7 +43,7 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
   }
 
   void _onScroll() {
-    final isCollapsed = _scrollController.hasClients && _scrollController.offset > (200 - kToolbarHeight);
+    final isCollapsed = _scrollController.hasClients && _scrollController.offset > 100;
     if (_isHeaderCollapsed != isCollapsed) {
       setState(() => _isHeaderCollapsed = isCollapsed);
     }
@@ -77,112 +77,39 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                   controller: _scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: [
-                    // Parallax Header with Cover Photo
+                    // Simple Header without Cover Photo
                     SliverAppBar(
-                      expandedHeight: 280,
+                      expandedHeight: 0,
                       pinned: true,
-                      backgroundColor: AppTheme.primaryColor,
+                      backgroundColor: Colors.white,
                     leading: IconButton(
-                      icon: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.arrow_back, color: Colors.white),
-                      ),
+                      icon: const Icon(Icons.arrow_back, color: AppTheme.primaryColor),
                       onPressed: () => context.pop(),
+                    ),
+                    title: Text(
+                      profile.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
                     ),
                     actions: [
                       IconButton(
-                        icon: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.3),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.share, color: Colors.white),
-                        ),
+                        icon: const Icon(Icons.share, color: AppTheme.primaryColor),
                         onPressed: () {
                           HapticFeedback.lightImpact();
                           _shareProfile(profile.name);
                         },
                       ),
                       IconButton(
-                        icon: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.3),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.more_vert, color: Colors.white),
-                        ),
+                        icon: const Icon(Icons.more_vert, color: AppTheme.primaryColor),
                         onPressed: () {
                           HapticFeedback.lightImpact();
                           _showMoreOptions(profile);
                         },
                       ),
                     ],
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: _isHeaderCollapsed
-                          ? Text(
-                              profile.name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            )
-                          : null,
-                      background: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          // Cover Photo
-                          profile.portfolio.isNotEmpty
-                              ? CachedNetworkImage(
-                                  imageUrl: profile.portfolio.first,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) => Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [AppTheme.primaryColor, AppTheme.primaryDark],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                    ),
-                                    child: const Center(
-                                      child: Icon(Icons.person, size: 100, color: Colors.white54),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [AppTheme.primaryColor, AppTheme.primaryDark],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
-                                  ),
-                                  child: const Center(
-                                    child: Icon(Icons.person, size: 100, color: Colors.white54),
-                                  ),
-                                ),
-                          // Gradient Overlay
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withOpacity(0.7),
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
 
                   // Profile Content

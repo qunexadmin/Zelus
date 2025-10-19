@@ -41,7 +41,7 @@ class _SalonDetailScreenState extends ConsumerState<SalonDetailScreen> {
 
   void _onScroll() {
     final isCollapsed = _scrollController.hasClients && 
-        _scrollController.offset > (250 - kToolbarHeight);
+        _scrollController.offset > 100;
     if (_isHeaderCollapsed != isCollapsed) {
       setState(() => _isHeaderCollapsed = isCollapsed);
     }
@@ -68,49 +68,36 @@ class _SalonDetailScreenState extends ConsumerState<SalonDetailScreen> {
             child: CustomScrollView(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                // Parallax Header
-                SliverAppBar(
-                  expandedHeight: 280,
-                  pinned: true,
-                  backgroundColor: AppTheme.primaryColor,
+            slivers: [
+              // Simple Header without Cover Photo
+              SliverAppBar(
+                expandedHeight: 0,
+                pinned: true,
+                backgroundColor: Colors.white,
                 leading: IconButton(
-                  icon: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.arrow_back, color: Colors.white),
-                  ),
+                  icon: const Icon(Icons.arrow_back, color: AppTheme.primaryColor),
                   onPressed: () => context.pop(),
+                ),
+                title: Text(
+                  salon['name'] as String,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
                 ),
                 actions: [
                   IconButton(
-                    icon: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.share, color: Colors.white),
-                    ),
+                    icon: const Icon(Icons.share, color: AppTheme.primaryColor),
                     onPressed: () {
                       HapticFeedback.lightImpact();
                       _shareSalon(salon['name'] as String);
                     },
                   ),
                   IconButton(
-                    icon: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        _isSaved ? Icons.bookmark : Icons.bookmark_border,
-                        color: Colors.white,
-                      ),
+                    icon: Icon(
+                      _isSaved ? Icons.bookmark : Icons.bookmark_border,
+                      color: AppTheme.primaryColor,
                     ),
                     onPressed: () {
                       HapticFeedback.mediumImpact();
@@ -124,45 +111,6 @@ class _SalonDetailScreenState extends ConsumerState<SalonDetailScreen> {
                     },
                   ),
                 ],
-                flexibleSpace: FlexibleSpaceBar(
-                  title: _isHeaderCollapsed
-                      ? Text(
-                          salon['name'] as String,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
-                        )
-                      : null,
-                  background: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      // Cover Photo
-                      salon['cover'] != null
-                          ? CachedNetworkImage(
-                              imageUrl: salon['cover'] as String,
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) =>
-                                  _buildDefaultCover(),
-                            )
-                          : _buildDefaultCover(),
-                      // Gradient Overlay
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.transparent,
-                              Colors.black.withOpacity(0.7),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
 
               // Content

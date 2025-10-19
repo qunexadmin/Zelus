@@ -1458,18 +1458,18 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
-              const Icon(Icons.auto_awesome_rounded, color: Color(0xFF737373), size: 20),
+              const Icon(Icons.auto_awesome_rounded, color: Color(0xFF9C27B0), size: 20),
               const SizedBox(width: 12),
               const Expanded(
                 child: Text(
                   'Ask AI Assistant anything...',
-                      style: TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     color: Color(0xFFBFBFBF),
                     fontWeight: FontWeight.w400,
-                      ),
-                    ),
                   ),
+                ),
+              ),
               InkWell(
                 onTap: () {
                   HapticFeedback.lightImpact();
@@ -1531,7 +1531,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                   children: [
                     const Padding(
                       padding: EdgeInsets.only(left: 16, right: 12),
-                      child: Icon(Icons.auto_awesome_rounded, color: Color(0xFF737373), size: 20),
+                      child: Icon(Icons.auto_awesome_rounded, color: Color(0xFF9C27B0), size: 20),
                     ),
                     Expanded(
                       child: TextField(
