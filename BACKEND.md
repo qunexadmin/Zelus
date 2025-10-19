@@ -6,13 +6,16 @@
 
 ## 📊 Current Status
 
-**Status:** ✅ Running (⚠️ Needs new endpoints for v1.5.3)  
+**Status:** ✅ Running (Integrated with Mobile!)  
 **Server:** AWS EC2 (3.24.31.8)  
 **Port:** 8006  
-**Database:** Neon PostgreSQL (Serverless)  
+**Database:** Neon PostgreSQL - zelus (Serverless)  
 **Health:** http://3.24.31.8:8006/health  
 **API Docs:** http://3.24.31.8:8006/docs  
-**Last Updated:** October 19, 2025 (Added v1.5.3 requirements)
+**Last Updated:** October 19, 2025
+
+**Data:** 3 salons, 4 stylists, 7 services  
+**Integration:** Mobile app using real backend data ✅
 
 ---
 
@@ -165,7 +168,20 @@ uvicorn app.main:app --host 0.0.0.0 --port 8006 --reload
 
 ### Database: Neon PostgreSQL (Serverless)
 
-The database is hosted on Neon (https://neon.tech) - no local Docker setup required.
+**Connection Info:**
+- **Database Name:** zelus
+- **Provider:** Neon (https://neon.tech)  
+- **Region:** AWS ap-southeast-1 (Singapore)
+- **Version:** PostgreSQL 17.5
+- **Console:** https://console.neon.tech
+
+**Data:**
+- ✅ 3 users
+- ✅ 3 salons (Elite Hair Studio, Color Studio NYC, Downtown Barbers)
+- ✅ 4 stylists (Sarah Johnson, Jane Smith, Michael Chen, Mike Brown)
+- ✅ 7 services ($25-$250 range)
+
+No local Docker setup required - fully cloud-based.
 
 ### Database Migrations
 ```bash

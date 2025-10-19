@@ -96,4 +96,5 @@ class StylistDetailResponse(StylistResponse):
     """Schema for detailed stylist response with salon info"""
     salon_name: Optional[str] = None
     salon_address: Optional[str] = None
+    location: Optional[str] = None  # Mobile app compatibility: "City, State" format
 

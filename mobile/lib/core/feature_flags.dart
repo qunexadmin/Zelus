@@ -35,8 +35,8 @@ class FeatureFlags {
   static const bool liveVideo = false;
 
   // Development/Debug features
-  static const bool mockData = true;
-  static const bool debugLogging = false;
+  static const bool mockData = false;  // ✅ CHANGED: Now using real backend API
+  static const bool debugLogging = true;  // Enable for API debugging
 
   /// Check if a feature is enabled
   static bool isEnabled(String feature) {
