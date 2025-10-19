@@ -159,7 +159,7 @@ flutter run -d chrome  # or android/ios
     - **Appointment + Visit Cards** - Side-by-side compact design
   - **Sticky Tabs** (Following | Trending) - Stick after scrolling, no gray divider
   - **Following Tab**: Activity feed from followed stylists
-  - **Trending Tab**: Special offers + Inspiration gallery
+  - **Trending Tab**: Special offers + Trending styles
 - **Explore Tab** - Professionals | Salons | **Retail** (all discovery unified)
   - Browse pros with advanced filters (Book + Message buttons on each card)
   - Find salons near you
@@ -177,7 +177,7 @@ flutter run -d chrome  # or android/ios
    - **Top**: AI Assistant, Appointment, Visit (scroll down to hide)
    - **Tabs stick**: Following | Trending (always accessible)
    - **Following**: Activity feed from stylists you follow
-   - **Trending**: Special offers + Inspiration gallery
+   - **Trending**: Special offers + Trending styles
    - Tap Messages icon for AI chat
    - **Try scrolling**: Utilities scroll away, tabs stick!
 4. **Explore** - Browse professionals (Book + Message buttons), salons, products
@@ -421,19 +421,20 @@ alembic downgrade -1
       - Visit: Clean light gray with minimal borders
   - **Sticky Tabs** (Following | Trending) - Stick to top after scrolling
   - **Following Tab**: Activity feed from followed stylists (Instagram-style)
-  - **Trending Tab**: Special offers + Inspiration gallery
+  - **Trending Tab**: Special offers + Trending styles (2x2 grid)
 - 🎨 **Clean Minimal Design** - White cards with subtle borders
 - 🔍 **Voice Search Ready** - Mic button for voice input
 - 🎯 **Smart Suggestions** - Contextual quick actions in compact chips
 - 📱 **Modern UX Pattern** - Utilities scroll away, tabs stay accessible
 - 📱 **Social-First Design** - Activity feed is primary home content
 - ⭐ **Favorites Moved** - Now in Profile tab (better organization)
-- 🧹 **Removed** - No gray divider lines, cleaner tab bar, trending styles section removed
+- 🧹 **Removed** - No gray divider lines, cleaner tab bar, inspiration gallery removed (kept trending styles)
 - 🐛 **Fixes** - Header overflow resolved (increased toolbarHeight +6px on Home & Explore)
 - 🎨 **Navigation Icons** - Restored explore_outlined/explore icons for consistent animations
 - 🔐 **Login Page Refinement**:
   - Removed "Welcome back" message for cleaner look
-  - Fixed Google icon visibility (replaced NetworkImage with styled "G" logo)
+  - Removed "(Optional)" text from field labels
+  - Fixed Google icon with proper SVG logo (multicolor Google brand icon)
 - 📱 **App Branding**:
   - App name changed from "zelux" → **"ZELUS"** (all caps)
   - Custom app icon setup with HTML generator tool

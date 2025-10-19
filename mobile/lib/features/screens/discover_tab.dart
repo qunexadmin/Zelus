@@ -227,8 +227,62 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
 
                 const SizedBox(height: 32),
 
-                // Inspiration Gallery
-                _buildInspirationGallery(),
+                // Trending Styles with Images
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Trending This Week',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          HapticFeedback.lightImpact();
+                          context.push('/trending');
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppTheme.primaryColor,
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: const Text(
+                          'View All',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // Trending Grid with better visuals
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 0.85,
+                    children: [
+                      _buildTrendingCard('Summer Waves', '2.3k', '🌊', Colors.blue.shade50),
+                      _buildTrendingCard('Bold Highlights', '1.8k', '✨', Colors.amber.shade50),
+                      _buildTrendingCard('Sleek Bob', '1.5k', '💁‍♀️', Colors.pink.shade50),
+                      _buildTrendingCard('Natural Curls', '1.2k', '🌀', Colors.purple.shade50),
+                    ],
+                  ),
+                ),
 
                 const SizedBox(height: 100),
         ],
@@ -1192,141 +1246,89 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
   }
 
 
-  Widget _buildInspirationGallery() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Style Inspiration',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.black,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  HapticFeedback.lightImpact();
-                  context.push('/trending');
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: AppTheme.primaryColor,
-                  padding: EdgeInsets.zero,
-                ),
-                child: const Text(
-                  'Browse All',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 200,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            children: [
-              _buildInspirationCard('Fall Colors 2024', '🍂', Colors.orange.shade100),
-              _buildInspirationCard('Wedding Hair', '💐', Colors.pink.shade50),
-              _buildInspirationCard('Men\'s Trends', '💼', Colors.blue.shade50),
-              _buildInspirationCard('Short & Chic', '✨', Colors.purple.shade50),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInspirationCard(String title, String emoji, Color bgColor) {
+  Widget _buildTrendingCard(String title, String saves, String emoji, Color bgColor) {
     return InkWell(
       onTap: () {
         HapticFeedback.mediumImpact();
         context.push('/trending');
       },
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(16),
       child: Container(
-        width: 280,
-        margin: const EdgeInsets.only(right: 16, top: 4, bottom: 4),
-        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: bgColor.withOpacity(0.3), width: 1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppTheme.borderLight, width: 1),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  emoji,
-                  style: const TextStyle(fontSize: 48),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(Icons.arrow_forward, size: 20),
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                    letterSpacing: -0.5,
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
                 ),
-                const SizedBox(height: 8),
-                Row(
+                child: Stack(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        '124 styles',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black87,
-                        ),
+                    Center(
+                      child: Text(
+                        emoji,
+                        style: const TextStyle(fontSize: 64),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      '• Popular',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54,
+                    Positioned(
+                      top: 12,
+                      right: 12,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.bookmark_border,
+                          size: 18,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      const Icon(Icons.favorite, size: 15, color: AppTheme.errorColor),
+                      const SizedBox(width: 6),
+                      Text(
+                        '$saves saves',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppTheme.textSecondary,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
