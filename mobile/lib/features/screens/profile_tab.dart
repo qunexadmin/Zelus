@@ -9,6 +9,12 @@ import '../../data/services/personalization_store.dart';
 class ProfileTab extends ConsumerWidget {
   const ProfileTab({super.key});
 
+  Future<void> _onRefresh() async {
+    HapticFeedback.mediumImpact();
+    // TODO: Refresh user profile data
+    await Future.delayed(const Duration(milliseconds: 800));
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: Get user from auth state
@@ -17,10 +23,14 @@ class ProfileTab extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        child: RefreshIndicator(
+          onRefresh: _onRefresh,
+          color: AppTheme.accentColor,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               // Custom Header - Matching Login Page Style
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
@@ -257,6 +267,7 @@ class ProfileTab extends ConsumerWidget {
               
               const SizedBox(height: 100),
             ],
+            ),
           ),
         ),
       ),

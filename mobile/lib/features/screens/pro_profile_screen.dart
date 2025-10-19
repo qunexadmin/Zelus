@@ -62,14 +62,23 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
 
           return Stack(
             children: [
-              CustomScrollView(
-                controller: _scrollController,
-                slivers: [
-                  // Parallax Header with Cover Photo
-                  SliverAppBar(
-                    expandedHeight: 280,
-                    pinned: true,
-                    backgroundColor: AppTheme.primaryColor,
+              RefreshIndicator(
+                onRefresh: () async {
+                  HapticFeedback.mediumImpact();
+                  ref.invalidate(profileProvider(widget.proId));
+                  ref.invalidate(reviewsProvider(widget.proId));
+                  await Future.delayed(const Duration(milliseconds: 800));
+                },
+                color: AppTheme.accentColor,
+                child: CustomScrollView(
+                  controller: _scrollController,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: [
+                    // Parallax Header with Cover Photo
+                    SliverAppBar(
+                      expandedHeight: 280,
+                      pinned: true,
+                      backgroundColor: AppTheme.primaryColor,
                     leading: IconButton(
                       icon: Container(
                         padding: const EdgeInsets.all(8),
@@ -232,6 +241,7 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
 
               // Floating Book Now Button

@@ -88,193 +88,197 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            // Sticky Header
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              pinned: true,
-              floating: false,
-              expandedHeight: 0,
-              toolbarHeight: 96,
-              shadowColor: Colors.transparent,
-              surfaceTintColor: Colors.transparent,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(
-                      child: Text(
-                        'Explore',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                          letterSpacing: -1.0,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              // Sticky Header
+              SliverAppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                pinned: true,
+                floating: false,
+                expandedHeight: 0,
+                toolbarHeight: 96,
+                shadowColor: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                flexibleSpace: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Explore',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.black,
+                            letterSpacing: -1.0,
+                          ),
                         ),
                       ),
-                    ),
-                    // Sort & Filter button
-                    InkWell(
-                      onTap: () {
-                        HapticFeedback.lightImpact();
-                        _showFilterSheet();
-                      },
+                      // Sort & Filter button
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          _showFilterSheet();
+                        },
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryColor,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(Icons.tune, color: Colors.white, size: 22),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Scrollable Content
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Search Box
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
                       child: Container(
-                        width: 44,
-                        height: 44,
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryColor,
+                          color: const Color(0xFFF7F7F7),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.tune, color: Colors.white, size: 22),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16, right: 12),
+                              child: _isSearching
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: AppTheme.accentColor,
+                                      ),
+                                    )
+                                  : const Icon(Icons.search, color: Color(0xFF737373), size: 20),
+                            ),
+                            Expanded(
+                              child: TextField(
+                                controller: _searchController,
+                                onSubmitted: _handleSearch,
+                                decoration: const InputDecoration(
+                                  hintText: 'Search professionals, salons, services...',
+                                  hintStyle: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFFBFBFBF),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  border: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 14),
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black87,
+                                ),
+                                onChanged: (value) => setState(() {}),
+                              ),
+                            ),
+                            if (_searchController.text.isNotEmpty)
+                              InkWell(
+                                onTap: () {
+                                  HapticFeedback.lightImpact();
+                                  _searchController.clear();
+                                  setState(() {});
+                                },
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 8),
+                                  padding: const EdgeInsets.all(10),
+                                  child: const Icon(Icons.clear, color: Colors.black87, size: 18),
+                                ),
+                              )
+                            else
+                              InkWell(
+                                onTap: () {
+                                  HapticFeedback.lightImpact();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Voice search coming soon!')),
+                                  );
+                                },
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 8),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Icon(Icons.mic_none, color: Colors.black87, size: 20),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
+
+                    const SizedBox(height: 16),
+
+                    // Active Filters Summary
+                    if (_hasActiveFilters()) _buildActiveFiltersSummary(),
+
+                    if (_hasActiveFilters() || _availableNow) const SizedBox(height: 12),
+
+                    // Available Now Section
+                    if (_availableNow) _buildAvailableNowSection(),
                   ],
                 ),
               ),
-            ),
 
-            // Scrollable Content
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Search Box (Same as Home)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF7F7F7),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16, right: 12),
-                            child: _isSearching
-                                ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: AppTheme.accentColor,
-                                    ),
-                                  )
-                                : const Icon(Icons.search, color: Color(0xFF737373), size: 20),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: _searchController,
-                              onSubmitted: _handleSearch,
-                              decoration: const InputDecoration(
-                                hintText: 'Search professionals, salons, services...',
-                                hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFFBFBFBF),
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(vertical: 14),
-                              ),
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black87,
-                              ),
-                              onChanged: (value) => setState(() {}),
-                            ),
-                          ),
-                          if (_searchController.text.isNotEmpty)
-                            InkWell(
-                              onTap: () {
-                                HapticFeedback.lightImpact();
-                                _searchController.clear();
-                                setState(() {});
-                              },
-                              borderRadius: BorderRadius.circular(8),
-                              child: Container(
-                                margin: const EdgeInsets.only(right: 8),
-                                padding: const EdgeInsets.all(10),
-                                child: const Icon(Icons.clear, color: Colors.black87, size: 18),
-                              ),
-                            )
-                          else
-                            InkWell(
-                              onTap: () {
-                                HapticFeedback.lightImpact();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Voice search coming soon!')),
-                                );
-                              },
-                              borderRadius: BorderRadius.circular(8),
-                              child: Container(
-                                margin: const EdgeInsets.only(right: 8),
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Icon(Icons.mic_none, color: Colors.black87, size: 20),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // Active Filters Summary
-                  if (_hasActiveFilters()) _buildActiveFiltersSummary(),
-
-                  if (_hasActiveFilters() || _availableNow) const SizedBox(height: 12),
-
-                  // Available Now Section
-                  if (_availableNow) _buildAvailableNowSection(),
-
-                  // Tabs
+              // Sticky Tabs
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _StickyTabBarDelegate(
                   TabBar(
-                      controller: _tabController,
-                      indicatorColor: AppTheme.primaryColor,
-                      indicatorWeight: 2,
-                      labelColor: AppTheme.primaryColor,
-                      unselectedLabelColor: AppTheme.textTertiary,
-                      labelStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      unselectedLabelStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
-                      ),
-                      onTap: (_) => HapticFeedback.selectionClick(),
-                      dividerHeight: 0,
+                    controller: _tabController,
+                    indicatorColor: AppTheme.primaryColor,
+                    indicatorWeight: 2,
+                    labelColor: AppTheme.primaryColor,
+                    unselectedLabelColor: AppTheme.textTertiary,
+                    dividerColor: Colors.transparent,
+                    dividerHeight: 0,
+                    labelStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    onTap: (_) => HapticFeedback.selectionClick(),
                     tabs: const [
                       Tab(text: 'Professionals'),
                       Tab(text: 'Salons'),
                       Tab(text: 'Retail'),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-
-            // Tab Content
-            SliverFillRemaining(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildProfessionalsTab(),
-                  _buildSalonsTab(),
-                  _buildRetailTab(),
-                ],
-              ),
-            ),
-          ],
+            ];
+          },
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildProfessionalsTab(),
+              _buildSalonsTab(),
+              _buildRetailTab(),
+            ],
+          ),
         ),
       ),
     );
@@ -585,7 +589,9 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
 
         return RefreshIndicator(
           onRefresh: _onRefresh,
+          color: AppTheme.accentColor,
           child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(24),
             itemCount: filteredProfiles.length + 1, // +1 for header
             itemBuilder: (context, index) {
@@ -860,7 +866,9 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
 
         return RefreshIndicator(
           onRefresh: _onRefresh,
+          color: AppTheme.accentColor,
           child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(24),
             itemCount: filteredSalons.length + 1,
             itemBuilder: (context, index) {
@@ -1575,9 +1583,13 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
   // ==================== RETAIL TAB ====================
 
   Widget _buildRetailTab() {
-    return ListView(
-      padding: const EdgeInsets.all(24),
-      children: [
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      color: AppTheme.accentColor,
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(24),
+        children: [
         // Price Drop Alert
         Container(
           padding: const EdgeInsets.all(16),
@@ -1707,6 +1719,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
 
         const SizedBox(height: 100),
       ],
+      ),
     );
   }
 
@@ -2193,4 +2206,30 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
       'priceChange': '-15%',
     },
   ];
+}
+
+// Sticky Tab Bar Delegate for pinned tab bar
+class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
+  const _StickyTabBarDelegate(this.tabBar);
+
+  final TabBar tabBar;
+
+  @override
+  double get minExtent => tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => tabBar.preferredSize.height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.white,
+      child: tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_StickyTabBarDelegate oldDelegate) {
+    return false;
+  }
 }

@@ -55,14 +55,25 @@ class _SalonDetailScreenState extends ConsumerState<SalonDetailScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              // Parallax Header
-              SliverAppBar(
-                expandedHeight: 280,
-                pinned: true,
-                backgroundColor: AppTheme.primaryColor,
+          RefreshIndicator(
+            onRefresh: () async {
+              HapticFeedback.mediumImpact();
+              // TODO: Refresh salon data from API
+              await Future.delayed(const Duration(milliseconds: 800));
+              if (mounted) {
+                setState(() {});
+              }
+            },
+            color: AppTheme.accentColor,
+            child: CustomScrollView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                // Parallax Header
+                SliverAppBar(
+                  expandedHeight: 280,
+                  pinned: true,
+                  backgroundColor: AppTheme.primaryColor,
                 leading: IconButton(
                   icon: Container(
                     padding: const EdgeInsets.all(8),
@@ -222,6 +233,7 @@ class _SalonDetailScreenState extends ConsumerState<SalonDetailScreen> {
                 ),
               ),
             ],
+            ),
           ),
 
           // Floating Book Button

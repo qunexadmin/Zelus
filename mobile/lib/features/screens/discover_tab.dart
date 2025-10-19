@@ -78,11 +78,9 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: _onRefresh,
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
               // Sticky Header
               SliverAppBar(
                 backgroundColor: Colors.white,
@@ -93,7 +91,6 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                 toolbarHeight: 96,
                 shadowColor: Colors.transparent,
                 surfaceTintColor: Colors.transparent,
-                // Border removed for cleaner look
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 12),
                   child: Row(
@@ -126,25 +123,25 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                         ),
                       ),
                       // Messages Icon
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.lightImpact();
+                          InkWell(
+                            onTap: () {
+                              HapticFeedback.lightImpact();
                           context.push('/chat');
-                        },
-                        child: Container(
-                          width: 44,
-                          height: 44,
-                          decoration: const BoxDecoration(
-                            color: AppTheme.primaryColor,
-                            shape: BoxShape.circle,
-                          ),
+                            },
+                            child: Container(
+                              width: 44,
+                              height: 44,
+                              decoration: const BoxDecoration(
+                                color: AppTheme.primaryColor,
+                                shape: BoxShape.circle,
+                              ),
                           child: const Icon(Icons.chat_bubble_outline, color: Colors.white, size: 22),
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
+                              ),
+                            ),
+                          ),
               
               // Utilities Section (Scrollable)
               SliverToBoxAdapter(
@@ -152,15 +149,15 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                   children: [
                     const SizedBox(height: 12),
                     
-                    // Search Box (Opens Bottom Sheet)
+                    // AI Assistant Search Box (Opens Bottom Sheet)
                     _buildSmartQuickActionsRow(),
                     
                     const SizedBox(height: 16),
                     
-                    // Upcoming Appointment & Recent Visit (Side by Side)
+                    // Upcoming Appointment & Recent Visit
                     _buildAppointmentVisitRow(),
                     
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -175,7 +172,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                     indicatorWeight: 2.5,
                     labelColor: Colors.black,
                     unselectedLabelColor: AppTheme.textTertiary,
-                    dividerColor: Colors.transparent, // Remove gray divider line
+                    dividerColor: Colors.transparent,
                     dividerHeight: 0,
                     labelStyle: const TextStyle(
                       fontSize: 16,
@@ -194,20 +191,16 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                   ),
                 ),
               ),
+            ];
+          },
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              // Following Tab - Activity Feed
+              _buildFollowingTab(),
               
-              // Scrollable Content
-              SliverFillRemaining(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    // Following Tab - Activity Feed
-                    _buildFollowingTab(),
-                    
-                    // Trending Tab - Content feed
-                    _buildTrendingTab(),
-                  ],
-                ),
-              ),
+              // Trending Tab - Content feed
+              _buildTrendingTab(),
             ],
           ),
         ),
@@ -216,76 +209,81 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
   }
 
   Widget _buildTrendingTab() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-                const SizedBox(height: 16),
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      color: AppTheme.accentColor,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+            const SizedBox(height: 16),
 
-                // Special Offers Section
-                _buildSpecialOffers(),
+            // Special Offers Section
+            _buildSpecialOffers(),
 
-                const SizedBox(height: 32),
+            const SizedBox(height: 32),
 
-                // Trending Styles with Images
+            // Trending Styles with Images
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Trending This Week',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          HapticFeedback.lightImpact();
-                          context.push('/trending');
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppTheme.primaryColor,
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: const Text(
-                          'View All',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Trending This Week',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.black,
+                      letterSpacing: -0.5,
+                    ),
                   ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Trending Grid with better visuals
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 0.85,
-                    children: [
-                      _buildTrendingCard('Summer Waves', '2.3k', '🌊', Colors.blue.shade50),
-                      _buildTrendingCard('Bold Highlights', '1.8k', '✨', Colors.amber.shade50),
-                      _buildTrendingCard('Sleek Bob', '1.5k', '💁‍♀️', Colors.pink.shade50),
-                      _buildTrendingCard('Natural Curls', '1.2k', '🌀', Colors.purple.shade50),
-                    ],
+                  TextButton(
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      context.push('/trending');
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppTheme.primaryColor,
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: const Text(
+                      'View All',
+                      style: TextStyle(
+                          fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
+                ],
+              ),
+            ),
 
-                const SizedBox(height: 100),
-        ],
+            const SizedBox(height: 16),
+
+            // Trending Grid with better visuals
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 0.85,
+                          children: [
+                  _buildTrendingCard('Summer Waves', '2.3k', '🌊', Colors.blue.shade50),
+                  _buildTrendingCard('Bold Highlights', '1.8k', '✨', Colors.amber.shade50),
+                  _buildTrendingCard('Sleek Bob', '1.5k', '💁‍♀️', Colors.pink.shade50),
+                  _buildTrendingCard('Natural Curls', '1.2k', '🌀', Colors.purple.shade50),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 100),
+          ],
+        ),
       ),
     );
   }
@@ -300,11 +298,12 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
         }
         return RefreshIndicator(
           onRefresh: () async {
-            HapticFeedback.lightImpact();
+                                HapticFeedback.lightImpact();
             ref.invalidate(activityFeedProvider);
           },
           color: AppTheme.accentColor,
           child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.only(top: 16, bottom: 100),
             itemCount: posts.length,
             itemBuilder: (context, index) {
@@ -327,11 +326,11 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: AppTheme.textSecondary,
+                              color: AppTheme.textSecondary,
               ),
-            ),
-          ],
-        ),
+                            ),
+                          ],
+                        ),
       ),
     );
   }
@@ -412,7 +411,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Post Header
-          Padding(
+                Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
@@ -436,12 +435,12 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                             ),
                           ),
                           if (post.salonName != null) ...[
-                            const Text(
+                      const Text(
                               ' at ',
-                              style: TextStyle(
+                        style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w300,
-                                color: AppTheme.textSecondary,
+                          color: AppTheme.textSecondary,
                               ),
                             ),
                             Text(
@@ -471,12 +470,12 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                   icon: const Icon(Icons.more_horiz, color: AppTheme.textTertiary),
                   onPressed: () {
                     HapticFeedback.lightImpact();
-                  },
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-          
+
           // Post Content based on type
           if (post.imageUrl != null)
             CachedNetworkImage(
@@ -486,17 +485,17 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
               fit: BoxFit.cover,
             ),
           
-          Padding(
+                Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+                    children: [
                 Text(
                   post.content,
                   style: const TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black,
                     height: 1.4,
                   ),
                 ),
@@ -540,7 +539,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
             // Header - Tap to open full chat
             InkWell(
               onTap: () {
-                HapticFeedback.lightImpact();
+                          HapticFeedback.lightImpact();
                 context.push('/chat');
               },
               borderRadius: const BorderRadius.only(
@@ -578,9 +577,9 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                         children: [
                           Text(
                             'Good morning, Sarah!',
-                            style: TextStyle(
+                          style: TextStyle(
                               fontSize: 17,
-                              fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w500,
                               color: Colors.black,
                               letterSpacing: -0.3,
                             ),
@@ -592,9 +591,9 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                               fontSize: 13,
                               fontWeight: FontWeight.w300,
                               color: AppTheme.textSecondary,
-                            ),
-                          ),
-                        ],
+                        ),
+                      ),
+                    ],
                       ),
                     ),
                     const Icon(Icons.chat_bubble_outline, size: 20, color: AppTheme.primaryColor),
@@ -736,7 +735,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
 
   Widget _buildCompactUpcomingAppointment() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
       child: InkWell(
         onTap: () {
           HapticFeedback.lightImpact();
@@ -757,8 +756,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: AppTheme.accentColor.withOpacity(0.2), width: 1.5),
           ),
-          child: Row(
-            children: [
+                  child: Row(
+                    children: [
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -781,7 +780,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                   children: [
                     Text(
                       'Next Appointment',
-                      style: TextStyle(
+                          style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: AppTheme.textSecondary,
@@ -793,25 +792,25 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                       'Tomorrow 2pm • Jane @ Elite Studio',
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w500,
                         color: Colors.black,
                         letterSpacing: -0.2,
-                      ),
-                    ),
+                          ),
+                        ),
                   ],
-                ),
+                      ),
               ),
               const Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.textTertiary),
-            ],
-          ),
-        ),
+                    ],
+                  ),
+                ),
       ),
     );
   }
 
   Widget _buildCompactRecentVisit() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
       child: InkWell(
         onTap: () {
           HapticFeedback.lightImpact();
@@ -826,7 +825,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
             border: Border.all(color: AppTheme.borderLight, width: 1.5),
           ),
           child: Row(
-            children: [
+                    children: [
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -1260,8 +1259,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
           border: Border.all(color: AppTheme.borderLight, width: 1),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -1272,7 +1271,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                   ),
                 ),
                 child: Stack(
-                  children: [
+            children: [
                     Center(
                       child: Text(
                         emoji,
@@ -1292,18 +1291,18 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                           Icons.bookmark_border,
                           size: 18,
                           color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
+            ],
+          ),
+        ),
             ),
             Padding(
               padding: const EdgeInsets.all(14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            children: [
                   Text(
                     title,
                     style: const TextStyle(
@@ -1327,10 +1326,10 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
+        ),
+      ],
         ),
       ),
     );
@@ -1357,13 +1356,13 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
                     color: AppTheme.primaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                borderRadius: BorderRadius.circular(10),
+              ),
                   child: Text(emoji, style: const TextStyle(fontSize: 18)),
                 ),
                 Container(
@@ -1377,33 +1376,33 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
               ],
             ),
             const SizedBox(height: 12),
-            Text(
-              name,
-              style: const TextStyle(
+                  Text(
+                    name,
+                    style: const TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 4),
-            Text(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
               service,
-              style: const TextStyle(
+                    style: const TextStyle(
                 fontSize: 14,
-                color: AppTheme.textSecondary,
+                      color: AppTheme.textSecondary,
                 fontWeight: FontWeight.w300,
-              ),
+                    ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-            ),
+                  ),
             const SizedBox(height: 3),
-            Text(
+                  Text(
               date,
-              style: const TextStyle(
+                    style: const TextStyle(
                 fontSize: 13,
-                color: AppTheme.textTertiary,
+                      color: AppTheme.textTertiary,
                 fontWeight: FontWeight.w300,
               ),
             ),
@@ -1445,32 +1444,32 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
   
   Widget _buildSmartQuickActionsRow() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
       child: GestureDetector(
         onTap: () {
           HapticFeedback.lightImpact();
           _showSearchBottomSheet();
         },
         child: Container(
-          decoration: BoxDecoration(
+                    decoration: BoxDecoration(
             color: const Color(0xFFF7F7F7),
-            borderRadius: BorderRadius.circular(12),
-          ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
-              const Icon(Icons.search, color: Color(0xFF737373), size: 20),
+              const Icon(Icons.auto_awesome_rounded, color: Color(0xFF737373), size: 20),
               const SizedBox(width: 12),
               const Expanded(
                 child: Text(
-                  'Search stylists, salons, services...',
-                  style: TextStyle(
+                  'Ask AI Assistant anything...',
+                      style: TextStyle(
                     fontSize: 14,
                     color: Color(0xFFBFBFBF),
                     fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
-                ),
-              ),
               InkWell(
                 onTap: () {
                   HapticFeedback.lightImpact();
@@ -1510,20 +1509,20 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
         child: Column(
           children: [
             // Handle bar
-            Container(
+                Container(
               margin: const EdgeInsets.only(top: 12, bottom: 8),
               width: 40,
               height: 4,
-              decoration: BoxDecoration(
+                  decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             
-            // Search box (active)
+            // AI Assistant search box
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 16, 24, 20),
-              child: Container(
+                  child: Container(
                 decoration: BoxDecoration(
                   color: const Color(0xFFF7F7F7),
                   borderRadius: BorderRadius.circular(12),
@@ -1532,18 +1531,18 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                   children: [
                     const Padding(
                       padding: EdgeInsets.only(left: 16, right: 12),
-                      child: Icon(Icons.search, color: Color(0xFF737373), size: 20),
+                      child: Icon(Icons.auto_awesome_rounded, color: Color(0xFF737373), size: 20),
                     ),
                     Expanded(
                       child: TextField(
                         controller: _searchController,
-                        autofocus: true,
+                        autofocus: false,
                         onSubmitted: (query) {
                           Navigator.pop(context);
                           _handleSearch(query);
                         },
                         decoration: const InputDecoration(
-                          hintText: 'Search stylists, salons, services...',
+                          hintText: 'Ask AI Assistant anything...',
                           hintStyle: TextStyle(
                             fontSize: 14,
                             color: Color(0xFFBFBFBF),
@@ -1554,7 +1553,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                           focusedBorder: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(vertical: 14),
                         ),
-                        style: const TextStyle(
+              style: const TextStyle(
                           fontSize: 14,
                           color: Colors.black87,
                         ),
@@ -1577,10 +1576,10 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(Icons.mic_none, color: Colors.black87, size: 20),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
+              ],
+            ),
               ),
             ),
             
@@ -1589,8 +1588,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
                     // Quick Actions Section
                     const Text(
                       'Quick Actions',
@@ -1628,31 +1627,31 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                     // Recent Searches Section
                     if (_searchHistory.isNotEmpty) ...[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
                             'Recent Searches',
-                            style: TextStyle(
+                style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              HapticFeedback.lightImpact();
+                  color: Colors.black,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  HapticFeedback.lightImpact();
                               setState(() => _searchHistory.clear());
-                            },
-                            child: const Text(
+                },
+                child: const Text(
                               'Clear',
-                              style: TextStyle(
+                  style: TextStyle(
                                 fontSize: 13,
                                 color: AppTheme.textSecondary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                  ),
+                ),
+              ),
+            ],
+          ),
                       const SizedBox(height: 8),
                       ..._searchHistory.map((query) => ListTile(
                         contentPadding: EdgeInsets.zero,
@@ -1675,12 +1674,12 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                           _handleSearch(query);
                         },
                       )),
-                      const SizedBox(height: 16),
+        const SizedBox(height: 16),
                     ],
                     
-                    // Trending Searches
+                    // Popular Topics
                     const Text(
-                      'Trending Searches',
+                      'Popular Topics',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -1728,26 +1727,26 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
       borderRadius: BorderRadius.circular(20),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
           border: Border.all(color: const Color(0xFFE5E5E5), width: 1),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+              children: [
             Icon(icon, size: 15, color: Colors.black87),
             const SizedBox(width: 8),
-            Text(
+                Text(
               label,
-              style: const TextStyle(
+                  style: const TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: Colors.black87,
-              ),
-            ),
-          ],
-        ),
+                    fontWeight: FontWeight.w400,
+                          color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
       ),
     );
   }
@@ -1758,7 +1757,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
       child: Column(
         children: [
           _buildUpcomingAppointmentCard(),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           _buildRecentVisitCard(),
         ],
       ),
@@ -1786,13 +1785,13 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
+      onTap: () {
             HapticFeedback.lightImpact();
             // Navigate to appointment details
           },
           borderRadius: BorderRadius.circular(20),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 Row(
@@ -1801,7 +1800,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                     Container(
                       width: 56,
                       height: 56,
-                      decoration: BoxDecoration(
+        decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: AppTheme.accentColor, width: 2),
                         image: const DecorationImage(
@@ -1815,14 +1814,14 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                     const SizedBox(width: 14),
                     // Appointment Info
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
+                  decoration: BoxDecoration(
                                   color: AppTheme.accentColor,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
@@ -1836,12 +1835,12 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                                       style: TextStyle(
                                         fontSize: 10,
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.white,
+                    color: Colors.white,
                                         letterSpacing: 0.5,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                  ),
+                ),
+              ],
+            ),
                               ),
                             ],
                           ),
@@ -1876,7 +1875,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                       ),
                       child: const Column(
                         children: [
-                          Text(
+            Text(
                             '2:00',
                             style: TextStyle(
                               fontSize: 18,
@@ -1885,12 +1884,12 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                               letterSpacing: -0.5,
                             ),
                           ),
-                          Text(
+            Text(
                             'PM',
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
-                              color: AppTheme.textSecondary,
+                color: AppTheme.textSecondary,
                             ),
                           ),
                         ],
@@ -1904,20 +1903,20 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                   children: [
                     Expanded(
                       child: OutlinedButton.icon(
-                        onPressed: () {
-                          HapticFeedback.lightImpact();
+                onPressed: () {
+                  HapticFeedback.lightImpact();
                           // Get directions
-                        },
+                },
                         icon: const Icon(Icons.directions_outlined, size: 16),
                         label: const Text('Directions'),
-                        style: OutlinedButton.styleFrom(
+                style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.black87,
                           side: BorderSide(color: Colors.black.withOpacity(0.2)),
                           padding: const EdgeInsets.symmetric(vertical: 10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -1939,11 +1938,11 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
+                ),
+              ),
+            ),
+          ],
                 ),
               ],
             ),
@@ -1955,17 +1954,10 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
 
   Widget _buildRecentVisitCard() {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE8E8E8)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        decoration: BoxDecoration(
+        color: const Color(0xFFFAFAFA),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFEEEEEE)),
       ),
       child: Material(
         color: Colors.transparent,
@@ -1974,79 +1966,62 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
             HapticFeedback.lightImpact();
             // Navigate to visit history
           },
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(12),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             child: Row(
-              children: [
-                // History Icon
+          children: [
+                // Compact History Icon
                 Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F5),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
+                  width: 32,
+                  height: 32,
+                decoration: BoxDecoration(
+                    color: AppTheme.primaryColor.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
                     Icons.history_rounded,
                     color: AppTheme.primaryColor,
-                    size: 24,
+                          size: 18,
                   ),
                 ),
-                const SizedBox(width: 14),
-                // Visit Info
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
+                const SizedBox(width: 12),
+                // Visit Info (Compact)
+                const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                         'Last Visit',
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 11,
+                      fontWeight: FontWeight.w500,
                           color: AppTheme.textSecondary,
-                          letterSpacing: 0.3,
+                          letterSpacing: 0.2,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Elite Hair Studio',
+                      SizedBox(height: 2),
+                      Text(
+                        'Elite Hair Studio • 2 days ago',
                         style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
                           color: Colors.black87,
-                          letterSpacing: -0.2,
+                          letterSpacing: -0.1,
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.access_time_rounded,
-                            size: 13,
-                            color: AppTheme.textSecondary.withOpacity(0.7),
-                          ),
-                          const SizedBox(width: 4),
-                          const Text(
-                            '2 days ago',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: AppTheme.textSecondary,
-                            ),
-                          ),
-                        ],
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                ),
+              ),
                 // Arrow Icon
                 const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 16,
+                  Icons.chevron_right,
+                  size: 18,
                   color: AppTheme.textTertiary,
-                ),
-              ],
+            ),
+          ],
             ),
           ),
         ),

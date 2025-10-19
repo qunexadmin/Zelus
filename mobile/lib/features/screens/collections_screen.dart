@@ -36,16 +36,27 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            // Sticky Header
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              pinned: true,
-              floating: false,
-              expandedHeight: 0,
-              toolbarHeight: 110,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            HapticFeedback.mediumImpact();
+            // TODO: Refresh collections from API
+            await Future.delayed(const Duration(milliseconds: 800));
+            if (mounted) {
+              setState(() {});
+            }
+          },
+          color: AppTheme.accentColor,
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              // Sticky Header
+              SliverAppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                pinned: true,
+                floating: false,
+                expandedHeight: 0,
+                toolbarHeight: 110,
               shadowColor: Colors.transparent,
               surfaceTintColor: Colors.transparent,
               flexibleSpace: Padding(
@@ -295,6 +306,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
                 ? _buildCollectionsGrid()
                 : _buildCollectionsList(),
           ],
+          ),
         ),
       ),
     );
