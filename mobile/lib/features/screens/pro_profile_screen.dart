@@ -66,7 +66,10 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                 onRefresh: () async {
                   HapticFeedback.mediumImpact();
                   ref.invalidate(profileProvider(widget.proId));
-                  ref.invalidate(reviewsProvider(widget.proId));
+                  ref.invalidate(reviewsProvider({
+                    'targetId': widget.proId,
+                    'targetType': 'stylist',
+                  }));
                   await Future.delayed(const Duration(milliseconds: 800));
                 },
                 color: AppTheme.accentColor,
