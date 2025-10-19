@@ -398,11 +398,16 @@ alembic downgrade -1
 ### v1.5.3 - October 19, 2025 (Current - Social-First Home)
 - 🏠 **2-Tab Home Screen** - Following | Trending
   - **Following Tab**: Activity feed from followed stylists (Instagram-style)
-  - **Trending Tab**: AI search, appointments, visits, trending styles, inspiration
+  - **Trending Tab**: Compact top section + content feed
+    - 🤖 **AI Assistant Card** - Quick actions (70% less space than old search)
+    - 📅 **Compact Appointment** - Single line (~70px)
+    - 🕐 **Compact Recent Visit** - Single line (~70px)
+    - 🔥 **Trending Styles** - Feed content
+    - ✨ **Inspiration Gallery** - Feed content
 - 📱 **Social-First Design** - Activity feed is primary home content
 - ⭐ **Favorites Moved** - Now in Profile tab (better organization)
-- 🧹 **Removed** - "Stylists Near You" section (decluttered)
-- 🎯 **Result** - Cleaner, more engaging, social-first experience
+- 🧹 **Removed** - Bulky search bar, search suggestions, large appointment/visit cards
+- 🎯 **Result** - ~500px saved, cleaner, more engaging experience
 
 ### v1.5.2 - October 18, 2025 (Simplified Navigation)
 - 🎯 **3-Tab Navigation** - Cleaner, more focused
