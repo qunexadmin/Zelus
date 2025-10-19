@@ -149,8 +149,11 @@ flutter run -d chrome  # or android/ios
 - **Home Tab** - Smart sticky navigation (Instagram-style)
   - **Dynamic Greeting** + Messages icon (always visible)
   - **Utilities Section** (scrolls away):
-    - **Smart Search Box** - Clean search bar with voice button (🎤)
-    - **Quick Suggestion Chips** - Contextual actions in one scrollable row
+    - **Smart Search Box** - Light gray search bar with white voice button (🎤)
+    - **Quick Suggestion Chips** - 2 rows with specific contextual actions:
+      - "Get style ideas for your Oct 25th appointment"
+      - "3 items on sale in your watchlist"
+      - "Book with Jane at Elite Studio"
     - **Appointment + Visit Cards** - Side-by-side compact design
   - **Sticky Tabs** (Following | Trending) - Stick after scrolling, no gray divider
   - **Following Tab**: Activity feed from followed stylists
@@ -407,10 +410,10 @@ alembic downgrade -1
 - 🏠 **Smart Home Screen Layout** - Instagram-style sticky navigation
   - **Global Utilities** (scroll away):
     - 🔍 **Smart Search Box** - Clean search with voice input
-      - Single-line search bar with voice button (mic icon)
-      - Horizontal scrolling suggestion chips with embedded icons
-      - Quick actions: "Style ideas for Oct 25th", "Price drops", "Check Jane's availability"
-      - Compact design - same height as previous AI section
+      - Light gray search bar with white voice button (no double border)
+      - 2-line suggestion chips with specific text & embedded icons
+      - Quick actions: "Get style ideas for your Oct 25th appointment", "3 items on sale in your watchlist", "Book with Jane at Elite Studio"
+      - Uses Wrap widget for natural multi-line layout
     - 📅 **Side-by-Side Cards** - Next Appointment & Last Visit in efficient row layout
       - Appointment: Soft yellow background with gold accent
       - Visit: Clean light gray with minimal borders

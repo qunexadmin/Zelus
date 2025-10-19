@@ -1596,19 +1596,11 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Search Box with Voice Button
+          // Search Box with Voice Button (Fixed - no double border)
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: const Color(0xFFF7F7F7),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFE5E5E5), width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.03),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
             ),
             child: Row(
               children: [
@@ -1628,6 +1620,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                         fontWeight: FontWeight.w400,
                       ),
                       border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
                     style: const TextStyle(
@@ -1649,10 +1643,10 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                     margin: const EdgeInsets.only(right: 8),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF7F7F7),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.mic, color: Colors.black87, size: 18),
+                    child: const Icon(Icons.mic_none, color: Colors.black87, size: 20),
                   ),
                 ),
               ],
@@ -1661,28 +1655,24 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
           
           const SizedBox(height: 12),
           
-          // Quick Suggestion Chips (One Line)
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _buildSuggestionChip(Icons.palette_outlined, 'Style ideas for Oct 25th', () {
-                  HapticFeedback.lightImpact();
-                  _searchController.text = 'Style ideas';
-                  _handleSearch('Style ideas');
-                }),
-                const SizedBox(width: 8),
-                _buildSuggestionChip(Icons.local_offer_outlined, 'Price drops', () {
-                  HapticFeedback.lightImpact();
-                  context.push('/collections');
-                }),
-                const SizedBox(width: 8),
-                _buildSuggestionChip(Icons.calendar_today_outlined, 'Check Jane\'s availability', () {
-                  HapticFeedback.lightImpact();
-                  context.push('/chat', extra: {'prompt': 'Check Jane Smith availability'});
-                }),
-              ],
-            ),
+          // Quick Suggestion Chips (2 Lines, More Specific)
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _buildSuggestionChip(Icons.palette_outlined, 'Get style ideas for your Oct 25th appointment', () {
+                HapticFeedback.lightImpact();
+                context.push('/chat', extra: {'prompt': 'Style ideas for my upcoming appointment'});
+              }),
+              _buildSuggestionChip(Icons.local_offer_outlined, '3 items on sale in your watchlist', () {
+                HapticFeedback.lightImpact();
+                context.push('/collections');
+              }),
+              _buildSuggestionChip(Icons.calendar_today_outlined, 'Book with Jane at Elite Studio', () {
+                HapticFeedback.lightImpact();
+                context.push('/chat', extra: {'prompt': 'Check Jane Smith availability'});
+              }),
+            ],
           ),
         ],
       ),
@@ -1694,22 +1684,22 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: const Color(0xFFF7F7F7),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: const Color(0xFFE5E5E5), width: 1),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 14, color: Colors.black87),
-            const SizedBox(width: 6),
+            Icon(icon, size: 15, color: Colors.black87),
+            const SizedBox(width: 8),
             Text(
               label,
               style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
                 color: Colors.black87,
               ),
             ),
