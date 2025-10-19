@@ -150,17 +150,17 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     
-                    // Smart Quick Actions (Horizontal Scroll)
+                    // Search Box (Opens Bottom Sheet)
                     _buildSmartQuickActionsRow(),
                     
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
                     
                     // Upcoming Appointment & Recent Visit (Side by Side)
                     _buildAppointmentVisitRow(),
                     
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -1446,88 +1446,278 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
   Widget _buildSmartQuickActionsRow() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Search Box with Voice Button (Fixed - no double border)
-          Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFFF7F7F7),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 16, right: 12),
-                  child: Icon(Icons.search, color: Color(0xFF737373), size: 20),
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    onSubmitted: _handleSearch,
-                    decoration: const InputDecoration(
-                      hintText: 'Search stylists, salons, services...',
-                      hintStyle: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFFBFBFBF),
-                        fontWeight: FontWeight.w400,
-                      ),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    HapticFeedback.lightImpact();
-                    // TODO: Implement voice search
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Voice search coming soon!')),
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(Icons.mic_none, color: Colors.black87, size: 20),
-                  ),
-                ),
-              ],
-            ),
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.lightImpact();
+          _showSearchBottomSheet();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFF7F7F7),
+            borderRadius: BorderRadius.circular(12),
           ),
-          
-          const SizedBox(height: 12),
-          
-          // Quick Suggestion Chips (2 Lines, More Specific)
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
             children: [
-              _buildSuggestionChip(Icons.palette_outlined, 'Get style ideas for your Oct 25th appointment', () {
-                HapticFeedback.lightImpact();
-                context.push('/chat', extra: {'prompt': 'Style ideas for my upcoming appointment'});
-              }),
-              _buildSuggestionChip(Icons.local_offer_outlined, '3 items on sale in your watchlist', () {
-                HapticFeedback.lightImpact();
-                context.push('/collections');
-              }),
-              _buildSuggestionChip(Icons.calendar_today_outlined, 'Book with Jane at Elite Studio', () {
-                HapticFeedback.lightImpact();
-                context.push('/chat', extra: {'prompt': 'Check Jane Smith availability'});
-              }),
+              const Icon(Icons.search, color: Color(0xFF737373), size: 20),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Search stylists, salons, services...',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFFBFBFBF),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  // TODO: Implement voice search
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Voice search coming soon!')),
+                  );
+                },
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.mic_none, color: Colors.black87, size: 20),
+                ),
+              ),
             ],
           ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  void _showSearchBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.75,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            // Handle bar
+            Container(
+              margin: const EdgeInsets.only(top: 12, bottom: 8),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            
+            // Search box (active)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 20),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF7F7F7),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 16, right: 12),
+                      child: Icon(Icons.search, color: Color(0xFF737373), size: 20),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        autofocus: true,
+                        onSubmitted: (query) {
+                          Navigator.pop(context);
+                          _handleSearch(query);
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'Search stylists, salons, services...',
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFFBFBFBF),
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        HapticFeedback.lightImpact();
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Voice search coming soon!')),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(Icons.mic_none, color: Colors.black87, size: 20),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            
+            // Content
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Quick Actions Section
+                    const Text(
+                      'Quick Actions',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        _buildSuggestionChip(Icons.palette_outlined, 'Style ideas for Oct 25th', () {
+                          Navigator.pop(context);
+                          HapticFeedback.lightImpact();
+                          context.push('/chat', extra: {'prompt': 'Style ideas for my upcoming appointment'});
+                        }),
+                        _buildSuggestionChip(Icons.local_offer_outlined, '3 items on sale', () {
+                          Navigator.pop(context);
+                          HapticFeedback.lightImpact();
+                          context.push('/collections');
+                        }),
+                        _buildSuggestionChip(Icons.calendar_today_outlined, 'Book with Jane', () {
+                          Navigator.pop(context);
+                          HapticFeedback.lightImpact();
+                          context.push('/chat', extra: {'prompt': 'Check Jane Smith availability'});
+                        }),
+                      ],
+                    ),
+                    
+                    const SizedBox(height: 28),
+                    
+                    // Recent Searches Section
+                    if (_searchHistory.isNotEmpty) ...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Recent Searches',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              HapticFeedback.lightImpact();
+                              setState(() => _searchHistory.clear());
+                            },
+                            child: const Text(
+                              'Clear',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: AppTheme.textSecondary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      ..._searchHistory.map((query) => ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.history, color: AppTheme.textSecondary, size: 20),
+                        title: Text(
+                          query,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.north_west, size: 18, color: AppTheme.textSecondary),
+                          onPressed: () {
+                            _searchController.text = query;
+                          },
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                          _handleSearch(query);
+                        },
+                      )),
+                      const SizedBox(height: 16),
+                    ],
+                    
+                    // Trending Searches
+                    const Text(
+                      'Trending Searches',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ...[
+                      'Balayage',
+                      'Bridal makeup',
+                      'Hair extensions',
+                      'Nail art',
+                      'Keratin treatment',
+                    ].map((query) => ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.trending_up, color: AppTheme.primaryColor, size: 20),
+                      title: Text(
+                        query,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      trailing: const Icon(Icons.north_west, size: 18, color: AppTheme.textSecondary),
+                      onTap: () {
+                        Navigator.pop(context);
+                        _handleSearch(query);
+                      },
+                    )),
+                    
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1565,135 +1755,300 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
   Widget _buildAppointmentVisitRow() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(child: _buildCompactAppointmentCard()),
-          const SizedBox(width: 12),
-          Expanded(child: _buildCompactVisitCard()),
+          _buildUpcomingAppointmentCard(),
+          const SizedBox(height: 12),
+          _buildRecentVisitCard(),
         ],
       ),
     );
   }
 
-  Widget _buildCompactAppointmentCard() {
-    return InkWell(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        // Navigate to appointment details
-      },
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: const Color(0xFFFFF8E1), // Soft yellow
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppTheme.accentColor.withOpacity(0.3)),
+  Widget _buildUpcomingAppointmentCard() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFFFF8E1), Color(0xFFFFF3D4)],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppTheme.accentColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(Icons.calendar_today, color: Colors.white, size: 16),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppTheme.accentColor.withOpacity(0.2)),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.accentColor.withOpacity(0.08),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            HapticFeedback.lightImpact();
+            // Navigate to appointment details
+          },
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    // Stylist Photo
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppTheme.accentColor, width: 2),
+                        image: const DecorationImage(
+                          image: CachedNetworkImageProvider(
+                            'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    // Appointment Info
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.accentColor,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.calendar_today, color: Colors.white, size: 11),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'TOMORROW',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Jane Smith',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                              letterSpacing: -0.3,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          const Text(
+                            'Elite Hair Studio',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: AppTheme.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Time
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Column(
+                        children: [
+                          Text(
+                            '2:00',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black87,
+                              letterSpacing: -0.5,
+                            ),
+                          ),
+                          Text(
+                            'PM',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                // Action Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          HapticFeedback.lightImpact();
+                          // Get directions
+                        },
+                        icon: const Icon(Icons.directions_outlined, size: 16),
+                        label: const Text('Directions'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.black87,
+                          side: BorderSide(color: Colors.black.withOpacity(0.2)),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          HapticFeedback.lightImpact();
+                          context.push('/chat', extra: {
+                            'recipientId': 'jane-smith',
+                            'recipientName': 'Jane Smith',
+                            'recipientPhoto': 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200',
+                          });
+                        },
+                        icon: const Icon(Icons.chat_bubble_outline, size: 16),
+                        label: const Text('Message'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.black87,
+                          side: BorderSide(color: Colors.black.withOpacity(0.2)),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 12),
-            const Text(
-              'Next Appointment',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: AppTheme.textSecondary,
-                letterSpacing: 0.5,
-              ),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'Tomorrow 2pm',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-                letterSpacing: -0.2,
-              ),
-            ),
-            const SizedBox(height: 2),
-            const Text(
-              'Jane @ Elite Studio',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: AppTheme.textSecondary,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildCompactVisitCard() {
-    return InkWell(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        // Navigate to visit history
-      },
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F5), // Light gray
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppTheme.borderLight),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(Icons.history, color: AppTheme.primaryColor, size: 16),
+  Widget _buildRecentVisitCard() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE8E8E8)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            HapticFeedback.lightImpact();
+            // Navigate to visit history
+          },
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                // History Icon
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF5F5F5),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.history_rounded,
+                    color: AppTheme.primaryColor,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 14),
+                // Visit Info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Last Visit',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.textSecondary,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      const Text(
+                        'Elite Hair Studio',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.access_time_rounded,
+                            size: 13,
+                            color: AppTheme.textSecondary.withOpacity(0.7),
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            '2 days ago',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: AppTheme.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                // Arrow Icon
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: AppTheme.textTertiary,
+                ),
+              ],
             ),
-            const SizedBox(height: 12),
-            const Text(
-              'Last Visit',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: AppTheme.textSecondary,
-                letterSpacing: 0.5,
-              ),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              '2 days ago',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-                letterSpacing: -0.2,
-              ),
-            ),
-            const SizedBox(height: 2),
-            const Text(
-              'Elite Hair Studio',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: AppTheme.textSecondary,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+          ),
         ),
       ),
     );
