@@ -1588,120 +1588,132 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
     );
   }
 
-  // CLEAN AI-INSPIRED DESIGN
+  // SEARCH BOX WITH VOICE AND SUGGESTIONS
   
   Widget _buildSmartQuickActionsRow() {
-    final actions = _getSmartQuickActions();
-    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Clean minimal header with AI badge
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(6),
+          // Search Box with Voice Button
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFFE5E5E5), width: 1),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.03),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
                 ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.auto_awesome, size: 12, color: Colors.white),
-                    SizedBox(width: 6),
-                    Text(
-                      'AI Assistant',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                        letterSpacing: 0.5,
+              ],
+            ),
+            child: Row(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 16, right: 12),
+                  child: Icon(Icons.search, color: Color(0xFF737373), size: 20),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    onSubmitted: _handleSearch,
+                    decoration: const InputDecoration(
+                      hintText: 'Search stylists, salons, services...',
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFFBFBFBF),
+                        fontWeight: FontWeight.w400,
                       ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 14),
                     ),
-                  ],
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black87,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                InkWell(
+                  onTap: () {
+                    HapticFeedback.lightImpact();
+                    // TODO: Implement voice search
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Voice search coming soon!')),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF7F7F7),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.mic, color: Colors.black87, size: 18),
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 16),
           
-          // Clean vertical cards
-          ...actions.map((action) => _buildCleanActionCard(
-            action['icon'] as IconData,
-            action['title'] as String,
-            action['subtitle'] as String?,
-            action['onTap'] as VoidCallback,
-          )).toList(),
+          const SizedBox(height: 12),
+          
+          // Quick Suggestion Chips (One Line)
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _buildSuggestionChip(Icons.palette_outlined, 'Style ideas for Oct 25th', () {
+                  HapticFeedback.lightImpact();
+                  _searchController.text = 'Style ideas';
+                  _handleSearch('Style ideas');
+                }),
+                const SizedBox(width: 8),
+                _buildSuggestionChip(Icons.local_offer_outlined, 'Price drops', () {
+                  HapticFeedback.lightImpact();
+                  context.push('/collections');
+                }),
+                const SizedBox(width: 8),
+                _buildSuggestionChip(Icons.calendar_today_outlined, 'Check Jane\'s availability', () {
+                  HapticFeedback.lightImpact();
+                  context.push('/chat', extra: {'prompt': 'Check Jane Smith availability'});
+                }),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildCleanActionCard(IconData icon, String title, String? subtitle, VoidCallback onTap) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE5E5E5), width: 1),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.03),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
+  Widget _buildSuggestionChip(IconData icon, String label, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF7F7F7),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFE5E5E5), width: 1),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: Colors.black87),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
               ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF7F7F7),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(icon, size: 18, color: Colors.black87),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black87,
-                        letterSpacing: -0.2,
-                        height: 1.3,
-                      ),
-                    ),
-                    if (subtitle != null) ...[
-                      const SizedBox(height: 2),
-                      Text(
-                        subtitle,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF737373),
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              const Icon(Icons.arrow_forward_ios, size: 14, color: Color(0xFFBFBFBF)),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

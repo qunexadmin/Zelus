@@ -148,8 +148,11 @@ flutter run -d chrome  # or android/ios
 - **3-Tab Navigation** - Home | Explore | Profile (clean & minimal!)
 - **Home Tab** - Smart sticky navigation (Instagram-style)
   - **Dynamic Greeting** + Messages icon (always visible)
-  - **Utilities Section** (scrolls away): AI Assistant, Appointment, Visit
-  - **Sticky Tabs** (Following | Trending) - Stick after scrolling
+  - **Utilities Section** (scrolls away):
+    - **Smart Search Box** - Clean search bar with voice button (🎤)
+    - **Quick Suggestion Chips** - Contextual actions in one scrollable row
+    - **Appointment + Visit Cards** - Side-by-side compact design
+  - **Sticky Tabs** (Following | Trending) - Stick after scrolling, no gray divider
   - **Following Tab**: Activity feed from followed stylists
   - **Trending Tab**: Special offers + Trending styles + Inspiration gallery
 - **Explore Tab** - Professionals | Salons | **Retail** (all discovery unified)
@@ -403,24 +406,25 @@ alembic downgrade -1
 ### v1.5.3 - October 19, 2025 (Current - Social-First Home)
 - 🏠 **Smart Home Screen Layout** - Instagram-style sticky navigation
   - **Global Utilities** (scroll away):
-    - 🤖 **Clean AI Assistant** - Minimal design inspired by ChatGPT/Notion
-      - Clean white vertical cards with subtle borders
-      - Black "AI Assistant" badge for clear identification
-      - Light gray icon backgrounds, no bright gradients
-      - Contextual actions: "Style ideas for Oct 25th", "Price drop on 3 saved items", "Check Jane's availability"
+    - 🔍 **Smart Search Box** - Clean search with voice input
+      - Single-line search bar with voice button (mic icon)
+      - Horizontal scrolling suggestion chips with embedded icons
+      - Quick actions: "Style ideas for Oct 25th", "Price drops", "Check Jane's availability"
+      - Compact design - same height as previous AI section
     - 📅 **Side-by-Side Cards** - Next Appointment & Last Visit in efficient row layout
       - Appointment: Soft yellow background with gold accent
       - Visit: Clean light gray with minimal borders
   - **Sticky Tabs** (Following | Trending) - Stick to top after scrolling
   - **Following Tab**: Activity feed from followed stylists (Instagram-style)
   - **Trending Tab**: Special offers + Trending styles + Inspiration gallery
-- 🎨 **Clean AI-Inspired Design** - Minimal, modern aesthetic
-- 🧠 **AI-First Intelligence** - Contextual actions based on user data
+- 🎨 **Clean Minimal Design** - White cards with subtle borders
+- 🔍 **Voice Search Ready** - Mic button for voice input
+- 🎯 **Smart Suggestions** - Contextual quick actions in compact chips
 - 📱 **Modern UX Pattern** - Utilities scroll away, tabs stay accessible
 - 📱 **Social-First Design** - Activity feed is primary home content
 - ⭐ **Favorites Moved** - Now in Profile tab (better organization)
-- 🧹 **Removed** - Bulky search bar, generic suggestions, large cards
-- 🎯 **Result** - Clean, professional look with personalized experience
+- 🧹 **Removed** - No gray divider lines, cleaner tab bar
+- 🎯 **Result** - Clean, professional look with efficient space usage
 
 ### v1.5.2 - October 18, 2025 (Simplified Navigation)
 - 🎯 **3-Tab Navigation** - Cleaner, more focused
