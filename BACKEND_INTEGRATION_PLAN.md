@@ -1,8 +1,21 @@
 # 🔗 Backend Integration Plan
 
-**Status:** Ready for Integration  
+**Status:** ⚠️ Needs Social & Messaging Endpoints  
 **Current State:** Mobile using MOCK data, Backend with REAL Neon data  
-**Goal:** Connect Flutter app to FastAPI backend
+**Goal:** Connect Flutter app to FastAPI backend + Add new social features  
+**Last Updated:** October 19, 2025 (Added v1.5.3 social features)
+
+## ⚡ What's New (v1.5.3 - October 19, 2025)
+
+Mobile app now includes:
+- 🤝 **Follow System** - Follow stylists, see follower counts
+- 📱 **Activity Feed** - Instagram-style feed (Following | Trending tabs)
+- 💬 **Messaging** - AI assistant + direct chat with stylists/salons
+- 🧠 **Smart AI Suggestions** - Contextual quick actions
+- ⭐ **Favorites** - Save stylists/salons to collections
+- 🎯 **3-Tab Navigation** - Simplified to Home | Explore | Profile
+
+**All of these need backend endpoints!** See Phase 5 & 6 below.
 
 ---
 
@@ -192,18 +205,110 @@ Current: Mock auth in mobile, placeholder in backend
 
 ---
 
-### **PHASE 5: Missing Features (Future)**
+### **PHASE 5: New Social & Messaging Features (Required)**
 
-Features mobile expects but backend doesn't have:
+**NEW** features added in v1.5.3 that need backend support:
 
-| Feature | Mobile Support | Backend Status | Priority |
-|---------|---------------|----------------|----------|
-| Reviews | ✅ Has UI | ❌ No endpoint | High |
-| Bookings | ✅ Has UI | ⚠️ Placeholder | Medium |
-| Messaging | ✅ Has UI | ❌ No endpoint | Medium |
-| Activity Feed | ✅ Has UI | ✅ Has endpoint | Low (works) |
-| Collections | ✅ Has UI | ❌ No endpoint | Low |
-| Product Discovery | ✅ Has UI | ❌ No endpoint | Low |
+| Feature | Mobile Support | Backend Status | Priority | Details |
+|---------|---------------|----------------|----------|---------|
+| **Follow System** | ✅ Implemented | ❌ No endpoint | **HIGH** | Follow/unfollow stylists, get followed IDs |
+| **Activity Feed** | ✅ Implemented | ⚠️ Has feed endpoint | **HIGH** | Need filtering by followed stylists |
+| **Follower Count** | ✅ Has UI | ❌ No endpoint | **HIGH** | Display follower count on profiles |
+| **Messaging/Chat** | ✅ Has UI | ❌ No endpoint | **HIGH** | AI assistant + direct chat |
+| **Smart Suggestions** | ✅ Has UI | ❌ No logic | **MEDIUM** | Contextual AI quick actions |
+| **Favorites** | ✅ Has UI | ❌ No endpoint | MEDIUM | Save stylists/salons |
+| **Collections** | ✅ Has UI | ❌ No endpoint | MEDIUM | Saved posts & bookmarks |
+| Reviews | ✅ Has UI | ❌ No endpoint | MEDIUM | User reviews |
+| Bookings | ✅ Has UI | ⚠️ Placeholder | LOW | External booking URLs work |
+| Product Discovery | ✅ Has UI | ❌ No endpoint | LOW | Beauty products/retail |
+
+---
+
+### **PHASE 6: Backend Endpoints Needed (New Features)**
+
+#### 1. Follow System Endpoints
+
+**Required Endpoints:**
+```python
+# Follow/Unfollow
+POST   /api/v1/stylists/{id}/follow      # Follow a stylist
+DELETE /api/v1/stylists/{id}/follow      # Unfollow a stylist
+GET    /api/v1/users/me/following        # Get IDs of followed stylists
+GET    /api/v1/stylists/{id}/followers   # Get follower count
+
+# Database changes needed:
+# - Add "follows" table (user_id, stylist_id, created_at)
+# - Add follower_count to stylists table (or calculate dynamically)
+```
+
+#### 2. Activity Feed Endpoints
+
+**Required Endpoints:**
+```python
+# Feed with filtering
+GET /api/v1/feed?filter=following&user_id={user_id}  # Posts from followed stylists only
+GET /api/v1/feed?filter=trending                     # All popular posts
+
+# Database changes needed:
+# - Add "posts" table if not exists
+# - Add stylist_id to posts table
+# - Add like_count, comment_count for engagement
+```
+
+#### 3. Messaging Endpoints
+
+**Required Endpoints:**
+```python
+# Conversations
+GET    /api/v1/conversations                    # List user's conversations
+GET    /api/v1/conversations/{id}/messages      # Get messages in conversation
+POST   /api/v1/conversations/{id}/messages      # Send message
+POST   /api/v1/conversations                    # Start new conversation
+
+# AI Assistant
+POST   /api/v1/ai/chat                          # Send message to AI assistant
+GET    /api/v1/ai/suggestions                   # Get contextual suggestions
+
+# Database changes needed:
+# - Add "conversations" table
+# - Add "messages" table
+# - Consider WebSocket support for real-time chat
+```
+
+#### 4. Smart Suggestions Logic
+
+**Required Endpoints:**
+```python
+GET /api/v1/users/me/suggestions  # Get personalized quick actions
+
+# Returns contextual actions based on:
+# - Upcoming appointments
+# - Price drops on saved items
+# - Last visited stylist
+# - Following feed updates
+# - Time since last visit
+```
+
+#### 5. Favorites/Collections Endpoints
+
+**Required Endpoints:**
+```python
+# Favorites
+POST   /api/v1/favorites                 # Add to favorites
+DELETE /api/v1/favorites/{id}            # Remove from favorites
+GET    /api/v1/users/me/favorites        # Get user's favorites
+
+# Collections (Saved posts)
+POST   /api/v1/collections               # Create collection
+GET    /api/v1/collections               # List collections
+POST   /api/v1/collections/{id}/posts    # Add post to collection
+GET    /api/v1/collections/{id}/posts    # Get posts in collection
+
+# Database changes needed:
+# - Add "favorites" table (user_id, entity_type, entity_id)
+# - Add "collections" table
+# - Add "collection_posts" junction table
+```
 
 ---
 
@@ -395,7 +500,8 @@ Integration is complete when:
 
 ---
 
-**Last Updated:** October 18, 2025  
+**Last Updated:** October 19, 2025 (Added v1.5.3 social & messaging features)  
 **Database:** Neon PostgreSQL - zelus  
-**API:** http://3.24.31.8:8006/api/v1
+**API:** http://3.24.31.8:8006/api/v1  
+**Mobile Version:** v1.5.3 (Social-First Home)
 

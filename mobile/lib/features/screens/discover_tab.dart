@@ -146,7 +146,31 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                 ),
               ),
               
-              // Tab Bar (Following | Trending)
+              // Utilities Section (Scrollable)
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    
+                    // AI Assistant Card
+                    _buildAIAssistantCard(),
+                    
+                    const SizedBox(height: 20),
+                    
+                    // Upcoming Appointment
+                    _buildCompactUpcomingAppointment(),
+                    
+                    const SizedBox(height: 16),
+                    
+                    // Recent Visit
+                    _buildCompactRecentVisit(),
+                    
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
+              
+              // Tab Bar (Following | Trending) - Sticky after utilities scroll away
               SliverPersistentHeader(
                 pinned: true,
                 delegate: _StickyTabBarDelegate(
@@ -175,19 +199,16 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
               ),
               
               // Scrollable Content
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height - 200,
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      // Following Tab - Activity Feed
-                      _buildFollowingTab(),
-                      
-                      // Trending Tab - All existing content
-                      _buildTrendingTab(),
-                    ],
-                  ),
+              SliverFillRemaining(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    // Following Tab - Activity Feed
+                    _buildFollowingTab(),
+                    
+                    // Trending Tab - Content feed
+                    _buildTrendingTab(),
+                  ],
                 ),
               ),
             ],
@@ -204,20 +225,10 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
         children: [
                 const SizedBox(height: 16),
 
-                // AI Assistant Card (Compact)
-                _buildAIAssistantCard(),
+                // Special Offers Section
+                _buildSpecialOffers(),
 
-                const SizedBox(height: 20),
-
-                // Upcoming Appointment (Compact)
-                _buildCompactUpcomingAppointment(),
-
-                const SizedBox(height: 16),
-
-                // Recent Visit (Compact)
-                _buildCompactRecentVisit(),
-
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
 
                 // Trending Styles with Images
                 Padding(
@@ -506,111 +517,230 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
   }
 
   Widget _buildAIAssistantCard() {
+    // Smart contextual actions based on user data
+    final smartActions = _getSmartQuickActions();
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: InkWell(
-        onTap: () {
-          HapticFeedback.lightImpact();
-          context.push('/chat');
-        },
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppTheme.primaryColor.withOpacity(0.08),
-                AppTheme.accentColor.withOpacity(0.05),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppTheme.primaryColor.withOpacity(0.2)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primaryColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
-                  ),
-                  const SizedBox(width: 12),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'AI Assistant',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          'How can I help you today?',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w300,
-                            color: AppTheme.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.textTertiary),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  _buildQuickActionChip('Check availability', Icons.calendar_today_outlined),
-                  _buildQuickActionChip('Find salon', Icons.location_on_outlined),
-                  _buildQuickActionChip('Trending styles', Icons.trending_up),
-                  _buildQuickActionChip('Book now', Icons.bookmark_outline),
-                ],
-              ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppTheme.primaryColor.withOpacity(0.06),
+              AppTheme.accentColor.withOpacity(0.03),
             ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppTheme.primaryColor.withOpacity(0.15), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: AppTheme.primaryColor.withOpacity(0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header - Tap to open full chat
+            InkWell(
+              onTap: () {
+                HapticFeedback.lightImpact();
+                context.push('/chat');
+              },
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            AppTheme.primaryColor,
+                            AppTheme.primaryColor.withOpacity(0.8),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.primaryColor.withOpacity(0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(Icons.auto_awesome, color: Colors.white, size: 22),
+                    ),
+                    const SizedBox(width: 14),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Good morning, Sarah!',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              letterSpacing: -0.3,
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            'I noticed a few things...',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w300,
+                              color: AppTheme.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(Icons.chat_bubble_outline, size: 20, color: AppTheme.primaryColor),
+                  ],
+                ),
+              ),
+            ),
+            
+            // Divider
+            Container(
+              height: 1,
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.transparent,
+                    AppTheme.primaryColor.withOpacity(0.1),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+            
+            // Smart Quick Actions
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (int i = 0; i < smartActions.length; i++) ...[
+                    _buildSmartActionItem(
+                      smartActions[i]['icon'] as IconData,
+                      smartActions[i]['title'] as String,
+                      smartActions[i]['subtitle'] as String?,
+                      smartActions[i]['onTap'] as VoidCallback,
+                    ),
+                    if (i < smartActions.length - 1) const SizedBox(height: 12),
+                  ],
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildQuickActionChip(String label, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.borderLight),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: AppTheme.primaryColor),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
+  List<Map<String, dynamic>> _getSmartQuickActions() {
+    // TODO: Replace with real user data
+    // For now, using mock contextual data
+    
+    return [
+      {
+        'icon': Icons.palette_outlined,
+        'title': 'Style ideas for Oct 25th',
+        'subtitle': 'Your appointment with Jane is coming up',
+        'onTap': () {
+          HapticFeedback.lightImpact();
+          context.push('/chat', extra: {'prompt': 'Show me style ideas for my upcoming appointment'});
+        },
+      },
+      {
+        'icon': Icons.local_offer_outlined,
+        'title': 'Price drop on 3 saved items',
+        'subtitle': 'Save up to 25% on your watchlist',
+        'onTap': () {
+          HapticFeedback.lightImpact();
+          context.push('/collections');
+        },
+      },
+      {
+        'icon': Icons.calendar_today_outlined,
+        'title': 'Check Jane\'s availability',
+        'subtitle': 'Your go-to stylist at Elite Studio',
+        'onTap': () {
+          HapticFeedback.lightImpact();
+          context.push('/chat', extra: {'prompt': 'Check Jane Smith availability'});
+        },
+      },
+    ];
+  }
+
+  Widget _buildSmartActionItem(IconData icon, String title, String? subtitle, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppTheme.borderLight),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, size: 18, color: AppTheme.primaryColor),
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300,
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.textTertiary),
+          ],
+        ),
       ),
     );
   }
+
 
   Widget _buildCompactUpcomingAppointment() {
     return Padding(
@@ -620,25 +750,39 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
           HapticFeedback.lightImpact();
           // Navigate to appointment details
         },
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: AppTheme.surfaceColor,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.borderLight),
+            gradient: LinearGradient(
+              colors: [
+                AppTheme.accentColor.withOpacity(0.08),
+                AppTheme.accentColor.withOpacity(0.03),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppTheme.accentColor.withOpacity(0.2), width: 1.5),
           ),
           child: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppTheme.accentLight,
-                  borderRadius: BorderRadius.circular(10),
+                  color: AppTheme.accentColor,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.accentColor.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-                child: const Icon(Icons.calendar_today, color: AppTheme.accentColor, size: 20),
+                child: const Icon(Icons.calendar_today, color: Colors.white, size: 20),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 14),
               const Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -647,23 +791,25 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                       'Next Appointment',
                       style: TextStyle(
                         fontSize: 12,
-                        fontWeight: FontWeight.w300,
+                        fontWeight: FontWeight.w400,
                         color: AppTheme.textSecondary,
+                        letterSpacing: 0.5,
                       ),
                     ),
-                    SizedBox(height: 2),
+                    SizedBox(height: 4),
                     Text(
                       'Tomorrow 2pm • Jane @ Elite Studio',
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black,
+                        letterSpacing: -0.2,
                       ),
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, size: 20, color: AppTheme.textTertiary),
+              const Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.textTertiary),
             ],
           ),
         ),
@@ -679,13 +825,13 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
           HapticFeedback.lightImpact();
           // Navigate to visit history
         },
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             color: AppTheme.surfaceColor,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.borderLight),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppTheme.borderLight, width: 1.5),
           ),
           child: Row(
             children: [
@@ -693,11 +839,11 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: AppTheme.primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.history, color: AppTheme.primaryColor, size: 20),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 14),
               const Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -706,23 +852,25 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> with SingleTickerProv
                       'Last Visit',
                       style: TextStyle(
                         fontSize: 12,
-                        fontWeight: FontWeight.w300,
+                        fontWeight: FontWeight.w400,
                         color: AppTheme.textSecondary,
+                        letterSpacing: 0.5,
                       ),
                     ),
-                    SizedBox(height: 2),
+                    SizedBox(height: 4),
                     Text(
                       'Elite Hair Studio • 2 days ago',
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black,
+                        letterSpacing: -0.2,
                       ),
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, size: 20, color: AppTheme.textTertiary),
+              const Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.textTertiary),
             ],
           ),
         ),

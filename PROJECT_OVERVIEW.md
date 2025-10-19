@@ -146,16 +146,18 @@ flutter run -d chrome  # or android/ios
 ### What You'll See (v1.5.3)
 - **Elegant Login Page** - Sophisticated charcoal & muted gold design
 - **3-Tab Navigation** - Home | Explore | Profile (clean & minimal!)
-- **Home Tab** - Dynamic greeting with **2-tab content** (Following | Trending)
-  - **Following Tab**: Instagram-style activity feed from stylists you follow
-  - **Trending Tab**: AI search, upcoming appointments, recent visits, trending styles
-  - **Messages icon** in header for AI assistant
+- **Home Tab** - Smart sticky navigation (Instagram-style)
+  - **Dynamic Greeting** + Messages icon (always visible)
+  - **Utilities Section** (scrolls away): AI Assistant, Appointment, Visit
+  - **Sticky Tabs** (Following | Trending) - Stick after scrolling
+  - **Following Tab**: Activity feed from followed stylists
+  - **Trending Tab**: Special offers + Trending styles + Inspiration gallery
 - **Explore Tab** - Professionals | Salons | **Retail** (all discovery unified)
   - Browse pros with advanced filters (Book + Message buttons on each card)
   - Find salons near you
   - Discover beauty products with price tracking
 - **Profile Tab** - Stats, Favorites, Social (Following, Saved), Account settings
-- **Activity Feed** - Front and center on Home → Following tab
+- **Modern UX** - Utilities scroll away, tabs stay accessible
 - **Clean Codebase** - 14 screens in one folder, easy to navigate
 - **Haptic Feedback** - Enhanced touch interactions throughout
 - **Pull-to-Refresh** - On all major screens
@@ -163,10 +165,13 @@ flutter run -d chrome  # or android/ios
 ### Test the Flow
 1. Run: `flutter run -d chrome`
 2. **Login** - Enter any email/phone → Tap "Sign In"
-3. **Home** - See 2 tabs: Following | Trending
+3. **Home** - See utilities + 2 tabs
+   - **Top**: AI Assistant, Appointment, Visit (scroll down to hide)
+   - **Tabs stick**: Following | Trending (always accessible)
    - **Following**: Activity feed from stylists you follow
-   - **Trending**: Search, appointments, trending styles
+   - **Trending**: Trending styles + Inspiration gallery
    - Tap Messages icon for AI chat
+   - **Try scrolling**: Utilities scroll away, tabs stick!
 4. **Explore** - Browse professionals (Book + Message buttons), salons, products
 5. **Profile** - View Favorites, Following, Saved Collections, Settings
 6. **Follow stylists in Explore** - See their posts in Home → Following tab
@@ -396,18 +401,24 @@ alembic downgrade -1
 ## 📝 Version History
 
 ### v1.5.3 - October 19, 2025 (Current - Social-First Home)
-- 🏠 **2-Tab Home Screen** - Following | Trending
+- 🏠 **Smart Home Screen Layout** - Instagram-style sticky navigation
+  - **Global Utilities** (scroll away):
+    - 🤖 **Smart AI Assistant Card** - Contextual, personalized quick actions
+      - "Style ideas for Oct 25th" (upcoming appointment)
+      - "Price drop on 3 saved items" (watchlist alerts)
+      - "Check Jane's availability" (last visited stylist)
+      - Beautiful gradient design with shadow effects
+    - 📅 **Compact Appointment** - Enhanced design with gradient
+    - 🕐 **Compact Recent Visit** - Polished card design
+  - **Sticky Tabs** (Following | Trending) - Stick to top after scrolling
   - **Following Tab**: Activity feed from followed stylists (Instagram-style)
-  - **Trending Tab**: Compact top section + content feed
-    - 🤖 **AI Assistant Card** - Quick actions (70% less space than old search)
-    - 📅 **Compact Appointment** - Single line (~70px)
-    - 🕐 **Compact Recent Visit** - Single line (~70px)
-    - 🔥 **Trending Styles** - Feed content
-    - ✨ **Inspiration Gallery** - Feed content
+  - **Trending Tab**: Special offers + Trending styles + Inspiration gallery
+- 🧠 **AI-First Intelligence** - Contextual actions based on user data
+- 📱 **Modern UX Pattern** - Utilities scroll away, tabs stay accessible
 - 📱 **Social-First Design** - Activity feed is primary home content
 - ⭐ **Favorites Moved** - Now in Profile tab (better organization)
-- 🧹 **Removed** - Bulky search bar, search suggestions, large appointment/visit cards
-- 🎯 **Result** - ~500px saved, cleaner, more engaging experience
+- 🧹 **Removed** - Bulky search bar, generic suggestions, large cards
+- 🎯 **Result** - ~500px saved, personalized experience, better engagement
 
 ### v1.5.2 - October 18, 2025 (Simplified Navigation)
 - 🎯 **3-Tab Navigation** - Cleaner, more focused

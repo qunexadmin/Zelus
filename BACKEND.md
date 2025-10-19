@@ -6,13 +6,13 @@
 
 ## 📊 Current Status
 
-**Status:** ✅ Running  
+**Status:** ✅ Running (⚠️ Needs new endpoints for v1.5.3)  
 **Server:** AWS EC2 (3.24.31.8)  
 **Port:** 8006  
 **Database:** Neon PostgreSQL (Serverless)  
 **Health:** http://3.24.31.8:8006/health  
 **API Docs:** http://3.24.31.8:8006/docs  
-**Last Updated:** October 18, 2025 (Migrated to Neon)
+**Last Updated:** October 19, 2025 (Added v1.5.3 requirements)
 
 ---
 
@@ -244,6 +244,43 @@ Booking is handled externally in Phase 1. No booking API is exposed. Salons may 
 - `POST /api/v1/ai/preview` - Generate style preview
 - `POST /api/v1/ai/recommendations` - Get style recommendations
 - `GET /api/v1/ai/styles/trending` - Get trending styles
+
+---
+
+## 🚧 Required New Endpoints (v1.5.3)
+
+Mobile app v1.5.3 added social and messaging features that need backend support:
+
+### Social Features (HIGH PRIORITY)
+```
+POST   /api/v1/stylists/{id}/follow         Follow a stylist
+DELETE /api/v1/stylists/{id}/follow         Unfollow a stylist
+GET    /api/v1/users/me/following           Get followed stylist IDs
+GET    /api/v1/stylists/{id}/followers      Get follower count
+GET    /api/v1/feed?filter=following        Posts from followed stylists only
+```
+
+### Messaging (HIGH PRIORITY)
+```
+GET    /api/v1/conversations                List user's conversations
+GET    /api/v1/conversations/{id}/messages  Get messages in conversation
+POST   /api/v1/conversations/{id}/messages  Send message
+POST   /api/v1/conversations                Start new conversation
+POST   /api/v1/ai/chat                      Chat with AI assistant
+GET    /api/v1/ai/suggestions               Get personalized quick actions
+```
+
+### Favorites & Collections (MEDIUM PRIORITY)
+```
+POST   /api/v1/favorites                    Add to favorites
+DELETE /api/v1/favorites/{id}               Remove from favorites
+GET    /api/v1/users/me/favorites           Get user's favorites
+POST   /api/v1/collections                  Create collection
+GET    /api/v1/collections                  List collections
+POST   /api/v1/collections/{id}/posts       Add post to collection
+```
+
+**See BACKEND_INTEGRATION_PLAN.md for full implementation details.**
 
 ---
 
@@ -548,6 +585,6 @@ psql "postgresql://[your-neon-connection-string]" < backup.sql
 
 ---
 
-**Last Updated:** October 18, 2025 - Migrated to Neon PostgreSQL
+**Last Updated:** October 19, 2025 - Added v1.5.3 endpoint requirements (Social & Messaging)
 
 
