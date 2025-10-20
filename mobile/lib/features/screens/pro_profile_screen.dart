@@ -345,19 +345,20 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                     ),
                   ],
                 ),
-                child: CircleAvatar(
-                  radius: 48,
-                  backgroundImage: profile.photoUrl != null
-                      ? CachedNetworkImageProvider(profile.photoUrl!)
-                      : null,
-                  backgroundColor: AppTheme.borderLight,
-                  child: profile.photoUrl == null
-                      ? const Icon(Icons.person, size: 48, color: AppTheme.textSecondary)
-                      : null,
-                  onBackgroundImageError: (exception, stackTrace) {
-                    // Handle error silently
-                  },
-                ),
+                child: profile.photoUrl != null
+                    ? CircleAvatar(
+                        radius: 48,
+                        backgroundImage: CachedNetworkImageProvider(profile.photoUrl!),
+                        backgroundColor: AppTheme.borderLight,
+                        onBackgroundImageError: (exception, stackTrace) {
+                          // Handle error silently
+                        },
+                      )
+                    : CircleAvatar(
+                        radius: 48,
+                        backgroundColor: AppTheme.borderLight,
+                        child: const Icon(Icons.person, size: 48, color: AppTheme.textSecondary),
+                      ),
               ),
               if (profile.isVerified)
                 Positioned(
