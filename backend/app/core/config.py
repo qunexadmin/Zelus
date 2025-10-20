@@ -24,8 +24,17 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     
-    # CORS
-    BACKEND_CORS_ORIGINS: list = ["http://localhost:3000", "http://localhost:8080"]
+    # CORS - Allow all localhost ports for development
+    BACKEND_CORS_ORIGINS: list = [
+        "http://localhost",
+        "http://localhost:3000",
+        "http://localhost:8080", 
+        "http://localhost:64828",
+        "http://127.0.0.1",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8080",
+        "http://127.0.0.1:64828"
+    ]
     
     # Media Storage
     MEDIA_ROOT: str = "./media"

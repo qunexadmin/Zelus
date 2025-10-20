@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/api/api_client.dart';
-import '../../core/feature_flags.dart';
 import '../models/feed_item.dart';
 
 /// Feed Service
@@ -16,63 +13,36 @@ class FeedService {
 
   /// Get personalized "For You" feed
   Future<List<FeedItem>> getForYouFeed({int page = 0, int limit = 20}) async {
-    if (FeatureFlags.mockData) {
-      return _getMockFeed();
-    }
+    final response = await _dio.get('/feed/for-you', queryParameters: {
+      'page': page,
+      'limit': limit,
+    });
 
-    try {
-      final response = await _dio.get('/feed/for-you', queryParameters: {
-        'page': page,
-        'limit': limit,
-      });
-
-      final List<dynamic> data = response.data;
-      return data.map((json) => FeedItem.fromJson(json)).toList();
-    } catch (e) {
-      print('Error fetching for you feed: $e');
-      return _getMockFeed();
-    }
+    final List<dynamic> data = response.data;
+    return data.map((json) => FeedItem.fromJson(json)).toList();
   }
 
   /// Get "Trending Now" feed
   Future<List<FeedItem>> getTrendingFeed({int page = 0, int limit = 20}) async {
-    if (FeatureFlags.mockData) {
-      return _getMockFeed();
-    }
+    final response = await _dio.get('/feed/trending', queryParameters: {
+      'page': page,
+      'limit': limit,
+    });
 
-    try {
-      final response = await _dio.get('/feed/trending', queryParameters: {
-        'page': page,
-        'limit': limit,
-      });
-
-      final List<dynamic> data = response.data;
-      return data.map((json) => FeedItem.fromJson(json)).toList();
-    } catch (e) {
-      print('Error fetching trending feed: $e');
-      return _getMockFeed();
-    }
+    final List<dynamic> data = response.data;
+    return data.map((json) => FeedItem.fromJson(json)).toList();
   }
 
   /// Get following feed
   Future<List<FeedItem>> getFollowingFeed(
       {int page = 0, int limit = 20}) async {
-    if (FeatureFlags.mockData) {
-      return _getMockFeed();
-    }
+    final response = await _dio.get('/feed/following', queryParameters: {
+      'page': page,
+      'limit': limit,
+    });
 
-    try {
-      final response = await _dio.get('/feed/following', queryParameters: {
-        'page': page,
-        'limit': limit,
-      });
-
-      final List<dynamic> data = response.data;
-      return data.map((json) => FeedItem.fromJson(json)).toList();
-    } catch (e) {
-      print('Error fetching following feed: $e');
-      return _getMockFeed();
-    }
+    final List<dynamic> data = response.data;
+    return data.map((json) => FeedItem.fromJson(json)).toList();
   }
 
   /// Like a post
@@ -109,53 +79,6 @@ class FeedService {
     } catch (e) {
       print('Error unsaving post: $e');
     }
-  }
-
-  /// Load mock feed from assets
-  Future<List<FeedItem>> _getMockFeed() async {
-    try {
-      final String jsonString =
-          await rootBundle.loadString('assets/mock/feeds.json');
-      final List<dynamic> jsonData = json.decode(jsonString);
-      return jsonData.map((json) => FeedItem.fromJson(json)).toList();
-    } catch (e) {
-      print('Error loading mock feed: $e');
-      return _getDefaultFeed();
-    }
-  }
-
-  /// Default fallback feed
-  List<FeedItem> _getDefaultFeed() {
-    return [
-      FeedItem(
-        id: '1',
-        creatorId: '1',
-        creatorName: 'Jane Smith',
-        mediaType: 'photo',
-        mediaUrl: 'https://via.placeholder.com/400',
-        caption: 'Fresh balayage transformation 💇‍♀️✨',
-        tags: ['balayage', 'hair color'],
-        hashtags: ['#balayage', '#hairtransformation'],
-        serviceType: 'Color',
-        likeCount: 245,
-        commentCount: 18,
-        createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      ),
-      FeedItem(
-        id: '2',
-        creatorId: '2',
-        creatorName: 'Michael Chen',
-        mediaType: 'photo',
-        mediaUrl: 'https://via.placeholder.com/400',
-        caption: 'Modern fade ✂️ #barbershop',
-        tags: ['fade', 'mens cut'],
-        hashtags: ['#fade', '#barbershop'],
-        serviceType: 'Haircut',
-        likeCount: 189,
-        commentCount: 12,
-        createdAt: DateTime.now().subtract(const Duration(hours: 5)),
-      ),
-    ];
   }
 }
 
