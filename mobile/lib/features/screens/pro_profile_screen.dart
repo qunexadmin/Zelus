@@ -347,7 +347,13 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                 ),
                 child: CircleAvatar(
                   radius: 48,
-                  backgroundImage: CachedNetworkImageProvider(profile.photoUrl),
+                  backgroundImage: profile.photoUrl != null
+                      ? CachedNetworkImageProvider(profile.photoUrl!)
+                      : null,
+                  backgroundColor: AppTheme.borderLight,
+                  child: profile.photoUrl == null
+                      ? const Icon(Icons.person, size: 48, color: AppTheme.textSecondary)
+                      : null,
                   onBackgroundImageError: (exception, stackTrace) {
                     // Handle error silently
                   },
@@ -708,7 +714,7 @@ class _ProProfileScreenState extends ConsumerState<ProProfileScreen> {
                     border: Border.all(color: AppTheme.accentColor),
                   ),
                   child: Text(
-                    profile.priceRange!,
+                    '\$${profile.priceRange!.toStringAsFixed(0)}+',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

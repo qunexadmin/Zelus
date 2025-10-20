@@ -47,13 +47,22 @@ class ProProfileCard extends StatelessWidget {
                   height: 60,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(profile.photoUrl),
-                      fit: BoxFit.cover,
-                    ),
+                    image: profile.photoUrl != null
+                        ? DecorationImage(
+                            image: CachedNetworkImageProvider(profile.photoUrl!),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                    color: profile.photoUrl == null ? AppTheme.borderLight : null,
                   ),
-                  child: profile.isVerified
-                      ? Align(
+                  child: Stack(
+                    children: [
+                      if (profile.photoUrl == null)
+                        const Center(
+                          child: Icon(Icons.person, size: 30, color: AppTheme.textSecondary),
+                        ),
+                      if (profile.isVerified)
+                        Align(
                           alignment: Alignment.bottomRight,
                           child: Container(
                             padding: const EdgeInsets.all(2),
@@ -67,8 +76,9 @@ class ProProfileCard extends StatelessWidget {
                               color: AppTheme.successColor,
                             ),
                           ),
-                        )
-                      : null,
+                        ),
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 12),
                 
@@ -193,7 +203,7 @@ class ProProfileCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 if (profile.priceRange != null)
                   Text(
-                    profile.priceRange!,
+                    '\$${profile.priceRange!.toStringAsFixed(0)}+',
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
