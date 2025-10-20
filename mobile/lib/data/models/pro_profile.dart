@@ -22,7 +22,7 @@ class ProProfile with _$ProProfile {
     @JsonKey(name: 'salon_name') String? salonName,
     String? location,
     @JsonKey(name: 'booking_url') String? bookingUrl,
-    @Default([]) List<String> services,  // Services array from API
+    @JsonKey(fromJson: _servicesFromJson) @Default([]) List<String> services,
     @JsonKey(name: 'years_experience') @Default(0) int yearsExperience,
     @Default(0) int followerCount,
     @JsonKey(name: 'is_verified') @Default(false) bool isVerified,
@@ -31,5 +31,19 @@ class ProProfile with _$ProProfile {
 
   factory ProProfile.fromJson(Map<String, dynamic> json) =>
       _$ProProfileFromJson(json);
+}
+
+/// Convert services array from API (array of objects) to array of strings
+List<String> _servicesFromJson(dynamic services) {
+  if (services == null) return [];
+  if (services is List) {
+    return services.map((service) {
+      if (service is Map<String, dynamic>) {
+        return service['name']?.toString() ?? '';
+      }
+      return service.toString();
+    }).where((s) => s.isNotEmpty).toList();
+  }
+  return [];
 }
 

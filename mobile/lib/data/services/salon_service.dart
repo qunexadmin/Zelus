@@ -23,7 +23,8 @@ class SalonService {
       if (minRating != null) 'min_rating': minRating,
     });
 
-    final List<dynamic> data = response.data;
+    // API returns {"salons": [...], "total": N}
+    final List<dynamic> data = response.data['salons'] ?? [];
     return data.map((json) => Salon.fromJson(json)).toList();
   }
 
