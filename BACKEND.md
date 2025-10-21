@@ -6,16 +6,17 @@
 
 ## 📊 Current Status
 
-**Status:** ✅ Running (Integrated with Mobile!)  
+**Status:** ✅ Running (Fully Integrated!)  
 **Server:** AWS EC2 (3.24.31.8)  
 **Port:** 8006  
 **Database:** Neon PostgreSQL - zelus (Serverless)  
 **Health:** http://3.24.31.8:8006/health  
 **API Docs:** http://3.24.31.8:8006/docs  
-**Last Updated:** October 19, 2025
+**Last Updated:** October 20, 2025
 
 **Data:** 3 salons, 4 stylists, 7 services  
-**Integration:** Mobile app using real backend data ✅
+**Integration:** ✅ Mobile app fully connected to database  
+**Mock Data:** ❌ Removed (all real data now)
 
 ---
 
@@ -247,11 +248,13 @@ python seed_data.py
 - `GET /api/v1/salons/{id}` - Get salon details
 - `GET /api/v1/salons/{id}/stylists` - Get salon's stylists
 
-### Stylists
-- `GET /api/v1/stylists` - List all stylists
+### Stylists (Professionals)
+- `GET /api/v1/stylists` - List all stylists (with pagination & filters)
 - `GET /api/v1/stylists/{id}` - Get stylist profile
 - `GET /api/v1/stylists/{id}/services` - Get stylist's services
 - `GET /api/v1/stylists/{id}/availability` - Check availability
+- `GET /api/v1/pros` - Alias for `/stylists` (mobile compatibility)
+- `GET /api/v1/pros/{id}` - Alias for `/stylists/{id}` (mobile compatibility)
 
 ### Booking
 Booking is handled externally in Phase 1. No booking API is exposed. Salons may include a `booking_url` that the mobile app opens in the browser.

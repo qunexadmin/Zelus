@@ -6,11 +6,12 @@
 
 ## 📊 Project Status
 
-**Version:** 1.5.4 (Performance & UX Polish)  
+**Version:** 1.5.5 (Backend Integration Complete)  
 **Status:** ✅ Production-Ready  
 **Database:** Neon PostgreSQL - zelus (Serverless)  
 **Server:** AWS EC2 (3.24.31.8:8006)  
-**Last Updated:** October 19, 2025 (Evening)
+**Integration:** ✅ Mobile app fully connected to database  
+**Last Updated:** October 20, 2025
 
 ---
 
@@ -323,6 +324,31 @@ flutter run -d chrome  # or android/ios
 - ✅ Stylist onboarding screen & route
 - ✅ Tagging UI (MVP)
 
+### October 20, 2025 - Backend Integration Complete 🎉
+- ✅ **Mobile-Backend Integration**
+  - Removed all mock data from Flutter services (profile, salon, feed, review)
+  - Connected mobile app to real Neon database
+  - All 4 stylists now visible in UI (was only showing 3)
+  - Added `/pros` endpoint as alias for mobile app compatibility
+- ✅ **API & Model Fixes**
+  - Fixed JSON field mapping (snake_case API → camelCase Dart models)
+  - Added custom `_servicesFromJson` to parse service objects → strings
+  - Fixed salon response parsing (`{salons: [...]}` wrapper)
+  - Added proper `@JsonKey` annotations throughout models
+- ✅ **UI Fixes**
+  - Fixed nullable `photoUrl` handling in ProProfile
+  - Fixed `priceRange` type (double) formatting as currency
+  - Fixed CircleAvatar assertion error with null images
+  - Added placeholder icons for missing profile photos
+- ✅ **CORS Configuration**
+  - Configured `allow_origin_regex` for localhost development
+  - Supports all localhost/127.0.0.1 ports dynamically
+- ✅ **Testing & Verification**
+  - Professionals page: ✅ Working with real data
+  - Salons page: ✅ Working with real data
+  - Stylist profiles: ✅ Working with real data
+  - All compilation errors resolved
+
 ### October 18, 2025 - Infrastructure Overhaul
 - ✅ **Database Migration to Neon**
   - Migrated from local Docker PostgreSQL to Neon
@@ -416,7 +442,15 @@ alembic downgrade -1
 
 ## 📝 Version History
 
-### v1.5.4 - October 19, 2025 (Current - Evening)
+### v1.5.5 - October 20, 2025 (Current)
+- 🔗 **Backend Integration Complete** - Mobile app fully connected to Neon database
+- 🚫 **Removed Mock Data** - All services use real API data
+- 🔧 **JSON Parsing Fixed** - Proper field mapping (snake_case ↔ camelCase)
+- 🌐 **Added /pros Endpoint** - Mobile app compatibility route
+- 🎨 **UI Fixes** - Null handling, CircleAvatar, type errors resolved
+- ⚙️ **CORS Configuration** - Localhost support for development
+
+### v1.5.4 - October 19, 2025
 - ⚡ **Performance** - Enterprise-grade scrolling optimization
   - NestedScrollView on Home & Explore (perfect for sticky tabs)
   - RefreshIndicator on ALL screens (Home, Explore, Profile, Stylist, Salon, Collections)

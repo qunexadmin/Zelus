@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 from app.core.config import settings
-from app.routers import auth, salons, stylists, pros, ai, feed
+from app.routers import auth, salons, stylists, pros, ai, feed, pro_dashboard
 from app.db import init_db
 
 
@@ -41,6 +41,7 @@ app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(salons.router, prefix=settings.API_V1_STR)
 app.include_router(stylists.router, prefix=settings.API_V1_STR)
 app.include_router(pros.router, prefix=settings.API_V1_STR)  # Mobile app compatibility (/pros alias)
+app.include_router(pro_dashboard.router, prefix=settings.API_V1_STR)  # Pro app endpoints
 app.include_router(ai.router, prefix=settings.API_V1_STR)
 app.include_router(feed.router, prefix=settings.API_V1_STR)
 

@@ -53,6 +53,90 @@ async def verify_token(
     )
 
 
+@router.post("/login")
+async def login(
+    credentials: dict,
+    db: Session = Depends(get_db)
+):
+    """
+    Login endpoint for Zelus Pro app (simplified auth for development)
+    
+    For development/testing - returns mock user based on email
+    TODO: Implement proper password validation for production
+    """
+    # Mock authentication - for development only
+    # In production, verify password hash here
+    
+    email = credentials.get("email")
+    phone = credentials.get("phone")
+    password = credentials.get("password")
+    
+    if not email and not phone:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email or phone is required"
+        )
+    
+    # Mock user responses based on email
+    if email == "demo@zelus.com" or email == "stylist@zelus.com":
+        # Return stylist user
+        return {
+            "token": "mock_token_stylist",
+            "user": {
+                "id": "stylist_1",
+                "email": email or "stylist@zelus.com",
+                "phone": phone,
+                "name": "Demo Stylist",
+                "photo_url": None,
+                "role": "stylist",
+                "stylist_id": "s1",
+                "salon_id": None,
+                "created_at": "2025-01-01T00:00:00",
+                "last_login": "2025-01-20T00:00:00",
+                "is_verified": True,
+                "is_active": True
+            }
+        }
+    elif email == "owner@zelus.com" or email == "salon@zelus.com":
+        # Return salon owner user
+        return {
+            "token": "mock_token_owner",
+            "user": {
+                "id": "owner_1",
+                "email": email or "owner@zelus.com",
+                "phone": phone,
+                "name": "Salon Owner",
+                "photo_url": None,
+                "role": "salon_owner",
+                "stylist_id": None,
+                "salon_id": "salon_1",
+                "created_at": "2025-01-01T00:00:00",
+                "last_login": "2025-01-20T00:00:00",
+                "is_verified": True,
+                "is_active": True
+            }
+        }
+    else:
+        # Default customer user
+        return {
+            "token": "mock_token_customer",
+            "user": {
+                "id": "customer_1",
+                "email": email or "customer@zelus.com",
+                "phone": phone,
+                "name": "Customer",
+                "photo_url": None,
+                "role": "customer",
+                "stylist_id": None,
+                "salon_id": None,
+                "created_at": "2025-01-01T00:00:00",
+                "last_login": "2025-01-20T00:00:00",
+                "is_verified": True,
+                "is_active": True
+            }
+        }
+
+
 @router.post("/register", response_model=TokenResponse)
 async def register_user(
     user_data: UserCreate,
